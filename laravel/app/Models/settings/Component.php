@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\settings;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Nationality extends Model
+class Component extends Model
 {
     use HasFactory;
 }

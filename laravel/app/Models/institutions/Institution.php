@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\institutions;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +11,6 @@ class Institution extends Model
 
     public function institution_subjects()
     {
-        return $this->hasMany('App\Models\Institution_Subject');
+        return $this->hasMany('App\Models\institutions\Institution_Subject');
     }
 }

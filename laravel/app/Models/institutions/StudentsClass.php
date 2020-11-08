@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\institutions;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UnitMeasure extends Model
+class StudentsClass extends Model
 {
     use HasFactory;
 }

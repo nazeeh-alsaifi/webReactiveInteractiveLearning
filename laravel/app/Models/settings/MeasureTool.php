@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\settings;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AcademicLevel extends Model
+class MeasureTool extends Model
 {
     use HasFactory;
 }
