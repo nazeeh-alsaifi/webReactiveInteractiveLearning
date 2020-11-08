@@ -16,14 +16,17 @@ class CreateInstitutionsTable extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('Institu_name');
-            $table->integer('academic_levels_id');
-            $table->integer('country_id');
-            $table->integer('city_id');
+            $table->unsignedBigInteger('academic_levels_id');
+            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('city_id');
             $table->string('Mobile');
             $table->string('Email');
             $table->string('Address');
             $table->string('Address1');
             $table->timestamps();
+            $table->foreign('academic_levels_id')->references('id')->on('academic_levels')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
         });
     }
 

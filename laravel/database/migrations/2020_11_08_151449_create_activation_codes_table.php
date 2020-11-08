@@ -15,8 +15,9 @@ class CreateActivationCodesTable extends Migration
     {
         Schema::create('activation_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
         });
     }
 

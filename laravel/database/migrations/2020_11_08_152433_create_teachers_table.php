@@ -17,14 +17,17 @@ class CreateTeachersTable extends Migration
             $table->increments('id');
             $table->string('First_name');
             $table->string('Last_Name');
-            $table->integer('subject_id');
-            $table->integer('nationality_id');
+            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('nationality_id');
             $table->string('Mobile');
             $table->string('Gender');
             $table->date('birth_date')->nullable();
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('Is_Coordinator');
             $table->timestamps();
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade'); 
+            $table->foreign('nationality_id')->references('id')->on('nationalities')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
         });
     }
 

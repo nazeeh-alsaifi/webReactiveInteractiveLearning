@@ -15,10 +15,11 @@ class CreateUnitMeasuresTable extends Migration
     {
         Schema::create('unit_measures', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('unit_id');
+            $table->unsignedBigInteger('unit_id');
             $table->char('Unit_measure');
             $table->char('Measure_sample');
             $table->timestamps();
+            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
         });
     }
 

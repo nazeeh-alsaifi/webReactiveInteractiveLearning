@@ -15,11 +15,13 @@ class CreateDurationCourseInstitutionsTable extends Migration
     {
         Schema::create('duration_course_institutions', function (Blueprint $table) {
             $table->id();
-            $table->integer('duration_course_id');
-            $table->integer('institution_id');
+            $table->unsignedBigInteger('duration_course_id');
+            $table->unsignedBigInteger('institution_id');
             $table->date('From');
             $table->date('To');
             $table->timestamps();
+            $table->foreign('duration_course_id')->references('id')->on('duration_courses')->onDelete('cascade');
+            $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
         });
     }
 

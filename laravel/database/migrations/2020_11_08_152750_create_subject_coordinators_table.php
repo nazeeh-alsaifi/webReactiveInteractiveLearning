@@ -15,9 +15,11 @@ class CreateSubjectCoordinatorsTable extends Migration
     {
         Schema::create('subject_coordinators', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('institution_subject_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('institution_subject_id');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
+            $table->foreign('institution_subject_id')->references('id')->on('institution__subjects')->onDelete('cascade'); 
         });
     }
 

@@ -15,12 +15,14 @@ class CreateInstitutionSubjectsTable extends Migration
     {
         Schema::create('institution__subjects', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('institution_id');
-            $table->integer('subject_id');
+            $table->unsignedBigInteger('institution_id');
+            $table->unsignedBigInteger('subject_id');
             $table->integer('Student_count');
             $table->integer('Teacher_count');
             $table->integer('buyment_method_id');
             $table->timestamps();
+            $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
     }
 

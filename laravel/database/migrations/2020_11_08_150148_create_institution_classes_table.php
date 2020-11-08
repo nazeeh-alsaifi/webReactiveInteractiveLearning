@@ -15,10 +15,12 @@ class CreateInstitutionClassesTable extends Migration
     {
         Schema::create('institution_classes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('teacher_id');
-            $table->integer('institution_subject_id');
+            $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('institution_subject_id');
             $table->string('keyclass');
             $table->timestamps();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->foreign('institution_subject_id')->references('id')->on('institution__subjects')->onDelete('cascade');
         });
     }
 
