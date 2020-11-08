@@ -22,6 +22,7 @@ class CreateDurationCourseInstitutionsTable extends Migration
             $table->timestamps();
             $table->foreign('duration_course_id')->references('id')->on('duration_courses')->onDelete('cascade');
             $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
+			//
         });
     }
 

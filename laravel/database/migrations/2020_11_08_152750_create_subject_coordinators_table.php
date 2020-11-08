@@ -20,6 +20,7 @@ class CreateSubjectCoordinatorsTable extends Migration
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
             $table->foreign('institution_subject_id')->references('id')->on('institution__subjects')->onDelete('cascade'); 
+			//
         });
     }
 

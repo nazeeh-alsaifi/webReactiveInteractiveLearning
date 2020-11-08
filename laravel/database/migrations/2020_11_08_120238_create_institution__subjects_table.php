@@ -14,7 +14,7 @@ class CreateInstitutionSubjectsTable extends Migration
     public function up()
     {
         Schema::create('institution__subjects', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedBigInteger('institution_id');
             $table->unsignedBigInteger('subject_id');
             $table->integer('Student_count');
@@ -23,6 +23,7 @@ class CreateInstitutionSubjectsTable extends Migration
             $table->timestamps();
             $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+			//
         });
     }
 

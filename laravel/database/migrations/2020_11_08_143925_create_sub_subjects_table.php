@@ -19,6 +19,7 @@ class CreateSubSubjectsTable extends Migration
             $table->string('sub_subject_name');
             $table->timestamps();
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+			//
         });
     }
 

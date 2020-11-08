@@ -14,7 +14,7 @@ class CreateMeasureToolsTable extends Migration
     public function up()
     {
         Schema::create('measure_tools', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('measureTool_name');
             $table->timestamps();
         });

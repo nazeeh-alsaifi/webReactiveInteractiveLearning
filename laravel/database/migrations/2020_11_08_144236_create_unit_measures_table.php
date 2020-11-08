@@ -14,7 +14,7 @@ class CreateUnitMeasuresTable extends Migration
     public function up()
     {
         Schema::create('unit_measures', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedBigInteger('unit_id');
             $table->char('Unit_measure');
             $table->char('Measure_sample');

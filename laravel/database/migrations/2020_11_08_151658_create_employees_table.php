@@ -14,7 +14,7 @@ class CreateEmployeesTable extends Migration
     public function up()
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('First_Name');
             $table->string('Last_Name')->nullable();
             $table->string('Mobile');
@@ -32,6 +32,7 @@ class CreateEmployeesTable extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade'); 
             $table->foreign('nationality_id')->references('id')->on('nationalities')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
+			//
         });
     }
 

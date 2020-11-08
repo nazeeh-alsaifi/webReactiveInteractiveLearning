@@ -14,7 +14,7 @@ class CreateTeachersTable extends Migration
     public function up()
     {
         Schema::create('teachers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('First_name');
             $table->string('Last_Name');
             $table->unsignedBigInteger('subject_id');
@@ -27,7 +27,8 @@ class CreateTeachersTable extends Migration
             $table->timestamps();
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade'); 
             $table->foreign('nationality_id')->references('id')->on('nationalities')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
+//			
         });
     }
 
