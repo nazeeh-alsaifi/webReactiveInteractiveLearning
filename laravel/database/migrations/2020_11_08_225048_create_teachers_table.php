@@ -28,7 +28,6 @@ class CreateTeachersTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade'); 
             $table->foreign('nationality_id')->references('id')->on('nationalities')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
-//			
         });
     }
 

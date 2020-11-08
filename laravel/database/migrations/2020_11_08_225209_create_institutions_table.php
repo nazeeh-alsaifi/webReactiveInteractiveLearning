@@ -27,7 +27,6 @@ class CreateInstitutionsTable extends Migration
             $table->foreign('academicLevels_id')->references('id')->on('academic_levels')->onDelete('cascade');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
-		   //
         });
     }
 

@@ -11,6 +11,6 @@ class Institution extends Model
 
     public function institution_subjects()
     {
-        return $this->hasMany('App\Models\institutions\Institution_Subject');
+        return $this->hasMany('App\Models\institutions\InstitutionSubject');
     }
 }
