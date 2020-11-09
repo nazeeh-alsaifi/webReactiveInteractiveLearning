@@ -138,6 +138,8 @@ class MenusTableSeeder extends Seeder
         $this->insertLink('guest,user,admin', 'Dashboard', '/', 'cil-speedometer');
         $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
         $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
+        $this->insertLink('guest', 'Purchase', '/purchase', 'cil-cart');
+
         $this->beginDropdown('admin', 'Settings', '/settings', 'cil-puzzle');
             $this->insertLink('admin', 'Media',    '/media');
             $this->insertLink('admin', 'Users',    '/users');
@@ -192,8 +194,8 @@ class MenusTableSeeder extends Seeder
             $this->insertLink('user,admin', 'Error 404',     '/404');
             $this->insertLink('user,admin', 'Error 500',     '/500');
         $this->endDropdown();
-        $this->insertLink('guest,user,admin', 'Download CoreUI', 'https://coreui.io', 'cil-cloud-download');
-        $this->insertLink('guest,user,admin', 'Try CoreUI PRO', 'https://coreui.io/pro/', 'cil-layers');
+        // $this->insertLink('guest,user,admin', 'Download CoreUI', 'https://coreui.io', 'cil-cloud-download');
+        // $this->insertLink('guest,user,admin', 'Try CoreUI PRO', 'https://coreui.io/pro/', 'cil-layers');
 
         /* Create top menu */
         DB::table('menulist')->insert([
