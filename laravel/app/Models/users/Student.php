@@ -14,4 +14,14 @@ class Student extends Model
     {
         return $this->hasMany('App\Models\institutions\StudentClass','student_id');
     }
+
+    public function nationality()
+    {
+        return $this->belongsTo('App\Models\settings\Nationality','nationality_id');
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Users','user_id');
+    } 
 }

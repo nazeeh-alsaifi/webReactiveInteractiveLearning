@@ -14,4 +14,9 @@ class SubjectCoordinator extends Model
     {
         return $this->belongsTo('App\Models\institutions\InstitutionSubject','institution_subject_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Users','user_id');
+    } 
 }

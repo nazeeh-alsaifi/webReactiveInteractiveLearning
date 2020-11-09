@@ -13,4 +13,14 @@ class City extends Model
     {
         return $this->hasMany('App\Models\institutions\Institution','city_id');
     }
+
+    public function country()
+    {
+        return $this->belongsTo('App\Models\settings\Country','country_id');
+    }
+
+    public function employees()
+    {
+        return $this->hasMany('App\Models\users\Employee','city_id');
+    }
 }
