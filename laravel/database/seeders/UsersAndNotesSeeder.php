@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\RoleHierarchy;
+use Illuminate\Support\Facades\Hash;
 
 class UsersAndNotesSeeder extends Seeder
 {
@@ -45,6 +46,38 @@ class UsersAndNotesSeeder extends Seeder
             'role_id' => $guestRole->id,
             'hierarchy' => 3,
         ]);
+        $editorRole = Role::create(['name' => 'editor']); 
+        RoleHierarchy::create([
+            'role_id' => $editorRole->id,
+            'hierarchy' => 4,
+        ]);
+        $coordinatorRole = Role::create(['name' => 'coordinator']); 
+        RoleHierarchy::create([
+            'role_id' => $coordinatorRole->id,
+            'hierarchy' => 5,
+        ]);
+        $teacherRole = Role::create(['name' => 'teacher']); 
+        RoleHierarchy::create([
+            'role_id' => $teacherRole->id,
+            'hierarchy' => 6,
+        ]);
+        $studentRole = Role::create(['name' => 'student']); 
+        RoleHierarchy::create([
+            'role_id' => $studentRole->id,
+            'hierarchy' => 7,
+        ]);
+        $freeStudentRole = Role::create(['name' => 'free_student']); 
+        RoleHierarchy::create([
+            'role_id' => $freeStudentRole->id,
+            'hierarchy' => 8,
+        ]);
+        $subjectCoordinator = Role::create(['name' => 'subject_coordinator']); 
+        RoleHierarchy::create([
+            'role_id' => $subjectCoordinator->id,
+            'hierarchy' => 9,
+        ]);
+
+        
 
         $faker = Faker::create();
         /*  insert status  */
@@ -73,7 +106,7 @@ class UsersAndNotesSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make("password"), // password
             'remember_token' => Str::random(10),
             'menuroles' => 'user,admin',
             'status' => 'Active'
@@ -85,7 +118,7 @@ class UsersAndNotesSeeder extends Seeder
                 'name' => $faker->name(),
                 'email' => $faker->unique()->safeEmail(),
                 'email_verified_at' => now(),
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'password' => Hash::make("password"), // password
                 'remember_token' => Str::random(10),
                 'menuroles' => 'user',
                 'status' => $userStatus[ random_int(0,count($userStatus) - 1) ]
