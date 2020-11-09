@@ -3,21 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Settings\AcademicLevel;
+use App\Models\Settings\Country;
 
-class AcademiclevelController extends Controller
+class CountryController extends Controller
 {
-    // /**
-    //  * Create a new controller instance.
-    //  *
-    //  * @return void
-    //  */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +14,7 @@ class AcademiclevelController extends Controller
      */
     public function index()
     {
-        //$academicLevels = AcademicLevel::all();
-        return AcademicLevel::all();
+        return Country::all();
     }
 
     /**
