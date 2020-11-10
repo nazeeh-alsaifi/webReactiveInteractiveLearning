@@ -144,10 +144,10 @@ class PurchaseController extends Controller
         $Activation_code->save();
 
         //
-        $data = $Activation_code->Activate_code;
-        Mail::to($user->email)->send(new SendMail($data));
+         $data = $Activation_code->Activate_code;
+         Mail::to($user->email)->send(new SendMail($data));
         
-        return true;
+        return response()->json( ['status' => 'success'] );
     }
 
     /**
