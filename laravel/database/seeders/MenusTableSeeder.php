@@ -137,7 +137,7 @@ class MenusTableSeeder extends Seeder
         /* guest menu */
         $this->insertLink('guest,user,admin', 'Dashboard', '/', 'cil-speedometer');
         $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
-        $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
+        // $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
         $this->insertLink('guest', 'Purchase', '/purchase', 'cil-cart');
         $this->insertLink('guest', 'FreeStudent', '/free-student', 'cil-universal-access');
         $this->insertLink('guest', 'FreeTrial', '/free-trial', 'cil-universal-access');
