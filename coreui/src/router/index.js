@@ -908,11 +908,6 @@ function configRoutes() {
           name: "Login",
           component: Login,
         },
-        {
-          path: "register",
-          name: "Register",
-          component: Register,
-        },
       ],
     },
 
