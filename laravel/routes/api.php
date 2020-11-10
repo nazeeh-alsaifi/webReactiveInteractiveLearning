@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//Route::apiResource('AcademicLevel','AcademiclevelController');
 Route::group(['middleware' => 'api'], function ($router) {
     Route::get('menu', 'MenuController@index');
 
@@ -20,7 +20,13 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('register', 'AuthController@register'); 
-
+    ////////my routes
+    Route::resource('AcademicLevels','AcademiclevelController');
+    Route::resource('Subjects','SubjectsController');
+    Route::resource('Cities','CityController');
+    Route::resource('Countries','CountryController');
+    Route::resource('Purchase','PurchaseController');
+    //
     Route::resource('notes', 'NotesController');
 
     Route::resource('resource/{table}/resource', 'ResourceController');

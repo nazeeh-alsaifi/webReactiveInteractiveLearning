@@ -18,9 +18,9 @@ class CreateTeachersTable extends Migration
             $table->string('First_name');
             $table->string('Last_Name');
             $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('nationality_id');
+            $table->unsignedBigInteger('nationality_id')->nullable();
             $table->string('Mobile');
-            $table->string('Gender');
+            $table->string('Gender')->nullable();
             $table->date('birth_date')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->integer('Is_Coordinator');
