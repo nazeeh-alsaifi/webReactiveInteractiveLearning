@@ -1,5 +1,15 @@
 <template>
-  <h1>Press</h1>
+  <CRow>
+    <CCol col="12" xl="6">
+      <transition name="slide">
+        <CCard>
+          <CCardBody>
+            <h1>Press</h1>
+          </CCardBody>
+        </CCard>
+      </transition>
+    </CCol>
+  </CRow>
 </template>
 
 <script>

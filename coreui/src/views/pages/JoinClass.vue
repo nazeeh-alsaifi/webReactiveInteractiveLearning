@@ -4,7 +4,7 @@
       <transition name="slide">
         <CCard>
           <CCardBody>
-            <h1>our team</h1>
+            <h1>join class</h1>
           </CCardBody>
         </CCard>
       </transition>
