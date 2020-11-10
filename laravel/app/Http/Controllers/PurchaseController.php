@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-//use App\Mail\SendMail;
-//use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\institutions\Institution;
 use App\Models\institutions\InstitutionSubject;
@@ -143,9 +143,10 @@ class PurchaseController extends Controller
         $Activation_code->Activate_code = Keygen::alphanum(8)->generate();
         $Activation_code->save();
 
-        //$data = $Activation_code->Activate_code;
-
-        //Mail::to($user->email)->send(new SendMail($data));
+        //
+        $data = $Activation_code->Activate_code;
+        Mail::to($user->email)->send(new SendMail($data));
+        
         return true;
     }
 
