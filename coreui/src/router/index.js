@@ -54,6 +54,7 @@ const Register = () => import("@/views/pages/Register");
 const Purchase = () => import("@/views/pages/Purchase");
 const FreeStudent = () => import("@/views/pages/FreeStudent");
 const FreeTrial = () => import("@/views/pages/FreeTrial");
+const JoinClass = () => import("@/views/pages/JoinClass");
 
 // Users
 const Users = () => import("@/views/users/Users");
@@ -189,6 +190,11 @@ function configRoutes() {
           path: "/free-student",
           name: "Free Student",
           component: FreeStudent,
+        },
+        {
+          path: "/join-to-class",
+          name: "Join Class",
+          component: JoinClass,
         },
         {
           path: "media",
