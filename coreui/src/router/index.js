@@ -52,6 +52,9 @@ const Page500 = () => import("@/views/pages/Page500");
 const Login = () => import("@/views/pages/Login");
 const Register = () => import("@/views/pages/Register");
 const Purchase = () => import("@/views/pages/Purchase");
+const FreeStudent = () => import("@/views/pages/FreeStudent");
+const FreeTrial = () => import("@/views/pages/FreeTrial");
+const JoinClass = () => import("@/views/pages/JoinClass");
 
 // Users
 const Users = () => import("@/views/users/Users");
@@ -106,6 +109,11 @@ const DeleteMenuElement = () =>
 
 const Media = () => import("@/views/media/Media");
 
+// About
+const OurTeam = () => import("@/views/about/OurTeam");
+const Jobs = () => import("@/views/about/Jobs");
+const Press = () => import("@/views/about/Press");
+
 Vue.use(Router);
 
 let router = new Router({
@@ -153,6 +161,41 @@ function configRoutes() {
       name: "Home",
       component: TheContainer,
       children: [
+        {
+          path: "/purchase",
+          name: "Purchase",
+          component: Purchase,
+        },
+        {
+          path: "/our-team",
+          name: "Our Team",
+          component: OurTeam,
+        },
+        {
+          path: "/careers",
+          name: "Careers",
+          component: Jobs,
+        },
+        {
+          path: "/press",
+          name: "Press",
+          component: Press,
+        },
+        {
+          path: "/free-trial",
+          name: "Free Trial",
+          component: FreeTrial,
+        },
+        {
+          path: "/free-student",
+          name: "Free Student",
+          component: FreeStudent,
+        },
+        {
+          path: "/join-to-class",
+          name: "Join Class",
+          component: JoinClass,
+        },
         {
           path: "media",
           name: "Media",
@@ -865,18 +908,9 @@ function configRoutes() {
           name: "Login",
           component: Login,
         },
-        {
-          path: "register",
-          name: "Register",
-          component: Register,
-        },
       ],
     },
-    {
-      path: "/purchase",
-      name: "Purchase",
-      component: Purchase,
-    },
+
     {
       path: "*",
       name: "404",
