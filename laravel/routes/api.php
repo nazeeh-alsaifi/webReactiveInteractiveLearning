@@ -26,6 +26,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('Cities','CityController');
     Route::resource('Countries','CountryController');
     Route::resource('Purchase','PurchaseController');
+    Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
     //
     Route::resource('notes', 'NotesController');
 

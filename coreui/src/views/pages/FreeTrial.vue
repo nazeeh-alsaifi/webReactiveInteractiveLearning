@@ -7,18 +7,8 @@
     <div class="container">
         <div class="alert alert-success" v-show="success">Thank you for completing the registration process Please check the email you will receive, activate copy it and enter it to join to class .</div>
     <form @submit.prevent="submit">
-          <div v-if="errors.length">
-            <div
-                v-for="error in errors"
-                v-bind:key="error.id"
-                class="alert alert-danger"
-            >
-                {{ error }}
-            </div>
-        </div>
-        <hr>
         <div class="container">
-            <a href="/" class="btn btn-info" v-if="part1">Go Back</a>
+          <h1>Free Trail:</h1>
             <hr> 
         <div v-if="part1">    
         <div class="form-group row"> 
@@ -146,7 +136,11 @@
                 </div>
             </div>
         </div>
-        <a class="btn btn-info" v-on:click="topart2()">Continue</a>
+         <div class="form-group row mb-0">
+            <div class="col-md-8 offset-md-4">
+               <a class="btn btn-info" v-on:click="topart2()">Continue</a>
+            </div>
+        </div>       
         </div>
         <div v-if="part2">
         <a class="btn btn-info" v-on:click="topart1()">Go Back</a>
@@ -205,8 +199,9 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-   data() {
+  data: () => {
             return {
                 fields: {},
                 countries: [],
@@ -221,9 +216,9 @@ export default {
             }
         },
         mounted() {
+            this.loadSubjects();
             this.loadCountries();
             this.loadCities();
-            this.loadSubjects();
             this.loadAcademiclevels();
         },
         computed:{
@@ -271,18 +266,25 @@ export default {
                 console.log(error);
                  });
             },
-            submit() {
-                axios.post('/api/FreeStudents/Free_Trail', this.fields).then(response => {
-                    this.fields = {};
-                    this.success = true;
-                    this.errors = {};
-                }).catch(error => {
-                    if (error.response.status == 425) {
-                        this.errors = error.response.data.errors;
-                    }
-                    console.log('Error');
-                });
-            },
+             submit() {
+               let self = this;
+               axios.post(this.$apiAdress +'/api/Purchase/Free_Trail', this.fields).then(response => {
+               this.fields = {};
+               this.success = true;
+               this.errors = {};
+               self.$router.push({ path: '/'});
+             }).catch(function (error) {
+               if(error.response.data.message == 'The given data was invalid.'){
+                 self.message = '';
+                for (let key in error.response.data.errors) {
+                 if (error.response.data.errors.hasOwnProperty(key)) {
+                  self.message += error.response.data.errors[key][0] + '  ';
+                 }
+               }
+             }
+              console.log(error);
+            });
+          },
             topart1(){
             this.part1 = true;
             this.part2 = false;
