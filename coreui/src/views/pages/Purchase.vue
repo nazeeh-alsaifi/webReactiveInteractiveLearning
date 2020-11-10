@@ -291,7 +291,7 @@ export default {
        });
     },
     submit() {
-      axios.post('/api/FreeStudent/Purchase', this.fields).then(response => {
+      axios.post(this.$apiAdress +'/api/Purchase', this.fields).then(response => {
             this.fields = {};
             this.success = true;
             this.errors = {};

@@ -25,6 +25,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('Subjects','SubjectsController');
     Route::resource('Cities','CityController');
     Route::resource('Countries','CountryController');
+    Route::resource('Purchase','PurchaseController');
     //
     Route::resource('notes', 'NotesController');
 
