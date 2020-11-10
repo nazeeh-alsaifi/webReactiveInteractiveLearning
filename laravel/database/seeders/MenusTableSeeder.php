@@ -139,6 +139,21 @@ class MenusTableSeeder extends Seeder
         $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
         $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
         $this->insertLink('guest', 'Purchase', '/purchase', 'cil-cart');
+        $this->insertLink('guest', 'FreeStudent', '/free-student', 'cil-universal-access');
+        $this->insertLink('guest', 'FreeTrial', '/free-trial', 'cil-universal-access');
+
+        $this->beginDropdown('guest', 'About', '/about', 'cil-info-circle');
+        $this->insertLink('guest', 'Our Team',    '/our-team');
+        $this->insertLink('guest', 'Jobs',    '/careers');
+        $this->insertLink('guest', 'Press',    '/press');
+         $this->endDropdown();
+
+         $this->beginDropdown('guest', 'Learn More', '/learn-more', 'cil-more');
+         $this->insertLink('guest', 'What Is Interactive Labs','/what-is-interactive-labs');
+         $this->insertLink('guest', "What's New",    '/whats-new');
+         $this->insertLink('guest', 'Support',    '/support');
+        $this->endDropdown();
+
 
         $this->beginDropdown('admin', 'Settings', '/settings', 'cil-puzzle');
             $this->insertLink('admin', 'Media',    '/media');
