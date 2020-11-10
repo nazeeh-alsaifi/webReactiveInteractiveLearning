@@ -239,6 +239,97 @@ class PurchaseController extends Controller
         
         return response()->json( ['status' => 'success'] );
     }
+
+      /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function Free_Student(Request $request)
+    {
+        $this->validate($request, [
+            'First_Name' => 'required',
+            'Last_Name' => 'required',
+            'Email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'Mobile' => 'required',
+            'Country' => 'required',
+            'City' => 'required',
+            'Address1' => 'required',
+            'Address2' => 'required',
+            'Subject' => 'required',
+            'Academy_Type' => 'required',
+           // 'Id_buyment_method' => 'required',
+       ]);
+        $user = new User;
+        $user->name = $request->input('First_Name').' '.$request->input('Last_Name');
+        $user->password = Hash::make('ssssssss');
+        $user->email = $request->input('Email');
+        $user->assignRole('free_student');
+        $user->menuroles = 'free_student';
+        //$user->Is_delete = 0;
+        //$user->Is_active = 0;
+        $user->save();
+       //Students
+       $Student = new Student;
+       $Student->user_id = $user->id;
+       $Student->First_Name = $request->input('First_Name');
+       $Student->Last_Name = $request->input('Last_Name');
+       $Student->Mobile = $request->input('Mobile');
+       $Student->save();
+        //
+        $institution = new Institution;
+        //$institution->id = $user->id;
+        $institution->academicLevels_id = $request->input('Academy_Type');
+        $institution->Institu_name = $request->input('First_Name').' '.$request->input('Last_Name');
+        $institution->country_id = $request->input('Country');
+        $institution->city_id = $request->input('City');
+        $institution->Mobile = $request->input('Mobile');
+        $institution->Email = $request->input('Email');
+        $institution->Address = $request->input('Address1');
+        $institution->Address1 = $request->input('Address2');
+        $institution->save();
+   
+        //
+        $institution_subject = new InstitutionSubject;
+        $institution_subject->institution_id = $institution->id;
+        $institution_subject->subject_id = $request->input('Subject');
+        $institution_subject->Student_count = 1;
+        $institution_subject->Teacher_count = 1;
+        $institution_subject->buyment_method_id = 1;
+        $institution_subject->save();  
+        //
+        $current_date = Carbon::now();
+        $Temp_current_date = new Carbon();
+        $Duration_Course_institution = new DurationCourseInstitution;
+        $Duration_Course_institution->institution_subject_id = $institution_subject->id;
+        $Duration_Course_institution->duration_course_id = 4;
+        $Duration_Course_institution->From = $current_date;
+        if($institution->academicLevels_id == 1)
+        {
+            $Duration_Course_institution->To = $Temp_current_date->addMonths(3);
+        }
+        if($institution->academicLevels_id == 2)
+        {
+            $Duration_Course_institution->To = $Temp_current_date->addYear();
+        }
+        $Duration_Course_institution->save();
+        //
+        $institution_subject_coordinator = new SubjectCoordinator;
+        $institution_subject_coordinator->user_id = $user->id;   
+        $institution_subject_coordinator->institution_subject_id = $institution_subject->id;
+        $institution_subject_coordinator->save(); 
+        //
+        $Activation_code = new Activation_codes;
+        $Activation_code->user_id = $user->id;
+        $Activation_code->Activate_code = Keygen::alphanum(8)->generate();
+        $Activation_code->save();
+   
+        $data = $Activation_code->Activate_code;
+   
+        Mail::to($user->email)->send(new SendMail($data));
+     return response()->json( ['status' => 'success'] );
+    }
     /**
      * Display the specified resource.
      *
