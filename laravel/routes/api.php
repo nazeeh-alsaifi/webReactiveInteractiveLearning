@@ -26,14 +26,17 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('Cities','CityController');
     Route::resource('Countries','CountryController');
     Route::resource('Purchase','PurchaseController');
+    Route::resource('Category','CategoryController');
     Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
     Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
     ////
     Route::get('academiclevel/getpage','AcademiclevelController@getpage');
     Route::get('country/getpage','CountryController@getpage');
+    Route::get('category/getpage','CategoryController@getpage');
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
     Route::post('countries/store1','CountryController@store1');
+    Route::post('categories/store1','CategoryController@store1');
     //
     Route::resource('notes', 'NotesController');
 
