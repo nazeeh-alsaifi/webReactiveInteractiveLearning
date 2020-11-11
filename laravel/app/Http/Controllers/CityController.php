@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Settings\City;
-
+use App\Models\settings\City;
+use App\Models\settings\Country;
+use App\Models\institutions\Institution;
+use DB;
 class CityController extends Controller
 {
     /**
@@ -15,6 +17,27 @@ class CityController extends Controller
     public function index()
     {
         return City::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getpage()
+    {
+        $sortField = request('sort_field','id');
+        if(!in_array($sortField,['id','country_id','city_name'])){
+            $sortField = 'id';
+        }
+        $sortDirection = request('sort_direction','desc');
+        if(!in_array($sortDirection,['asc','dec'])){
+            $sortDirection = 'desc';
+        }
+        $Cities = City::when(request('search','') != '', function($query){
+            $query->where('city_name','LIKE','%'.request('search').'%');
+        })->orderBy($sortField,$sortDirection)->paginate(5);
+        return $Cities;
     }
 
     /**
@@ -35,7 +58,35 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'Country_id' => 'required',
+             'city_name' => 'required'
+      ]);
+          $city = new City;
+          $city->country_id = $request->input('Country_id');
+          $city->city_name = $request->input('city_name');
+          $city->save();
+          return $city;
+    }
+
+   /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store1(Request $request)
+    {
+        $this->validate($request, [
+            'country_id' => 'required',
+             'city_name' => 'required'
+      ]);
+          $id = $request->input('id');
+          $city = City::find($id);
+          $city->country_id = $request->input('country_id');
+          $city->city_name = $request->input('city_name');
+          $city->save();
+          return $city;
     }
 
     /**
@@ -80,6 +131,16 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Institutions = Institution::get();
+        $city = City::find($id);
+        foreach($Institutions as $Institution)
+        {
+            if($Institution->city_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        $city->delete();
+        return false;
     }
 }
