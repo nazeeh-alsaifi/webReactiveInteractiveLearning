@@ -379,7 +379,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 table {
   width: 100%;
   border-collapse: separate; /* Don't collapse */
@@ -388,19 +388,19 @@ table {
 
 table th {
   /* Apply both top and bottom borders to the <th> */
-  border-top: 2px solid rgba(12, 9, 9, 0.5);;
-  border-bottom: 2px solid rgba(12, 9, 9, 0.5);;
+  border-top: 2px solid rgba(99,99,99,0.5);;
+  border-bottom: 2px solid rgba(99,99,99,0.5);;
 }
 
 table th:first-child{
   /* Apply a left border on the first <td> or <th> in a row */
-  border-left: 2px solid rgba(12, 9, 9, 0.5);;
+  border-left: 2px solid rgba(99,99,99,0.5);;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 table th:last-child{
   /* Apply a left border on the first <td> or <th> in a row */
-  border-right: 2px solid rgba(12, 9, 9, 0.5);;
+  border-right: 2px solid rgba(99,99,99,0.5);;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }

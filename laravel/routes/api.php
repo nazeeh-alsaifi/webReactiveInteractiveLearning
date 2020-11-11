@@ -30,8 +30,10 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
     ////
     Route::get('academiclevel/getpage','AcademiclevelController@getpage');
+    Route::get('country/getpage','CountryController@getpage');
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
+    Route::post('countries/store1','CountryController@store1');
     //
     Route::resource('notes', 'NotesController');
 
