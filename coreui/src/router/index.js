@@ -114,6 +114,38 @@ const OurTeam = () => import("@/views/about/OurTeam");
 const Jobs = () => import("@/views/about/Jobs");
 const Press = () => import("@/views/about/Press");
 
+// Settings
+const AcademicLevels = () => import("@/views/settings/AcademicLevels");
+const Categories = () => import("@/views/settings/Categories");
+const Cities = () => import("@/views/settings/Cities");
+const Components = () => import("@/views/settings/Components");
+const Countries = () => import("@/views/settings/Countries");
+const Employees = () => import("@/views/settings/Employees");
+const MeasureTools = () => import("@/views/settings/MeasureTools");
+const MyUsers = () => import("@/views/settings/MyUsers");
+const Nationalities = () => import("@/views/settings/Nationalities");
+const SubCategories = () => import("@/views/settings/SubCategories");
+const Subjects = () => import("@/views/settings/Subjects");
+const SubSubjects = () => import("@/views/settings/SubSubjects");
+const Units = () => import("@/views/settings/Units");
+const UnitsMeasure = () => import("@/views/settings/UnitsMeasure");
+/*
+ AcademicLevels 
+ Categories 
+ Cities 
+ Components 
+ Countries 
+ Employees 
+ MeasureTools 
+ MyUsers 
+ Nationalities 
+ SubCategories 
+ Subjects 
+ SubSubjects 
+ Units 
+ UnitsMeasure 
+  */
+
 Vue.use(Router);
 
 let router = new Router({
@@ -162,37 +194,37 @@ function configRoutes() {
       component: TheContainer,
       children: [
         {
-          path: "/purchase",
+          path: "purchase",
           name: "Purchase",
           component: Purchase,
         },
         {
-          path: "/our-team",
+          path: "our-team",
           name: "Our Team",
           component: OurTeam,
         },
         {
-          path: "/careers",
+          path: "careers",
           name: "Careers",
           component: Jobs,
         },
         {
-          path: "/press",
+          path: "press",
           name: "Press",
           component: Press,
         },
         {
-          path: "/free-trial",
+          path: "free-trial",
           name: "Free Trial",
           component: FreeTrial,
         },
         {
-          path: "/free-student",
+          path: "free-student",
           name: "Free Student",
           component: FreeStudent,
         },
         {
-          path: "/join-to-class",
+          path: "join-to-class",
           name: "Join Class",
           component: JoinClass,
         },
@@ -241,6 +273,120 @@ function configRoutes() {
             requiresUser: true,
           },
         },
+        /* Our Settings Routes */
+        {
+          path: "academic-levels",
+          name: "AcademicLevels",
+          component: AcademicLevels,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "categories",
+          name: "Categories",
+          component: Categories,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "cities",
+          name: "Cities",
+          component: Cities,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "components",
+          name: "Components",
+          component: Components,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "countries",
+          name: "Countries",
+          component: Countries,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "employees",
+          name: "Employees",
+          component: Employees,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "measure-tools",
+          name: "MeasureTools",
+          component: MeasureTools,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "my-users",
+          name: "MyUsers",
+          component: MyUsers,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "nationalities",
+          name: "Nationalities",
+          component: Nationalities,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "sub-categories",
+          name: "SubCategories",
+          component: SubCategories,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "subjects",
+          name: "Subjects",
+          component: Subjects,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "sub-subjects",
+          name: "SubSubjects",
+          component: SubSubjects,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "units",
+          name: "Units",
+          component: Units,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        {
+          path: "units-measure",
+          name: "UnitsMeasure",
+          component: UnitsMeasure,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
+        /* End our Settings Routes*/
         {
           path: "menu",
           meta: { label: "Menu" },
