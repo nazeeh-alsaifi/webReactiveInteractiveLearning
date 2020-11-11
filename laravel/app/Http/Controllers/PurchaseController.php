@@ -320,15 +320,15 @@ class PurchaseController extends Controller
         $institution_subject_coordinator->institution_subject_id = $institution_subject->id;
         $institution_subject_coordinator->save(); 
         //
-        $Activation_code = new Activation_codes;
+        $Activation_code = new ActivationCodes;
         $Activation_code->user_id = $user->id;
         $Activation_code->Activate_code = Keygen::alphanum(8)->generate();
         $Activation_code->save();
    
         $data = $Activation_code->Activate_code;
-   
         Mail::to($user->email)->send(new SendMail($data));
-     return response()->json( ['status' => 'success'] );
+        
+        return response()->json( ['status' => 'success'] );
     }
     /**
      * Display the specified resource.
