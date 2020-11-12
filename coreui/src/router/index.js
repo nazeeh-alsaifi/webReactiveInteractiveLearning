@@ -129,6 +129,10 @@ const Subjects = () => import("@/views/settings/Subjects");
 const SubSubjects = () => import("@/views/settings/SubSubjects");
 const Units = () => import("@/views/settings/Units");
 const UnitsMeasure = () => import("@/views/settings/UnitsMeasure");
+
+//  Institusions
+const InistitutionsDashboard = () => import("@/views/institutions/Dashboard");
+
 /*
  AcademicLevels 
  Categories 
@@ -164,7 +168,11 @@ router.beforeEach((to, from, next) => {
     "editor:",
     to.matched.some((record) => record.meta.requiresEditor)
   );
-  if (to.matched.some((record) => record.meta.requiresAdmin)) {
+  if (
+    to.matched.some((record) => record.meta.requiresAdmin) &&
+    roles != null &&
+    roles.indexOf("admin") >= 0
+  ) {
     console.log("path match Admin", to);
     if (roles != null && roles.indexOf("admin") >= 0) {
       next();
@@ -335,6 +343,16 @@ function configRoutes() {
           component: Widgets,
           meta: {
             requiresUser: true,
+          },
+        },
+        /* Institusions */
+        {
+          path: "institutions",
+          name: "Institutions",
+          component: InistitutionsDashboard,
+          meta: {
+            requiresAdmin: true,
+            requiresEditor: true,
           },
         },
         /* Our Settings Routes */
