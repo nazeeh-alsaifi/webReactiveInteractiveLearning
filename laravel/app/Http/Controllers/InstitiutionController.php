@@ -15,7 +15,7 @@ use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\institutions\StudentClass;
 use App\Models\institutions\InstitutionClass;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Keygen\Keygen;
 use DB;
@@ -82,34 +82,35 @@ class InstitiutionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'Instititution_Name' => 'required',
-            'Institution_Type' => 'required',
-            'Country' => 'required',
-            'City' => 'required',
-            'Mobile' => 'required',
-            'Email' => 'required',
-            'Address1' => 'required',
-            'Address2' => 'required',
-            'First_name' => 'required',
-            'Last_Name' => 'required',
-            'Coordinator_password' => 'required',
-            'Coordinator_email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-     ]); 
+         $this->validate($request, [
+             'Instititution_Name' => 'required',
+             'Institution_Type' => 'required',
+             'Country' => 'required',
+             'City' => 'required',
+             'Mobile' => 'required',
+             'Email' => 'required',
+             'Address1' => 'required',
+             'Address2' => 'required',
+             'First_name' => 'required',
+             'Last_Name' => 'required',
+             'Coordinator_password' => 'required',
+             'Coordinator_email' => 'required',
+      ]); 
           $user = new User;
           $user->name = $request->input('First_name').' '.$request->input('Last_Name');;
           $user->password = Hash::make($request->input('Coordinator_password'));
           $user->email = $request->input('Coordinator_email');;
           $user->assignRole('coordinator');
           $user->menuroles = 'coordinator';
+          $user->status = 'Active';
           $user->save();
         //coordinator
-           $Teacher = new Teachers;
+           $Teacher = new Teacher;
            $Teacher->user_id = $user->id;
            $Teacher->First_name =  $request->input('First_name');
            $Teacher->Last_Name =  $request->input('Last_Name');
            $Teacher->Mobile =  $request->input('Mobile');
-           $Teacher->Is_Cordenater = 1;
+           $Teacher->Is_Coordinator = 1;
            $Teacher->save();
          //
          $Institution = new Institution;
@@ -205,7 +206,8 @@ class InstitiutionController extends Controller
         if(($user->status != 'Active'))
         {
              $Institution->delete();
-             return Institution::all();;
+             $user->delete();
+             return Institution::all();
         }
          return redirect('/Institution')->with('error','Delete Related Data First');
     }

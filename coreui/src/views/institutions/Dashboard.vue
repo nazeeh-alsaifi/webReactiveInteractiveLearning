@@ -242,31 +242,56 @@
                     </div>
                     <div class="form-group row">
                         <label
-                            for="Coordinator_name"
+                            for="First_name"
                             class="col-md-4 col-form-label text-md-right"
-                            >Coordinator_name</label
+                            >First_name</label
                         >
 
                         <div class="col-md-6">
                             <input
-                                id="Coordinator_name"
+                                id="First_name"
                                 type="text"
                                 class="form-control"
-                                name="Coordinator_name"
+                                name="First_name"
                                 minlength="3"
-                                v-model="fields.Coordinator_name"
+                                v-model="fields.First_name"
                                 required
                                 autofocus
                             />
                             <div
                                 class="alert alert-danger"
-                                v-if="errors && errors.Coordinator_name"
+                                v-if="errors && errors.First_name"
                             >
-                                {{ errors.Coordinator_name[0] }}
+                                {{ errors.First_name[0] }}
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label
+                            for="Last_Name"
+                            class="col-md-4 col-form-label text-md-right"
+                            >Last_Name</label
+                        >
 
+                        <div class="col-md-6">
+                            <input
+                                id="Last_Name"
+                                type="text"
+                                class="form-control"
+                                name="Last_Name"
+                                minlength="3"
+                                v-model="fields.Last_Name"
+                                required
+                                autofocus
+                            />
+                            <div
+                                class="alert alert-danger"
+                                v-if="errors && errors.Last_Name"
+                            >
+                                {{ errors.Last_Name[0] }}
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label
                             for="Coordinator_email"
@@ -411,17 +436,17 @@
                                         </div>
                                         <div class="form-group row">
                                             <label
-                                                for="Id_Institu_type"
+                                                for="academicLevels_id"
                                                 class="col-md-4 col-form-label text-md-right"
                                                 >Choose Institution Type</label
                                             >
                                             <div class="col-md-6">
                                                 <select
                                                     class="form-control"
-                                                    id="Id_Institu_type"
-                                                    name="Id_Institu_type"
+                                                    id="academicLevels_id"
+                                                    name="academicLevels_id"
                                                     v-model="
-                                                        editfields.Id_Institu_type
+                                                        editfields.academicLevels_id
                                                     "
                                                     required
                                                     autofocus
@@ -443,19 +468,19 @@
                                                     class="alert alert-danger"
                                                     v-if="
                                                         errors &&
-                                                            errors.Id_Institu_type
+                                                            errors.academicLevels_id
                                                     "
                                                 >
                                                     {{
                                                         errors
-                                                            .Id_Institu_type[0]
+                                                            .academicLevels_id[0]
                                                     }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label
-                                                for="Id_country"
+                                                for="country_id"
                                                 class="col-md-4 col-form-label text-md-right"
                                                 >Choose Country</label
                                             >
@@ -463,10 +488,10 @@
                                             <div class="col-md-6">
                                                 <select
                                                     class="form-control"
-                                                    id="Id_country"
-                                                    name="Id_country"
+                                                    id="country_id"
+                                                    name="country_id"
                                                     v-model="
-                                                        editfields.Id_country
+                                                        editfields.country_id
                                                     "
                                                     required
                                                     autofocus
@@ -484,10 +509,10 @@
                                                     class="alert alert-danger"
                                                     v-if="
                                                         errors &&
-                                                            errors.Id_country
+                                                            errors.country_id
                                                     "
                                                 >
-                                                    {{ errors.Id_country[0] }}
+                                                    {{ errors.country_id[0] }}
                                                 </div>
                                             </div>
                                         </div>
@@ -501,9 +526,9 @@
                                             <div class="col-md-6">
                                                 <select
                                                     class="form-control"
-                                                    id="Id_city"
-                                                    name="Id_city"
-                                                    v-model="editfields.Id_city"
+                                                    id="city_id"
+                                                    name="city_id"
+                                                    v-model="editfields.city_id"
                                                     required
                                                     autofocus
                                                 >
@@ -519,10 +544,10 @@
                                                 <div
                                                     class="alert alert-danger"
                                                     v-if="
-                                                        errors && errors.Id_city
+                                                        errors && errors.city_id
                                                     "
                                                 >
-                                                    {{ errors.Id_city[0] }}
+                                                    {{ errors.city_id[0] }}
                                                 </div>
                                             </div>
                                         </div>
@@ -677,7 +702,7 @@
                             <th style="text-align:left; width:5%;">
                                 <div style="text-align:left;">
                                     <a
-                                        style="text-align:left;"
+                                        style="text-align:left;font-size:12px"
                                         @click.prevent="change_sort('id')"
                                         >Id</a
                                     >
@@ -703,7 +728,7 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
@@ -738,23 +763,23 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
                                         @click.prevent="
-                                            change_sort('Id_Institu_type')
+                                            change_sort('academicLevels_id')
                                         "
                                         >Institution Type</a
                                     >
                                     <span
                                         v-if="
                                             this.sort_field ==
-                                                'Id_Institu_type' &&
+                                                'academicLevels_id' &&
                                                 this.sort_direction == 'asc'
                                         "
                                         @click.prevent="
-                                            change_sort('Id_Institu_type')
+                                            change_sort('academicLevels_id')
                                         "
                                         ><i class="fa-fw select-all fas"
                                             ></i
@@ -763,11 +788,11 @@
                                     <span
                                         v-if="
                                             this.sort_field ==
-                                                'Id_Institu_type' &&
+                                                'academicLevels_id' &&
                                                 this.sort_direction == 'desc'
                                         "
                                         @click.prevent="
-                                            change_sort('Id_Institu_type')
+                                            change_sort('academicLevels_id')
                                         "
                                         ><i class="fa-fw select-all fas"
                                             ></i
@@ -775,22 +800,22 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
                                         @click.prevent="
-                                            change_sort('Id_country')
+                                            change_sort('country_id')
                                         "
                                         >Country</a
                                     >
                                     <span
                                         v-if="
-                                            this.sort_field == 'Id_country' &&
+                                            this.sort_field == 'country_id' &&
                                                 this.sort_direction == 'asc'
                                         "
                                         @click.prevent="
-                                            change_sort('Id_country')
+                                            change_sort('country_id')
                                         "
                                         ><i class="fa-fw select-all fas"
                                             ></i
@@ -798,11 +823,11 @@
                                     >
                                     <span
                                         v-if="
-                                            this.sort_field == 'Id_country' &&
+                                            this.sort_field == 'country_id' &&
                                                 this.sort_direction == 'desc'
                                         "
                                         @click.prevent="
-                                            change_sort('Id_country')
+                                            change_sort('country_id')
                                         "
                                         ><i class="fa-fw select-all fas"
                                             ></i
@@ -810,36 +835,36 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
-                                        @click.prevent="change_sort('Id_city')"
+                                        @click.prevent="change_sort('city_id')"
                                         >City</a
                                     >
                                     <span
                                         v-if="
-                                            this.sort_field == 'Id_city' &&
+                                            this.sort_field == 'city_id' &&
                                                 this.sort_direction == 'asc'
                                         "
-                                        @click.prevent="change_sort('Id_city')"
+                                        @click.prevent="change_sort('city_id')"
                                         ><i class="fa-fw select-all fas"
                                             ></i
                                         ></span
                                     >
                                     <span
                                         v-if="
-                                            this.sort_field == 'Id_city' &&
+                                            this.sort_field == 'city_id' &&
                                                 this.sort_direction == 'desc'
                                         "
-                                        @click.prevent="change_sort('Id_city')"
+                                        @click.prevent="change_sort('city_id')"
                                         ><i class="fa-fw select-all fas"
                                             ></i
                                         ></span
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
@@ -868,7 +893,7 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
@@ -897,7 +922,7 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
@@ -926,7 +951,7 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <div style="text-align:left;">
                                     <a
                                         style="text-align:left;"
@@ -955,15 +980,15 @@
                                     >
                                 </div>
                             </th>
-                            <th style="text-align:left;width:25%;">
+                            <th style="text-align:left;width:25%;font-size:12px">
                                 <input
                                     style="width:100%;"
                                     type="search"
                                     v-model="searchtext"
-                                    placeholder="search components"
+                                    placeholder="search institution"
                                 />
                             </th>
-                            <th style="text-align:left;width:10%;">
+                            <th style="text-align:left;width:10%;font-size:12px">
                                 <a>COL</a>
                                 <select
                                     style="width:10%;"
@@ -1023,7 +1048,7 @@
                                         style="word-wrap: break-word;"
                                         v-if="
                                             academiclevel.id ==
-                                                Institution.Id_Institu_type
+                                                Institution.academicLevels_id
                                         "
                                     >
                                         {{ academiclevel.AcademicLevel }}
@@ -1038,7 +1063,7 @@
                                     <div
                                         style="word-wrap: break-word;"
                                         v-if="
-                                            country.id == Institution.Id_country
+                                            country.id == Institution.country_id
                                         "
                                     >
                                         {{ country.country_name }}
@@ -1051,7 +1076,7 @@
                                     v-for="city in cities"
                                     v-bind:key="city.id"
                                 >
-                                    <div v-if="city.id == Institution.Id_city">
+                                    <div v-if="city.id == Institution.city_id">
                                         {{ city.city_name }}
                                     </div>
                                 </div>
@@ -1104,9 +1129,8 @@
                                     <button
                                         @click="deleteComponent(Institution.id)"
                                         class="btn btn-danger"
-                                    >
-                                        Delete
-                                    </button>
+                                        style="width:25%;"
+                                    >x</button>
                                 </div>
                             </td>
                         </tr>
@@ -1165,12 +1189,12 @@ data: function() {
     computed: {
         filteredCities: function() {
             return this.cities.filter(city => {
-                return city.Country_id == this.fields.Country;
+                return city.country_id == this.fields.Country;
             });
         },
         filterededitCities: function() {
             return this.cities.filter(city => {
-                return city.Country_id == this.editfields.Id_country;
+                return city.country_id == this.editfields.country_id;
             });
         }
     },
@@ -1366,7 +1390,7 @@ data: function() {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/institutions/store1", this.editfields)
+                .post(this.$apiAdress +'/api/institutions/store1', this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
