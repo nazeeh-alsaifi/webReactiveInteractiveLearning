@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\City;
-use App\Models\settings\Country;
-use App\Models\institutions\Institution;
+use App\Models\settings\category;
+use App\Models\settings\Subject;
+use App\Models\settings\SubCategory;
 use DB;
-class CityController extends Controller
+
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return City::all();
+        return category::all();
     }
 
     /**
@@ -27,19 +28,18 @@ class CityController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','country_id','city_name'])){
+        if(!in_array($sortField,['id','subject_id','Cat_name'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $Cities = City::when(request('search','') != '', function($query){
-            $query->where('city_name','LIKE','%'.request('search').'%');
+        $Categories = category::when(request('search','') != '', function($query){
+            $query->where('Cat_name','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $Cities;
+        return $Categories;
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -59,17 +59,17 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $city = new City;
-          $city->country_id = $request->input('Country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'Subj_id' => 'required',
+            'Cat_name' => 'required'
+     ]);
+         $category = new category;
+         $category->subject_id = $request->input('Subj_id');
+         $category->Cat_name = $request->input('Cat_name');
+         $category->save();
+         return $category;
     }
 
-   /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -78,17 +78,16 @@ class CityController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $id = $request->input('id');
-          $city = City::find($id);
-          $city->country_id = $request->input('country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'subject_id' => 'required',
+            'Cat_name' => 'required'
+     ]);
+         $id = $request->input('id');
+         $category = category::find($id);
+         $category->subject_id = $request->input('subject_id');
+         $category->Cat_name = $request->input('Cat_name');
+         $category->save();
+         return $category;
     }
-
     /**
      * Display the specified resource.
      *
@@ -131,16 +130,16 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $Institutions = Institution::get();
-        $city = City::find($id);
-        foreach($Institutions as $Institution)
+        $Category = category::find($id);
+        $sub_categories = SubCategory::get();
+        foreach($sub_categories as $sub_category)
         {
-            if($Institution->city_id == $id)
+            if($sub_category->category_id == $id)
             {
                 return redirect('/Institution')->with('error','Delete Related Data First');
             }
         }
-        $city->delete();
-        return false;
+        $Category->delete();
+        return true;
     }
 }

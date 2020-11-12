@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\City;
-use App\Models\settings\Country;
-use App\Models\institutions\Institution;
-use DB;
-class CityController extends Controller
+use App\Models\settings\Category;
+use App\Models\settings\SubCategory;
+
+class SubCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return City::all();
+        return SubCategory::all();
     }
 
     /**
@@ -27,17 +26,17 @@ class CityController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','country_id','city_name'])){
+        if(!in_array($sortField,['id','category_id','sub_cat_name'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $Cities = City::when(request('search','') != '', function($query){
-            $query->where('city_name','LIKE','%'.request('search').'%');
+        $sub_categories = SubCategory::when(request('search','') != '', function($query){
+            $query->where('sub_cat_name','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $Cities;
+        return $sub_categories;
     }
 
     /**
@@ -59,17 +58,17 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Country_id' => 'required',
-             'city_name' => 'required'
+            'Id_cat' => 'required',
+             'sub_ct_name' => 'required'
       ]);
-          $city = new City;
-          $city->country_id = $request->input('Country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+          $sub_category = new SubCategory;
+          $sub_category->category_id = $request->input('Id_cat');
+          $sub_category->sub_cat_name = $request->input('sub_ct_name');
+          $sub_category->save();
+          return  $sub_category;
     }
 
-   /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -78,17 +77,16 @@ class CityController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'country_id' => 'required',
-             'city_name' => 'required'
+            'category_id' => 'required',
+             'sub_cat_name' => 'required'
       ]);
           $id = $request->input('id');
-          $city = City::find($id);
-          $city->country_id = $request->input('country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+          $sub_category = SubCategory::find($id);
+          $sub_category->category_id = $request->input('category_id');
+          $sub_category->sub_cat_name = $request->input('sub_cat_name');
+          $sub_category->save();
+          return  $sub_category;
     }
-
     /**
      * Display the specified resource.
      *
@@ -131,16 +129,8 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $Institutions = Institution::get();
-        $city = City::find($id);
-        foreach($Institutions as $Institution)
-        {
-            if($Institution->city_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        $city->delete();
-        return false;
+        $sub_category = SubCategory::find($id);
+        $sub_category->delete();
+        return true;
     }
 }

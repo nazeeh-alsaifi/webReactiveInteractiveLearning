@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\City;
-use App\Models\settings\Country;
-use App\Models\institutions\Institution;
+use App\Models\settings\Nationality;
+use App\Models\users\Student;
+use App\Models\users\Teacher;
+use App\Models\users\Employee;
+use App\Models\User;
 use DB;
-class CityController extends Controller
+
+class NationalityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +19,10 @@ class CityController extends Controller
      */
     public function index()
     {
-        return City::all();
+        return Nationality::all();
     }
 
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -27,17 +30,17 @@ class CityController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','country_id','city_name'])){
+        if(!in_array($sortField,['id','Nationality_name'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $Cities = City::when(request('search','') != '', function($query){
-            $query->where('city_name','LIKE','%'.request('search').'%');
+        $Nationalities = Nationality::when(request('search','') != '', function($query){
+            $query->where('Nationality_name','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $Cities;
+        return $Nationalities;
     }
 
     /**
@@ -59,17 +62,15 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $city = new City;
-          $city->country_id = $request->input('Country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'Nationality_name' => 'required'
+     ]);
+         $nationality = new Nationality;
+         $nationality->Nationality_name = $request->input('Nationality_name');
+         $nationality->save();
+         return $nationality;
     }
 
-   /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -78,15 +79,13 @@ class CityController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $id = $request->input('id');
-          $city = City::find($id);
-          $city->country_id = $request->input('country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'Nationality_name' => 'required'
+     ]);
+         $id = $request->input('id');
+         $nationality = Nationality::find($id);
+         $nationality->Nationality_name = $request->input('Nationality_name');
+         $nationality->save();
+         return $nationality;
     }
 
     /**
@@ -131,16 +130,36 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $Institutions = Institution::get();
-        $city = City::find($id);
-        foreach($Institutions as $Institution)
+        $users = User::get();
+        $Students = Student::get();
+        $Teachers = Teacher::get();
+        $Employees = Employee::get();
+        $nationality = Nationality::find($id);
+        foreach($users as $user)
         {
-            if($Institution->city_id == $id)
+            foreach($Students as $Student)
             {
-                return redirect('/Institution')->with('error','Delete Related Data First');
+                if(($user->id == $Student->user_id)&&($Student->nationality_id == $id))
+                {
+                    return redirect('/Institution')->with('error','Delete Related Data First');
+                }
+            }
+            foreach($Teachers as $Teacher)
+            {
+                if(($user->id == $Teacher->user_id)&&($Teacher->nationality_id == $id))
+                {
+                    return redirect('/Institution')->with('error','Delete Related Data First');
+                }
+            }
+            foreach($Employees as $Employee)
+            {
+                if(($user->id == $Employee->user_id)&&($Employee->nationality_id == $id))
+                {
+                    return redirect('/Institution')->with('error','Delete Related Data First');
+                }
             }
         }
-        $city->delete();
-        return false;
+        $nationality->delete();
+        return true;
     }
 }

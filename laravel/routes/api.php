@@ -26,8 +26,43 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('Cities','CityController');
     Route::resource('Countries','CountryController');
     Route::resource('Purchase','PurchaseController');
+    Route::resource('Category','CategoryController');
+    Route::resource('Component','ComponentController');
+    Route::resource('Measuretool','MeasureToolsController');
+    Route::resource('Nationality','NationalityController');
+    Route::resource('SubCategory','SubCategoryController');
+    Route::resource('SuSubject','SubSubjectController');
+    Route::resource('Unit','UnitController');
+    Route::resource('UnitMeasure','UnitsMeasureController');
     Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
     Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
+    ////
+    Route::get('academiclevel/getpage','AcademiclevelController@getpage');
+    Route::get('country/getpage','CountryController@getpage');
+    Route::get('category/getpage','CategoryController@getpage');
+    Route::get('city/getpage','CityController@getpage');
+    Route::get('component/getpage','ComponentController@getpage');
+    Route::get('measuretool/getpage','MeasureToolsController@getpage');
+    Route::get('nationality/getpage','NationalityController@getpage');
+    Route::get('subCategory/getpage','SubCategoryController@getpage');
+    Route::get('subjects/getpage','SubjectsController@getpage');
+    Route::get('suSubject/getpage','SubSubjectController@getpage');
+    Route::get('unit/getpage','UnitController@getpage');
+    Route::get('unitMeasure/getpage','UnitsMeasureController@getpage');
+
+    //
+    Route::post('academiclevels/store1','AcademiclevelController@store1');
+    Route::post('countries/store1','CountryController@store1');
+    Route::post('categories/store1','CategoryController@store1');
+    Route::post('cities/store1','CityController@store1');
+    Route::post('components/store1','ComponentController@store1');
+    Route::post('measuretools/store1','MeasureToolsController@store1');
+    Route::post('nationalities/store1','NationalityController@store1');
+    Route::post('subCategories/store1','SubCategoryController@store1');
+    Route::post('subject/store1','SubjectsController@store1');
+    Route::post('suSubjects/store1','SubSubjectController@store1');
+    Route::post('units/store1','UnitController@store1');
+    Route::post('unitMeasures/store1','UnitsMeasureController@store1');
     //
     Route::resource('notes', 'NotesController');
 

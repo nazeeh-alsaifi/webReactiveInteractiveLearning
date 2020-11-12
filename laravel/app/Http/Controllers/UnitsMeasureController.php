@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\City;
-use App\Models\settings\Country;
-use App\Models\institutions\Institution;
+use App\Models\settings\Unit;
+use App\Models\settings\UnitMeasure;
 use DB;
-class CityController extends Controller
+
+class UnitsMeasureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return City::all();
+        return UnitMeasure::all();
     }
 
     /**
@@ -27,19 +27,18 @@ class CityController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','country_id','city_name'])){
+        if(!in_array($sortField,['id','unit_id','Unit_measure','Measure_sample'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $Cities = City::when(request('search','') != '', function($query){
-            $query->where('city_name','LIKE','%'.request('search').'%');
+        $Units_measures = UnitMeasure::when(request('search','') != '', function($query){
+            $query->where('Unit_measure','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $Cities;
+        return $Units_measures;
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -59,17 +58,19 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $city = new City;
-          $city->country_id = $request->input('Country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'Unit_id' => 'required',
+            'Unit_measure' => 'required',
+            'Measure_sample' => 'required'
+     ]);
+         $unit_measure = new UnitMeasure;
+         $unit_measure->unit_id = $request->input('Unit_id');
+         $unit_measure->Unit_measure = $request->input('Unit_measure');
+         $unit_measure->Measure_sample = $request->input('Measure_sample');
+         $unit_measure->save();
+         return $unit_measure;
     }
 
-   /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -78,15 +79,17 @@ class CityController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $id = $request->input('id');
-          $city = City::find($id);
-          $city->country_id = $request->input('country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'unit_id' => 'required',
+            'Unit_measure' => 'required',
+            'Measure_sample' => 'required'
+     ]);
+         $id = $request->input('id');
+         $unit_measure = UnitMeasure::find($id);
+         $unit_measure->unit_id = $request->input('unit_id');
+         $unit_measure->Unit_measure = $request->input('Unit_measure');
+         $unit_measure->Measure_sample = $request->input('Measure_sample');
+         $unit_measure->save();
+         return $unit_measure;
     }
 
     /**
@@ -131,16 +134,8 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $Institutions = Institution::get();
-        $city = City::find($id);
-        foreach($Institutions as $Institution)
-        {
-            if($Institution->city_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        $city->delete();
-        return false;
+        $Unit_measure = UnitMeasure::find($id);
+        $Unit_measure->delete();
+        return true;
     }
 }

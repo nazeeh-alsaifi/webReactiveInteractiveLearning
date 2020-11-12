@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\City;
-use App\Models\settings\Country;
-use App\Models\institutions\Institution;
-use DB;
-class CityController extends Controller
+use App\Models\settings\MeasureTool;
+
+class MeasureToolsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +14,10 @@ class CityController extends Controller
      */
     public function index()
     {
-        return City::all();
+        return MeasureTool::all();
     }
 
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -27,19 +25,18 @@ class CityController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','country_id','city_name'])){
+        if(!in_array($sortField,['id','measureTool_name'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $Cities = City::when(request('search','') != '', function($query){
-            $query->where('city_name','LIKE','%'.request('search').'%');
+        $MeasureTools = MeasureTool::when(request('search','') != '', function($query){
+            $query->where('measureTool_name','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $Cities;
+        return $MeasureTools;
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -59,17 +56,15 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $city = new City;
-          $city->country_id = $request->input('Country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'measureTools_name' => 'required'
+     ]);
+         $MeasureTool = new MeasureTool;
+         $MeasureTool->measureTool_name = $request->input('measureTools_name');
+         $MeasureTool->save();
+         return $MeasureTool;
     }
 
-   /**
+        /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -78,17 +73,14 @@ class CityController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'country_id' => 'required',
-             'city_name' => 'required'
-      ]);
-          $id = $request->input('id');
-          $city = City::find($id);
-          $city->country_id = $request->input('country_id');
-          $city->city_name = $request->input('city_name');
-          $city->save();
-          return $city;
+            'measureTool_name' => 'required'
+     ]);
+         $id = $request->input('id');
+         $MeasureTool = MeasureTool::find($id);
+         $MeasureTool->measureTool_name = $request->input('measureTool_name');
+         $MeasureTool->save();
+         return $MeasureTool;
     }
-
     /**
      * Display the specified resource.
      *
@@ -131,16 +123,8 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $Institutions = Institution::get();
-        $city = City::find($id);
-        foreach($Institutions as $Institution)
-        {
-            if($Institution->city_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        $city->delete();
-        return false;
+        $MeasureTool = MeasureTool::find($id);
+        $MeasureTool->delete();
+        return true;
     }
 }
