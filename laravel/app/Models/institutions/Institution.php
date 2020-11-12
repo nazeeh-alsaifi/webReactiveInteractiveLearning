@@ -28,4 +28,9 @@ class Institution extends Model
     {
         return $this->belongsTo('App\Models\settings\City','city_id');
     }
+
+    public function coordinator()
+    {
+        return $this->belongsTo('App\Models\User','coordinator_id');
+    }
 }

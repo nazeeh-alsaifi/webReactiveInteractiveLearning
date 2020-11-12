@@ -72,7 +72,7 @@ class PurchaseController extends Controller
         ]);
         $user = new User;
         $user->name = $request->input('First_Name').' '.$request->input('Last_Name');
-        $user->password = Hash::make('ssssssss');
+        $user->password = Hash::make('password');
         $user->email = $request->input('email');
         $user->assignRole('coordinator');
         $user->menuroles = 'coordinator';
@@ -92,6 +92,7 @@ class PurchaseController extends Controller
         //
         $institution = new Institution;
         $institution->Institu_name = $request->input('Institution_Name');
+        $institution->coordinator_id = $user->id;
         $institution->academicLevels_id = $request->input('Institution_Academy_Type');
         $institution->country_id = $request->input('Country');
         $institution->city_id = $request->input('City');
@@ -196,6 +197,7 @@ class PurchaseController extends Controller
         //
         $institution = new Institution;
         $institution->Institu_name = $request->input('Institution_Name');
+        $institution->coordinator_id = $user->id;
         $institution->academicLevels_id = $request->input('Academy_Type');
         $institution->country_id = $request->input('Country');
         $institution->city_id = $request->input('City');
@@ -284,6 +286,7 @@ class PurchaseController extends Controller
         $institution->Institu_name = $request->input('First_Name').' '.$request->input('Last_Name');
         $institution->country_id = $request->input('Country');
         $institution->city_id = $request->input('City');
+        $institution->coordinator_id = $user->id;
         $institution->Mobile = $request->input('Mobile');
         $institution->Email = $request->input('Email');
         $institution->Address = $request->input('Address1');

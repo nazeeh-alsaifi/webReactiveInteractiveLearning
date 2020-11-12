@@ -19,27 +19,27 @@ class Users extends Model
 
     public function activationCodes()
     {
-        return $this->hasMany('App\Models\users\ActivationCodes','user_id');
+        return $this->hasOne('App\Models\users\ActivationCodes','user_id');
     }
 
-    public function employees()
+    public function employee()
     {
-        return $this->hasMany('App\Models\users\Employee','user_id');
+        return $this->hasOne('App\Models\users\Employee','user_id');
     }
 
-    public function students()
+    public function student()
     {
-        return $this->hasMany('App\Models\users\Student','user_id');
+        return $this->hasOne('App\Models\users\Student','user_id');
     }
 
-    public function teachers()
+    public function teacher()
     {
-        return $this->hasMany('App\Models\users\Teacher','user_id');
+        return $this->hasOne('App\Models\users\Teacher','user_id');
     }
 
     public function subjectCoordinator()
     {
-        return $this->hasMany('App\Models\users\SubjectCoordinator','user_id');
+        return $this->hasOne('App\Models\users\SubjectCoordinator','user_id');
     }
 
     protected $dates = [

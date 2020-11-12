@@ -19,6 +19,7 @@ class CreateInstitutionsTable extends Migration
             $table->unsignedBigInteger('academicLevels_id');
             $table->unsignedBigInteger('country_id');
             $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('coordinator_id');
             $table->string('Mobile');
             $table->string('Email');
             $table->string('Address');
@@ -26,7 +27,8 @@ class CreateInstitutionsTable extends Migration
             $table->timestamps();
             $table->foreign('academicLevels_id')->references('id')->on('academic_levels')->onDelete('cascade');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
-           $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->foreign('coordinator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
