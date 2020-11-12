@@ -32,6 +32,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('Nationality','NationalityController');
     Route::resource('SubCategory','SubCategoryController');
     Route::resource('SuSubject','SubSubjectController');
+    Route::resource('Unit','UnitController');
     Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
     Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
     ////
@@ -45,6 +46,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('subCategory/getpage','SubCategoryController@getpage');
     Route::get('subjects/getpage','SubjectsController@getpage');
     Route::get('suSubject/getpage','SubSubjectController@getpage');
+    Route::get('unit/getpage','UnitController@getpage');
 
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
@@ -57,6 +59,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('subCategories/store1','SubCategoryController@store1');
     Route::post('subject/store1','SubjectsController@store1');
     Route::post('suSubjects/store1','SubSubjectController@store1');
+    Route::post('units/store1','UnitController@store1');
     //
     Route::resource('notes', 'NotesController');
 
