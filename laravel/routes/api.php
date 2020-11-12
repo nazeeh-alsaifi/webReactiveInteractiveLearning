@@ -35,6 +35,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('Unit','UnitController');
     Route::resource('UnitMeasure','UnitsMeasureController');
     Route::resource('Institution','InstitiutionController');
+    Route::resource('Employee','EmployeeController');
     Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
     Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
     ////
@@ -51,6 +52,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('unit/getpage','UnitController@getpage');
     Route::get('unitMeasure/getpage','UnitsMeasureController@getpage');
     Route::get('institution/getpage','InstitiutionController@getpage');
+    Route::get('employee/getpage','EmployeeController@getpage');
 
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
@@ -66,6 +68,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('units/store1','UnitController@store1');
     Route::post('unitMeasures/store1','UnitsMeasureController@store1');
     Route::post('institutions/store1','InstitiutionController@store1');
+    Route::post('employees/store1','EmployeeController@store1');
     //
     Route::resource('notes', 'NotesController');
 
