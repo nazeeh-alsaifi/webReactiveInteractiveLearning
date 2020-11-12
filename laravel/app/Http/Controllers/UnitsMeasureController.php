@@ -7,7 +7,7 @@ use App\Models\settings\Unit;
 use App\Models\settings\UnitMeasure;
 use DB;
 
-class UnitController extends Controller
+class UnitsMeasureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        return Unit::all();
+        return UnitMeasure::all();
     }
 
     /**
@@ -27,23 +27,18 @@ class UnitController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','unit_name','Sample_unit'])){
+        if(!in_array($sortField,['id','unit_id','Unit_measure','Measure_sample'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $column= request('column','unit_name');
-        if(!in_array($column,['unit_name','Sample_unit'])){
-            $column = 'unit_name';
-        }
-        $units = Unit::when(request('search','') != '', function($query){
-            $query->where(request('column',''),'LIKE','%'.request('search').'%');
+        $Units_measures = UnitMeasure::when(request('search','') != '', function($query){
+            $query->where('Unit_measure','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $units;
+        return $Units_measures;
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -63,17 +58,19 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'unit_name' => 'required',
-            'Sample_unit' => 'required'
+            'Unit_id' => 'required',
+            'Unit_measure' => 'required',
+            'Measure_sample' => 'required'
      ]);
-         $Unit = new Unit;
-         $Unit->unit_name = $request->input('unit_name');
-         $Unit->Sample_unit = $request->input('Sample_unit');
-         $Unit->save();
-         return $Unit;
+         $unit_measure = new UnitMeasure;
+         $unit_measure->unit_id = $request->input('Unit_id');
+         $unit_measure->Unit_measure = $request->input('Unit_measure');
+         $unit_measure->Measure_sample = $request->input('Measure_sample');
+         $unit_measure->save();
+         return $unit_measure;
     }
 
-        /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -82,15 +79,17 @@ class UnitController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'unit_name' => 'required',
-            'Sample_unit' => 'required'
+            'unit_id' => 'required',
+            'Unit_measure' => 'required',
+            'Measure_sample' => 'required'
      ]);
          $id = $request->input('id');
-         $Unit = Unit::find($id);
-         $Unit->unit_name = $request->input('unit_name');
-         $Unit->Sample_unit = $request->input('Sample_unit');
-         $Unit->save();
-         return $Unit;
+         $unit_measure = UnitMeasure::find($id);
+         $unit_measure->unit_id = $request->input('unit_id');
+         $unit_measure->Unit_measure = $request->input('Unit_measure');
+         $unit_measure->Measure_sample = $request->input('Measure_sample');
+         $unit_measure->save();
+         return $unit_measure;
     }
 
     /**
@@ -135,16 +134,8 @@ class UnitController extends Controller
      */
     public function destroy($id)
     {
-        $Units_measures = UnitMeasure::get();
-        $Unit = Unit::find($id);
-        foreach($Units_measures as $Unit_measure)
-        {
-            if($Unit_measure->unit_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        $Unit->delete();
+        $Unit_measure = UnitMeasure::find($id);
+        $Unit_measure->delete();
         return true;
     }
 }
