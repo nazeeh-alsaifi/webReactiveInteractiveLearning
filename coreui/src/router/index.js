@@ -178,6 +178,60 @@ router.beforeEach((to, from, next) => {
         params: { nextUrl: to.fullPath },
       });
     }
+  } else if (to.matched.some((record) => record.meta.requiresUser)) {
+    if (roles != null && roles.indexOf("editor") >= 0) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
+  } else if (to.matched.some((record) => record.meta.requiresUser)) {
+    if (roles != null && roles.indexOf("coordinator") >= 0) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
+  } else if (to.matched.some((record) => record.meta.requiresUser)) {
+    if (roles != null && roles.indexOf("teacher") >= 0) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
+  } else if (to.matched.some((record) => record.meta.requiresUser)) {
+    if (roles != null && roles.indexOf("student") >= 0) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
+  } else if (to.matched.some((record) => record.meta.requiresUser)) {
+    if (roles != null && roles.indexOf("free_student") >= 0) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
+  } else if (to.matched.some((record) => record.meta.requiresUser)) {
+    if (roles != null && roles.indexOf("subject_coordinator") >= 0) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
   } else {
     next();
   }
