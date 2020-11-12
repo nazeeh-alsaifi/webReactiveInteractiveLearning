@@ -65,18 +65,17 @@ class GetSidebarMenu implements MenuInterface{
         }elseif(in_array('user', $roles)){
             $this->getUserMenu($menuName);
         }elseif(in_array('editor', $roles)){
-            $this->getStudentMenu($menuName);
-        }
-        elseif(in_array('coordinator', $roles)){
-            $this->getStudentMenu($menuName);
+            $this->getEditorMenu($menuName);
+        }elseif(in_array('coordinator', $roles)){
+            $this->getCoordinatorMenu($menuName);
         }elseif(in_array('teacher', $roles)){
-            $this->getStudentMenu($menuName);
+            $this->getTeacherMenu($menuName);
         }elseif(in_array('student', $roles)){
             $this->getStudentMenu($menuName);
         }elseif(in_array('free_student', $roles)){
-            $this->getStudentMenu($menuName);
+            $this->getFreeStudentMenu($menuName);
         }elseif(in_array('subject_coordinator', $roles)){
-            $this->getStudentMenu($menuName);
+            $this->getSubjectCoordinatorMenu($menuName);
         }
         else{
             $this->getGuestMenu($menuName);
