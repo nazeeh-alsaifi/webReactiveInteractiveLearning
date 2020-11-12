@@ -10,6 +10,7 @@ use App\Models\settings\Subject;
 use App\Models\settings\Nationality;
 use App\Models\settings\Category;
 use App\Models\settings\SubCategory;
+use App\Models\durations\DurationCourse;
 
 
 class SettingsSeeder extends Seeder
@@ -155,6 +156,30 @@ class SettingsSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+
+        /**=======  Duration Seeding ================= */
+        DurationCourse::create([
+            "Duration" => "Semester",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DurationCourse::create([
+            "Duration" => "Academic year",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DurationCourse::create([
+            "Duration" => "Free_trial_Institution",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DurationCourse::create([
+            "Duration" => "Free_student",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
     }
 
 }

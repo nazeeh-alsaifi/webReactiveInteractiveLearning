@@ -16,7 +16,8 @@ class MenusTableSeeder extends Seeder
     private $joinData = array();
     private $adminRole = null;
     private $userRole = null;
-    
+    private $studentRole = null;
+    private $editorRole =null;
     public function join($roles, $menusId){
         $roles = explode(',', $roles);
         foreach($roles as $role){
@@ -126,6 +127,17 @@ class MenusTableSeeder extends Seeder
     public function run()
     {
         /* Get roles */
+        /**
+         * admin
+         * user
+         * guest
+         * editor
+         * coordinator
+         * teacher
+         * student
+         * free_student
+         * subject_coordinator
+         */
         $this->adminRole = Role::where('name' , '=' , 'admin' )->first();
         $this->userRole = Role::where('name', '=', 'user' )->first();
         $dropdownId = array();
@@ -135,7 +147,8 @@ class MenusTableSeeder extends Seeder
         ]);
         $this->menuId = DB::getPdo()->lastInsertId();  //set menuId
         /* guest menu */
-        $this->insertLink('guest,user,admin', 'Dashboard', '/', 'cil-speedometer');
+        
+        $this->insertLink('guest,user,admin,editor,coordinator,teacher,student,free_student,subject_coordinator', 'Dashboard', '/', 'cil-speedometer');
         $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
         // $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
         $this->insertLink('guest', 'Purchase', '/purchase', 'cil-cart');
@@ -156,28 +169,27 @@ class MenusTableSeeder extends Seeder
         $this->endDropdown();
 
 
-        $this->beginDropdown('admin', 'Settings', '/settings', 'cil-puzzle');
-            $this->insertLink('admin', 'Media',    '/media');
-            $this->insertLink('admin', 'Users',    '/users');
-            $this->insertLink('admin', 'Menu',    '/menu');
-            $this->insertLink('admin', 'BREAD',    '/bread');
-            $this->insertLink('admin', 'Email',    '/email');
-            $this->insertLink('admin', 'Academic Levels','/academic-levels'); 
-            $this->insertLink('admin', 'Categories','/categories'); 
-            $this->insertLink('admin', 'Cities','/cities'); 
-            $this->insertLink('admin', 'Components','/components'); 
-            $this->insertLink('admin', 'Countries','/countries'); 
-            $this->insertLink('admin', 'Employees','/employees'); 
-            $this->insertLink('admin', 'Measure Tools','/measure-tools'); 
-            $this->insertLink('admin', 'MyUsers','/my-users'); 
-            $this->insertLink('admin', 'Nationalities','/nationalities'); 
-            $this->insertLink('admin', 'SubCategories','/sub-categories'); 
-            $this->insertLink('admin', 'Subjects','/subjects'); 
-            $this->insertLink('admin', 'SubSubjects','/sub-subjects'); 
-            $this->insertLink('admin', 'Units','/units'); 
-            $this->insertLink('admin', 'Units Measure','/units-measure'); 
+        $this->beginDropdown('admin,editor', 'Settings', '/settings', 'cil-puzzle');
+            $this->insertLink('admin,editor', 'Media',    '/media');
+            $this->insertLink('admin,editor', 'Users',    '/users');
+            $this->insertLink('admin,editor', 'Menu',    '/menu');
+            $this->insertLink('admin,editor', 'BREAD',    '/bread');
+            $this->insertLink('admin,editor', 'Email',    '/email');
+            $this->insertLink('admin,editor', 'Academic Levels','/academic-levels'); 
+            $this->insertLink('admin,editor', 'Categories','/categories'); 
+            $this->insertLink('admin,editor', 'Cities','/cities'); 
+            $this->insertLink('admin,editor', 'Components','/components'); 
+            $this->insertLink('admin,editor', 'Countries','/countries'); 
+            $this->insertLink('admin,editor', 'Employees','/employees'); 
+            $this->insertLink('admin,editor', 'Measure Tools','/measure-tools'); 
+            $this->insertLink('admin,editor', 'MyUsers','/my-users'); 
+            $this->insertLink('admin,editor', 'Nationalities','/nationalities'); 
+            $this->insertLink('admin,editor', 'SubCategories','/sub-categories'); 
+            $this->insertLink('admin,editor', 'Subjects','/subjects'); 
+            $this->insertLink('admin,editor', 'SubSubjects','/sub-subjects'); 
+            $this->insertLink('admin,editor', 'Units','/units'); 
+            $this->insertLink('admin,editor', 'Units Measure','/units-measure'); 
         $this->endDropdown();
-        
         $this->insertTitle('user,admin', 'Theme');
         $this->insertLink('user,admin', 'Colors', '/colors', 'cil-drop');
         $this->insertLink('user,admin', 'Typography', '/typography', 'cil-pencil');

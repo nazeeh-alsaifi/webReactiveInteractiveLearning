@@ -20,7 +20,7 @@ class UsersAndNotesSeeder extends Seeder
      */
     public function run()
     {
-        $numberOfUsers = 10;
+        $numberOfUsers = 7;
         $numberOfNotes = 100;
         $usersIds = array();
         $statusIds = array();
@@ -108,22 +108,24 @@ class UsersAndNotesSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make("password"), // password
             'remember_token' => Str::random(10),
-            'menuroles' => 'user,admin',
+            'menuroles' => 'admin',
             'status' => 'Active'
         ]);
-        $user->assignRole('user');
+        // $user->assignRole('user');
+        $usersRoles = [$userRole,$editorRole,$coordinatorRole,$teacherRole,$studentRole,$freeStudentRole,$subjectCoordinator];
         $user->assignRole($roleAdmin);
         for($i = 0; $i<$numberOfUsers; $i++){
+            $userName = $usersRoles[$i]->name;
             $user = User::create([
                 'name' => $faker->name(),
-                'email' => $faker->unique()->safeEmail(),
+                'email' => $userName . "@" . $userName .".com",
                 'email_verified_at' => now(),
                 'password' => Hash::make("password"), // password
                 'remember_token' => Str::random(10),
-                'menuroles' => 'user',
+                'menuroles' => $userName,
                 'status' => $userStatus[ random_int(0,count($userStatus) - 1) ]
             ]);
-            $user->assignRole('user');
+            $user->assignRole($usersRoles[$i]);
             array_push($usersIds, $user->id);
         }
         /*  insert notes  */
@@ -142,4 +144,6 @@ class UsersAndNotesSeeder extends Seeder
             ]);
         }
     }
+
+    
 }
