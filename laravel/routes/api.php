@@ -42,6 +42,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('measuretool/getpage','MeasureToolsController@getpage');
     Route::get('nationality/getpage','NationalityController@getpage');
     Route::get('subCategory/getpage','SubCategoryController@getpage');
+    Route::get('subjects/getpage','SubjectsController@getpage');
+
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
     Route::post('countries/store1','CountryController@store1');
@@ -51,6 +53,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('measuretools/store1','MeasureToolsController@store1');
     Route::post('nationalities/store1','NationalityController@store1');
     Route::post('subCategories/store1','SubCategoryController@store1');
+    Route::post('subject/store1','SubjectsController@store1');
     //
     Route::resource('notes', 'NotesController');
 
