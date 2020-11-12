@@ -168,6 +168,7 @@ class MenusTableSeeder extends Seeder
          $this->insertLink('guest', 'Support',    '/support');
         $this->endDropdown();
 
+        $this->insertLink('admin,editor', 'Institutions', '/institutions', 'cil-speedometer');
 
         $this->beginDropdown('admin,editor', 'Settings', '/settings', 'cil-puzzle');
             $this->insertLink('admin,editor', 'Media',    '/media');
