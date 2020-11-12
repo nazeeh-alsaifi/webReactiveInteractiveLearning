@@ -30,6 +30,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('Component','ComponentController');
     Route::resource('Measuretool','MeasureToolsController');
     Route::resource('Nationality','NationalityController');
+    Route::resource('SubCategory','SubCategoryController');
     Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
     Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
     ////
@@ -40,6 +41,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('component/getpage','ComponentController@getpage');
     Route::get('measuretool/getpage','MeasureToolsController@getpage');
     Route::get('nationality/getpage','NationalityController@getpage');
+    Route::get('subCategory/getpage','SubCategoryController@getpage');
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
     Route::post('countries/store1','CountryController@store1');
@@ -48,6 +50,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('components/store1','ComponentController@store1');
     Route::post('measuretools/store1','MeasureToolsController@store1');
     Route::post('nationalities/store1','NationalityController@store1');
+    Route::post('subCategories/store1','SubCategoryController@store1');
     //
     Route::resource('notes', 'NotesController');
 
