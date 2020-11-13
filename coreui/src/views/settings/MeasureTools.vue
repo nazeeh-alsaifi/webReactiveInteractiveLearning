@@ -192,7 +192,7 @@
                                 >
                                     <button
                                         @click="
-                                            deleteMeasureTool(measuretool.id)
+                                            deleteMeasureTool(measuretool)
                                         "
                                         class="btn btn-danger"
                                     >
@@ -259,7 +259,8 @@ export default {
                 .get(this.$apiAdress +'/api/measuretool/getpage?page=' + page
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
                 })
@@ -273,7 +274,8 @@ export default {
                 .get(this.$apiAdress +'/api/measuretool/getpage?page=' + page
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
                     this.successadd = true;
@@ -289,7 +291,8 @@ export default {
                 .get(this.$apiAdress +'/api/measuretool/getpage?page=' + page
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
                     this.successadd = false;
@@ -305,7 +308,8 @@ export default {
                 .get(this.$apiAdress +'/api/measuretool/getpage?page=' + page
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
                     this.successadd = false;
@@ -330,7 +334,7 @@ export default {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/Measuretool", this.fields)
+                .post(this.$apiAdress +'/api/Measuretool?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.success = true;
@@ -359,7 +363,7 @@ export default {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/measuretools/store1", this.editfields)
+                .post(this.$apiAdress +'/api/measuretools/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -375,7 +379,7 @@ export default {
         },
         deleteMeasureTool(id) {
             axios
-                .delete(this.$apiAdress +"/api/Measuretool/" + id)
+                .post(this.$apiAdress +'/api/measuretools/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })

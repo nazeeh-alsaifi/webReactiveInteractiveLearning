@@ -148,7 +148,7 @@
                                     style="display:inline-block"
                                 >
                                     <button
-                                        @click="deleteSubject(subject.id)"
+                                        @click="deleteSubject(subject)"
                                         class="btn btn-danger"
                                     >
                                         Delete
@@ -212,7 +212,8 @@ export default {
             axios.get(this.$apiAdress +'/api/subjects/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                  .then(response => {
                     this.subjects = response.data;
                 })
@@ -224,7 +225,8 @@ export default {
             axios.get(this.$apiAdress +'/api/subjects/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                  .then(response => {
                     this.subjects = response.data;
                     this.successadd = true;
@@ -239,7 +241,8 @@ export default {
             axios.get(this.$apiAdress +'/api/subjects/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                  .then(response => {
                     this.subjects = response.data;
                     this.successadd = false;
@@ -254,7 +257,8 @@ export default {
             axios.get(this.$apiAdress +'/api/subjects/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                  .then(response => {
                     this.subjects = response.data;
                     this.successadd = false;
@@ -278,7 +282,7 @@ export default {
             this.loadSubjects();
         },
         submit() {
-            axios.post(this.$apiAdress +"/api/Subjects", this.fields)
+            axios.post(this.$apiAdress +'/api/Subjects?token='+ localStorage.getItem("api_token"), this.fields)
                  .then(response => {
                     this.fields = {};
                     this.success = true;
@@ -306,7 +310,7 @@ export default {
             this.loadSubjects();
         },
         update() {
-            axios.post(this.$apiAdress +"/api/subject/store1", this.editfields)
+            axios.post(this.$apiAdress +'/api/subject/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                  .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -322,7 +326,7 @@ export default {
                 });
         },
         deleteSubject(id) {
-            axios.delete(this.$apiAdress +"/api/Subjects/" + id)
+            axios.post(this.$apiAdress +'/api/subject/delete?token='+ localStorage.getItem("api_token"), id)
                     .then(data => {
                     this.loadAfterDelete();
                 })

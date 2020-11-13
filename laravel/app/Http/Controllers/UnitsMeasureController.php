@@ -9,6 +9,16 @@ use DB;
 
 class UnitsMeasureController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -93,6 +103,19 @@ class UnitsMeasureController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $Unit_measure = UnitMeasure::find($id);
+        $Unit_measure->delete();
+        return true;
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -134,8 +157,6 @@ class UnitsMeasureController extends Controller
      */
     public function destroy($id)
     {
-        $Unit_measure = UnitMeasure::find($id);
-        $Unit_measure->delete();
-        return true;
+     
     }
 }

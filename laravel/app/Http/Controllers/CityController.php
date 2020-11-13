@@ -9,6 +9,16 @@ use App\Models\institutions\Institution;
 use DB;
 class CityController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -89,6 +99,27 @@ class CityController extends Controller
           return $city;
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $Institutions = Institution::get();
+        $city = City::find($id);
+        foreach($Institutions as $Institution)
+        {
+            if($Institution->city_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        $city->delete();
+        return true;
+    }
     /**
      * Display the specified resource.
      *

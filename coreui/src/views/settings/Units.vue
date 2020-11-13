@@ -255,7 +255,7 @@
                                     style="display:inline-block"
                                 >
                                     <button
-                                        @click="deleteUnit(unit.id)"
+                                        @click="deleteUnit(unit)"
                                         class="btn btn-danger"
                                     >
                                         Delete
@@ -325,7 +325,8 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                 + '&column=' + this.column)
+                 + '&column=' + this.column
+                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.units = response.data;
                 })
@@ -339,7 +340,8 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                 + '&column=' + this.column)
+                 + '&column=' + this.column
+                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.units = response.data;
                     this.successadd = true;
@@ -356,7 +358,8 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                 + '&column=' + this.column)
+                 + '&column=' + this.column
+                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.units = response.data;
                     this.successadd = false;
@@ -373,7 +376,8 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                 + '&column=' + this.column)
+                 + '&column=' + this.column
+                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.units = response.data;
                     this.successadd = false;
@@ -398,7 +402,7 @@ export default {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/Unit", this.fields)
+                .post(this.$apiAdress +'/api/Unit?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.success = true;
@@ -427,7 +431,7 @@ export default {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/units/store1", this.editfields)
+                .post(this.$apiAdress +'/api/units/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -444,7 +448,7 @@ export default {
         },
         deleteUnit(id) {
             axios
-                .delete(this.$apiAdress +"/api/Unit/" + id)
+                .post(this.$apiAdress +'/api/units/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })

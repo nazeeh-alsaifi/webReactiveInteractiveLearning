@@ -11,6 +11,16 @@ use DB;
 
 class EmployeeController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -117,6 +127,23 @@ class EmployeeController extends Controller
           $user->syncRoles($request->input('Role'));
           $user->save();
           return true;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $employee = Employee::find($id);
+        $employee->delete();        
+        $user = User::find($employee->user_id);
+        $user->delete();
+        return true;
+
     }
     /**
      * Display the specified resource.

@@ -9,15 +9,16 @@ use App\Models\institutions\Institution;
 
 class AcademiclevelController extends Controller
 {
-    // /**
-    //  * Create a new controller instance.
-    //  *
-    //  * @return void
-    //  */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
+  /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
 
     /**
      * Display a listing of the resource.
@@ -95,6 +96,28 @@ class AcademiclevelController extends Controller
          return $AcademicLevel;
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $Institutions = Institution::get();
+        $AcademicLevel = AcademicLevel::find($id);
+         foreach($Institutions as $Institution)
+         {
+             if($Institution->academicLevels_id == $id)
+             {
+                 return redirect('/Institution')->with('error','Delete Related Data First');
+             }
+         }
+        $AcademicLevel->delete();
+        return true;
+    }
+    
     /**
      * Display the specified resource.
      *
@@ -137,16 +160,6 @@ class AcademiclevelController extends Controller
      */
     public function destroy($id)
     {
-        $Institutions = Institution::get();
-        $AcademicLevel = AcademicLevel::find($id);
-         foreach($Institutions as $Institution)
-         {
-             if($Institution->academicLevels_id == $id)
-             {
-                 return redirect('/Institution')->with('error','Delete Related Data First');
-             }
-         }
-        $AcademicLevel->delete();
-        return true;
+      
     }
 }

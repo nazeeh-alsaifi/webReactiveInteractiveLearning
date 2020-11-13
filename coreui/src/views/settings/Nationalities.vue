@@ -190,7 +190,7 @@
                                 >
                                     <button
                                         @click="
-                                            deleteNationality(nationality.id)
+                                            deleteNationality(nationality)
                                         "
                                         class="btn btn-danger"
                                     >
@@ -256,7 +256,8 @@ export default {
                 .get(this.$apiAdress +'/api/nationality/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.nationalities = response.data;
                 })
@@ -269,7 +270,8 @@ export default {
                 .get(this.$apiAdress +'/api/nationality/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.nationalities = response.data;
                     this.successadd = true;
@@ -285,7 +287,8 @@ export default {
                 .get(this.$apiAdress +'/api/nationality/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.nationalities = response.data;
                     this.successadd = false;
@@ -301,7 +304,8 @@ export default {
                 .get(this.$apiAdress +'/api/nationality/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.nationalities = response.data;
                     this.successadd = false;
@@ -326,7 +330,7 @@ export default {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/Nationality", this.fields)
+                .post(this.$apiAdress +'/api/Nationality?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.success = true;
@@ -356,7 +360,7 @@ export default {
         update() {
             axios;
             axios
-                .post(this.$apiAdress +"/api/nationalities/store1", this.editfields)
+                .post(this.$apiAdress +'/api/nationalities/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -373,7 +377,7 @@ export default {
         },
         deleteNationality(id) {
             axios
-                .delete(this.$apiAdress +"/api/Nationality/" + id)
+                .post(this.$apiAdress +'/api/nationalities/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })

@@ -261,7 +261,7 @@ export default {
   methods: {
        getAcademicLevels (){
        let self = this;
-       axios.get(this.$apiAdress +'/api/AcademicLevels')
+       axios.get(this.$apiAdress +'/api/purchase/getacademiclevels')
        .then(function (response) {
          self.academic_levels = response.data;
        }).catch(function (error) {
@@ -270,7 +270,7 @@ export default {
     },
     getSubjects (){
        let self = this;
-       axios.get(this.$apiAdress +'/api/Subjects')
+       axios.get(this.$apiAdress +'/api/purchase/getsubjects')
        .then(function (response) {
          self.subjects = response.data;
        }).catch(function (error) {
@@ -279,7 +279,7 @@ export default {
     },
     getCountries (){
        let self = this;
-       axios.get(this.$apiAdress +'/api/Countries')
+       axios.get(this.$apiAdress +'/api/purchase/getcountries')
        .then(function (response) {
          self.countries = response.data;
        }).catch(function (error) {
@@ -288,7 +288,7 @@ export default {
     },
     getCities (){
        let self = this;
-       axios.get(this.$apiAdress +'/api/Cities')
+       axios.get(this.$apiAdress +'/api/purchase/getcities')
        .then(function (response) {
          self.cities = response.data;
        }).catch(function (error) {

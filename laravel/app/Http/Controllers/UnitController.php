@@ -9,6 +9,16 @@ use DB;
 
 class UnitController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -94,6 +104,28 @@ class UnitController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $Units_measures = UnitMeasure::get();
+        $Unit = Unit::find($id);
+        foreach($Units_measures as $Unit_measure)
+        {
+            if($Unit_measure->unit_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        $Unit->delete();
+        return true;
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -135,16 +167,6 @@ class UnitController extends Controller
      */
     public function destroy($id)
     {
-        $Units_measures = UnitMeasure::get();
-        $Unit = Unit::find($id);
-        foreach($Units_measures as $Unit_measure)
-        {
-            if($Unit_measure->unit_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        $Unit->delete();
-        return true;
+       
     }
 }

@@ -7,6 +7,16 @@ use App\Models\settings\MeasureTool;
 
 class MeasureToolsController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,6 +91,20 @@ class MeasureToolsController extends Controller
          $MeasureTool->save();
          return $MeasureTool;
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $MeasureTool = MeasureTool::find($id);
+        $MeasureTool->delete();
+        return true;
+    }
     /**
      * Display the specified resource.
      *
@@ -123,8 +147,6 @@ class MeasureToolsController extends Controller
      */
     public function destroy($id)
     {
-        $MeasureTool = MeasureTool::find($id);
-        $MeasureTool->delete();
-        return true;
+
     }
 }

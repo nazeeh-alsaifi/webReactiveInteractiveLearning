@@ -7,6 +7,16 @@ use App\Models\settings\Component;
 
 class ComponentController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -90,6 +100,21 @@ class ComponentController extends Controller
          $component->save();
          return $component;
     }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $component = Component::find($id);
+        $component->delete();
+        return true;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -132,8 +157,6 @@ class ComponentController extends Controller
      */
     public function destroy($id)
     {
-        $component = Component::find($id);
-        $component->delete();
-        return true;
+      
     }
 }

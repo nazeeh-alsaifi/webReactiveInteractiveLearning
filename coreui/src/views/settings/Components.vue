@@ -243,7 +243,7 @@
                             <td>
                                 <div>
                                     <button
-                                        @click="deleteComponent(component.id)"
+                                        @click="deleteComponent(component)"
                                         class="btn btn-danger"
                                     >
                                         Delete
@@ -312,7 +312,8 @@ export default {
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                + '&column=' + this.column)
+                + '&column=' + this.column
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.components = response.data;
                      this.successadd = false;
@@ -325,7 +326,8 @@ export default {
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                + '&column=' + this.column)
+                + '&column=' + this.column
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.components = response.data;
                     this.successadd = true;
@@ -341,7 +343,8 @@ export default {
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                + '&column=' + this.column)
+                + '&column=' + this.column
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.components = response.data;
                     this.successadd = false;
@@ -357,7 +360,8 @@ export default {
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
-                + '&column=' + this.column)
+                + '&column=' + this.column
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.components = response.data;
                     this.successadd = false;
@@ -382,7 +386,7 @@ export default {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/Component", this.fields)
+                .post(this.$apiAdress +'/api/Component?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.errors = {};
@@ -411,7 +415,7 @@ export default {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/components/store1", this.editfields)
+                .post(this.$apiAdress +'/api/components/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -428,7 +432,7 @@ export default {
         },
         deleteComponent(id) {
             axios
-                .delete(this.$apiAdress +"/api/Component/" + id)
+                .post(this.$apiAdress +'/api/components/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })

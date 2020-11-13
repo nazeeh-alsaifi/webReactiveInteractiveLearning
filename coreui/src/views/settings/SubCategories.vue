@@ -271,7 +271,7 @@
                                 >
                                     <button
                                         @click="
-                                            deleteSubCategory(sub_category.id)
+                                            deleteSubCategory(sub_category)
                                         "
                                         class="btn btn-danger"
                                     >
@@ -326,7 +326,7 @@ export default {
     methods: {
         loadCategories: function() {
             axios
-                .get(this.$apiAdress +"/api/Category")
+                .get(this.$apiAdress +'/api/Category?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.categories = response.data;
                 })
@@ -349,7 +349,8 @@ export default {
                 .get(this.$apiAdress +'/api/subCategory/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.sub_categories = response.data;
                 })
@@ -362,7 +363,8 @@ export default {
                 .get(this.$apiAdress +'/api/subCategory/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.sub_categories = response.data;
                     this.successadd = true;
@@ -378,7 +380,8 @@ export default {
                .get(this.$apiAdress +'/api/subCategory/getpage?page=' + page
                + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.sub_categories = response.data;
                     this.successadd = false;
@@ -394,7 +397,8 @@ export default {
                 .get(this.$apiAdress +'/api/subCategory/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.sub_categories = response.data;
                     this.successadd = false;
@@ -419,7 +423,7 @@ export default {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/SubCategory", this.fields)
+                .post(this.$apiAdress +'/api/SubCategory?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.success = true;
@@ -448,7 +452,7 @@ export default {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/subCategories/store1", this.editfields)
+                .post(this.$apiAdress +'/api/subCategories/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -465,7 +469,7 @@ export default {
         },
         deleteSubCategory(id) {
             axios
-                .delete(this.$apiAdress +"/api/SubCategory/" + id)
+                .post(this.$apiAdress +'/api/subCategories/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })

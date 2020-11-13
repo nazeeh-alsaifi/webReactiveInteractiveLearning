@@ -740,7 +740,7 @@
                             <td>
                                 <div>
                                    <button
-                                        @click="deleteEmployee(employee.id)"
+                                        @click="deleteEmployee(employee)"
                                         class="btn btn-danger"
                                     >X</button>
                                 </div>
@@ -839,7 +839,7 @@ export default {
         },
         loadCountries: function() {
             axios
-                .get(this.$apiAdress +"/api/Countries")
+                .get(this.$apiAdress +'/api/Countries?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.countries = response.data;
                 })
@@ -849,7 +849,7 @@ export default {
         },
         loadCities: function() {
             axios
-                .get(this.$apiAdress +"/api/Cities")
+                .get(this.$apiAdress +'/api/Cities?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.cities = response.data;
                 })
@@ -858,7 +858,7 @@ export default {
                 });
         },
         loadnationalities: function(){
-                    axios.get(this.$apiAdress +'/api/Nationality')
+                    axios.get(this.$apiAdress +'/api/Nationality?token='+ localStorage.getItem("api_token"))
                     .then((response) => {
                         this.nationalities = response.data;
                     })
@@ -867,7 +867,7 @@ export default {
                     });
         },
         loadUsers: function(){
-                    axios.get(this.$apiAdress + '/api/users')
+                    axios.get(this.$apiAdress + '/api/users?token='+ localStorage.getItem("api_token"))
                     .then((response) => {
                         this.users = response.data.users;
                     })
@@ -888,6 +888,7 @@ export default {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                     .then((response) => {
                         this.employees = response.data;
@@ -909,6 +910,7 @@ export default {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                 .then(response => {
                     this.employees = response.data;
@@ -933,6 +935,7 @@ export default {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                 .then(response => {
                     this.employees = response.data;
@@ -957,6 +960,7 @@ export default {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                 .then(response => {
                     this.employees = response.data;
@@ -984,7 +988,7 @@ export default {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/Employee", this.fields)
+                .post(this.$apiAdress +'/api/Employee?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.errors = {};
@@ -1013,7 +1017,7 @@ export default {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/employees/store1", this.editfields)
+                .post(this.$apiAdress +'/api/employees/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -1041,7 +1045,7 @@ export default {
         },
          deleteEmployee(id) {
             axios
-                .delete(this.$apiAdress +"/api/Employee/" + id)
+                .post(this.$apiAdress +'/api/employees/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })

@@ -1127,7 +1127,7 @@
                             <td>
                                 <div>
                                     <button
-                                        @click="deleteComponent(Institution.id)"
+                                        @click="deleteComponent(Institution)"
                                         class="btn btn-danger"
                                         style="width:25%;"
                                     >x</button>
@@ -1236,6 +1236,7 @@ data: function() {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                 .then(response => {
                     this.institutions = response.data;
@@ -1246,7 +1247,7 @@ data: function() {
         },
         loadCountries: function() {
             axios
-                .get(this.$apiAdress +"/api/Countries")
+                .get(this.$apiAdress +'/api/Countries?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.countries = response.data;
                 })
@@ -1256,7 +1257,7 @@ data: function() {
         },
         loadCities: function() {
             axios
-                .get(this.$apiAdress +"/api/Cities")
+                .get(this.$apiAdress +'/api/Cities?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.cities = response.data;
                 })
@@ -1266,7 +1267,7 @@ data: function() {
         },
         loadAcademiclevels: function() {
             axios
-                .get(this.$apiAdress +"/api/AcademicLevels")
+                .get(this.$apiAdress +'/api/AcademicLevels?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.academiclevels = response.data;
                 })
@@ -1287,6 +1288,7 @@ data: function() {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                 .then(response => {
                     this.institutions = response.data;
@@ -1311,6 +1313,7 @@ data: function() {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                 .then(response => {
                     this.institutions = response.data;
@@ -1335,6 +1338,7 @@ data: function() {
                         this.sort_direction +
                         "&column=" +
                         this.column
+                        +'&token='+ localStorage.getItem("api_token")
                 )
                 .then(response => {
                     this.institutions = response.data;
@@ -1361,7 +1365,7 @@ data: function() {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/Institution", this.fields)
+                .post(this.$apiAdress +'/api/Institution?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.errors = {};
@@ -1390,7 +1394,7 @@ data: function() {
         },
         update() {
             axios
-                .post(this.$apiAdress +'/api/institutions/store1', this.editfields)
+                .post(this.$apiAdress +'/api/institutions/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -1407,7 +1411,7 @@ data: function() {
         },
         deleteComponent(id) {
             axios
-                .delete(this.$apiAdress +"/api/Institution/" + id)
+                .post(this.$apiAdress +'/api/institutions/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })

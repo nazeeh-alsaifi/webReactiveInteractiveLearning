@@ -8,6 +8,16 @@ use App\Models\settings\SubCategory;
 
 class SubCategoryController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -87,6 +97,20 @@ class SubCategoryController extends Controller
           $sub_category->save();
           return  $sub_category;
     }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $sub_category = SubCategory::find($id);
+        $sub_category->delete();
+        return true;
+    }
     /**
      * Display the specified resource.
      *
@@ -129,8 +153,5 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $sub_category = SubCategory::find($id);
-        $sub_category->delete();
-        return true;
     }
 }
