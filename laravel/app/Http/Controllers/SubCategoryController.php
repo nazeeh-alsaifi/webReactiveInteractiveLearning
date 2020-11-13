@@ -97,6 +97,20 @@ class SubCategoryController extends Controller
           $sub_category->save();
           return  $sub_category;
     }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $sub_category = SubCategory::find($id);
+        $sub_category->delete();
+        return true;
+    }
     /**
      * Display the specified resource.
      *
@@ -139,8 +153,5 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $sub_category = SubCategory::find($id);
-        $sub_category->delete();
-        return true;
     }
 }

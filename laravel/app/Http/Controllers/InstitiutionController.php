@@ -169,6 +169,27 @@ class InstitiutionController extends Controller
          $Institution->save();
          return $Institution;
     }
+
+        /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $Institution = Institution::find($id);
+        $user = User::find($Institution->coordinator_id);
+        if(($user->status != 'Active'))
+        {
+             $Institution->delete();
+             $user->delete();
+             return Institution::all();
+        }
+         return redirect('/Institution')->with('error','Delete Related Data First');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -211,14 +232,6 @@ class InstitiutionController extends Controller
      */
     public function destroy($id)
     {
-        $Institution = Institution::find($id);
-        $user = User::find($Institution->coordinator_id);
-        if(($user->status != 'Active'))
-        {
-             $Institution->delete();
-             $user->delete();
-             return Institution::all();
-        }
-         return redirect('/Institution')->with('error','Delete Related Data First');
+     
     }
 }

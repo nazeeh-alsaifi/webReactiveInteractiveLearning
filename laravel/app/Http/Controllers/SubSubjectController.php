@@ -98,6 +98,19 @@ class SubSubjectController extends Controller
           return $sub_subject;
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $sub_subject = SubSubject::find($id);
+        $sub_subject->delete();
+        return true;
+    }
     /**
      * Display the specified resource.
      *

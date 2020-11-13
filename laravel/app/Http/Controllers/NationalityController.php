@@ -99,6 +99,48 @@ class NationalityController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $users = User::get();
+        $Students = Student::get();
+        $Teachers = Teacher::get();
+        $Employees = Employee::get();
+        $nationality = Nationality::find($id);
+        foreach($users as $user)
+        {
+            foreach($Students as $Student)
+            {
+                if(($user->id == $Student->user_id)&&($Student->nationality_id == $id))
+                {
+                    return redirect('/Institution')->with('error','Delete Related Data First');
+                }
+            }
+            foreach($Teachers as $Teacher)
+            {
+                if(($user->id == $Teacher->user_id)&&($Teacher->nationality_id == $id))
+                {
+                    return redirect('/Institution')->with('error','Delete Related Data First');
+                }
+            }
+            foreach($Employees as $Employee)
+            {
+                if(($user->id == $Employee->user_id)&&($Employee->nationality_id == $id))
+                {
+                    return redirect('/Institution')->with('error','Delete Related Data First');
+                }
+            }
+        }
+        $nationality->delete();
+        return true;
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -140,36 +182,6 @@ class NationalityController extends Controller
      */
     public function destroy($id)
     {
-        $users = User::get();
-        $Students = Student::get();
-        $Teachers = Teacher::get();
-        $Employees = Employee::get();
-        $nationality = Nationality::find($id);
-        foreach($users as $user)
-        {
-            foreach($Students as $Student)
-            {
-                if(($user->id == $Student->user_id)&&($Student->nationality_id == $id))
-                {
-                    return redirect('/Institution')->with('error','Delete Related Data First');
-                }
-            }
-            foreach($Teachers as $Teacher)
-            {
-                if(($user->id == $Teacher->user_id)&&($Teacher->nationality_id == $id))
-                {
-                    return redirect('/Institution')->with('error','Delete Related Data First');
-                }
-            }
-            foreach($Employees as $Employee)
-            {
-                if(($user->id == $Employee->user_id)&&($Employee->nationality_id == $id))
-                {
-                    return redirect('/Institution')->with('error','Delete Related Data First');
-                }
-            }
-        }
-        $nationality->delete();
-        return true;
+
     }
 }

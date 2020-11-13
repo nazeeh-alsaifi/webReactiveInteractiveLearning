@@ -331,7 +331,7 @@
                                 >
                                     <button
                                         @click="
-                                            deleteUnitMeasure(unitsmeasure.id)
+                                            deleteUnitMeasure(unitsmeasure)
                                         "
                                         class="btn btn-danger"
                                     >
@@ -401,7 +401,8 @@ data: function() {
                 .get(this.$apiAdress +'/api/unitMeasure/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.unitmeasures = response.data;
                 })
@@ -412,7 +413,7 @@ data: function() {
 
         loadUnits: function() {
             axios
-                .get(this.$apiAdress +"/api/Unit")
+                .get(this.$apiAdress +'/api/Unit?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.units = response.data;
                 })
@@ -425,7 +426,8 @@ data: function() {
                 .get(this.$apiAdress +'/api/unitMeasure/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.unitmeasures = response.data;
                     this.successadd = true;
@@ -441,7 +443,8 @@ data: function() {
                 .get(this.$apiAdress +'/api/unitMeasure/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.unitmeasures = response.data;
                     this.successadd = false;
@@ -457,7 +460,8 @@ data: function() {
                 .get(this.$apiAdress +'/api/unitMeasure/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.unitmeasures = response.data;
                     this.successadd = false;
@@ -482,7 +486,7 @@ data: function() {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/UnitMeasure", this.fields)
+                .post(this.$apiAdress +'/api/UnitMeasure?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.success = true;
@@ -511,7 +515,7 @@ data: function() {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/unitMeasures/store1", this.editfields)
+                .post(this.$apiAdress +'/api/unitMeasures/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.success = true;
@@ -528,7 +532,7 @@ data: function() {
         },
         deleteUnitMeasure(id) {
             axios
-                .delete(this.$apiAdress +"/api/UnitMeasure/" + id)
+                .post(this.$apiAdress +'/api/unitMeasures/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                     this.loadUnits();

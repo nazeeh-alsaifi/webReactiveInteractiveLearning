@@ -98,6 +98,44 @@ class SubjectsController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $Institution_Subjects = InstitutionSubject::get();
+        $Categories = Category::get();
+        $sub_subjects = SubSubject::get();
+        $Subject = Subject::find($id);
+        foreach($Institution_Subjects as $Institution_Subject)
+        {
+            if($Institution_Subject->subject_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        foreach($Categories as $Category)
+        {
+            if($Category->subject_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        foreach($sub_subjects as $sub_subject)
+        {
+            if($sub_subject->subject_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+
+        $Subject->delete();
+        return true;
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
