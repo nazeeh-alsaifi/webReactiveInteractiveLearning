@@ -100,6 +100,21 @@ class ComponentController extends Controller
          $component->save();
          return $component;
     }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $component = Component::find($id);
+        $component->delete();
+        return true;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -142,8 +157,6 @@ class ComponentController extends Controller
      */
     public function destroy($id)
     {
-        $component = Component::find($id);
-        $component->delete();
-        return true;
+      
     }
 }

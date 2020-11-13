@@ -260,7 +260,7 @@
                                     style="display:inline-block"
                                 >
                                     <button
-                                        @click="deleteCity(city.id)"
+                                        @click="deleteCity(city)"
                                         class="btn btn-danger"
                                     >
                                         Delete
@@ -327,7 +327,8 @@ export default {
                 .get(this.$apiAdress +'/api/city/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.cities = response.data;
                 })
@@ -338,7 +339,7 @@ export default {
 
         loadCountries: function() {
             axios
-                .get(this.$apiAdress +"/api/Countries")
+                .get(this.$apiAdress +'/api/Countries?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.countries = response.data;
                 })
@@ -351,7 +352,8 @@ export default {
                 .get(this.$apiAdress +'/api/city/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.cities = response.data;
                     this.successadd = true;
@@ -367,7 +369,8 @@ export default {
                 .get(this.$apiAdress +'/api/city/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.cities = response.data;
                     this.successadd = false;
@@ -383,7 +386,8 @@ export default {
                 .get(this.$apiAdress +'/api/city/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction
+                +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.cities = response.data;
                     this.successadd = false;
@@ -408,7 +412,7 @@ export default {
         },
         submit() {
             axios
-                .post(this.$apiAdress +"/api/Cities", this.fields)
+                .post(this.$apiAdress +'/api/Cities?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     this.fields = {};
                     this.success = true;
@@ -437,7 +441,7 @@ export default {
         },
         update() {
             axios
-                .post(this.$apiAdress +"/api/cities/store1", this.editfields)
+                .post(this.$apiAdress +'/api/cities/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     this.editfields = {};
                     this.edit = false;
@@ -454,7 +458,7 @@ export default {
         },
         deleteCity(id) {
             axios
-                .delete(this.$apiAdress +"/api/Cities/" + id)
+                .post(this.$apiAdress +'/api/cities/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                     this.loadCountries();

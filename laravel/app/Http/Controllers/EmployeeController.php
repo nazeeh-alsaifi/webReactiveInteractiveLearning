@@ -128,6 +128,23 @@ class EmployeeController extends Controller
           $user->save();
           return true;
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $employee = Employee::find($id);
+        $employee->delete();        
+        $user = User::find($employee->user_id);
+        $user->delete();
+        return true;
+
+    }
     /**
      * Display the specified resource.
      *

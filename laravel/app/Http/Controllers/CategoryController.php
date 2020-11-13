@@ -98,6 +98,29 @@ class CategoryController extends Controller
          $category->save();
          return $category;
     }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $Category = category::find($id);
+        $sub_categories = SubCategory::get();
+        foreach($sub_categories as $sub_category)
+        {
+            if($sub_category->category_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        $Category->delete();
+        return true;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -140,16 +163,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $Category = category::find($id);
-        $sub_categories = SubCategory::get();
-        foreach($sub_categories as $sub_category)
-        {
-            if($sub_category->category_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        $Category->delete();
-        return true;
+      
     }
 }

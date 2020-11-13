@@ -65,10 +65,15 @@ Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
     Route::post('academiclevels/store1','AcademiclevelController@store1');
     Route::post('academiclevels/delete','AcademiclevelController@delete');
     Route::post('countries/store1','CountryController@store1');
+    Route::post('countries/delete','CountryController@delete');
     Route::post('categories/store1','CategoryController@store1');
+    Route::post('categories/delete','CategoryController@delete');
     Route::post('cities/store1','CityController@store1');
+    Route::post('cities/delete','CityController@delete');
     Route::post('components/store1','ComponentController@store1');
+    Route::post('components/delete','ComponentController@delete');
     Route::post('measuretools/store1','MeasureToolsController@store1');
+    Route::post('measuretools/delete','MeasureToolsController@delete');
     Route::post('nationalities/store1','NationalityController@store1');
     Route::post('subCategories/store1','SubCategoryController@store1');
     Route::post('subject/store1','SubjectsController@store1');
@@ -77,6 +82,7 @@ Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
     Route::post('unitMeasures/store1','UnitsMeasureController@store1');
     Route::post('institutions/store1','InstitiutionController@store1');
     Route::post('employees/store1','EmployeeController@store1');
+    Route::post('employees/delete','EmployeeController@delete');
     //
 
         Route::resource('mail',        'MailController');

@@ -96,6 +96,35 @@ class CountryController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $cities = City::get();
+        $Institutions = Institution::get();
+        $country = Country::find($id);
+        foreach($cities as $city)
+        {
+            if($city->country_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        foreach($Institutions as $Institution)
+        {
+            if($Institution->country_id == $id)
+            {
+                return redirect('/Institution')->with('error','Delete Related Data First');
+            }
+        }
+        $country->delete();
+        return true;
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -137,24 +166,6 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        $cities = City::get();
-        $Institutions = Institution::get();
-        $country = Country::find($id);
-        foreach($cities as $city)
-        {
-            if($city->country_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        foreach($Institutions as $Institution)
-        {
-            if($Institution->country_id == $id)
-            {
-                return redirect('/Institution')->with('error','Delete Related Data First');
-            }
-        }
-        $country->delete();
-        return true;
+
     }
 }
