@@ -19,6 +19,10 @@ Route::group(['middleware' => 'api'], function ($router) {
 Route::resource('Purchase','PurchaseController');
 Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
 Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
+Route::get('purchase/getacademiclevels','PurchaseController@getAcademicLevels');
+Route::get('purchase/getcountries','PurchaseController@getCountries');
+Route::get('purchase/getcities','PurchaseController@getCities');
+Route::get('purchase/getsubjects','PurchaseController@getSubjects');
 ////
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');

@@ -34,6 +34,45 @@ class PurchaseController extends Controller
     {
         //
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAcademicLevels()
+    {
+       return AcademicLevel::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCountries()
+    {
+       return Country::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCities()
+    {
+       return City::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSubjects()
+    {
+       return Subject::all();
+    }
 
     /**
      * Show the form for creating a new resource.
