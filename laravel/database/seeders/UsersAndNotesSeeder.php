@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\RoleHierarchy;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 
 class UsersAndNotesSeeder extends Seeder
 {
@@ -143,6 +144,37 @@ class UsersAndNotesSeeder extends Seeder
                 'users_id'      => $usersIds[random_int(0,$numberOfUsers-1)]
             ]);
         }
+
+
+        /**   PERMISSIONS */
+        Permission::create(['name' => 'view dashboard']);
+        Permission::create(['name' => 'view Setting']);
+        Permission::create(['name' => 'Add Setting']);
+        Permission::create(['name' => 'Edit Setting']);
+        Permission::create(['name' => 'Delete Setting']);
+        Permission::create(['name' => 'view institution']);
+        Permission::create(['name' => 'Add institution']);
+        Permission::create(['name' => 'Edit institution']);
+        Permission::create(['name' => 'Delete institution']);
+        Permission::create(['name' => 'view permissions']);
+        Permission::create(['name' => 'Add permissions']);
+        Permission::create(['name' => 'Delete permissions']);
+
+        //== admin
+         $adminRole->givePermissionTo('view dashboard');
+         $adminRole->givePermissionTo('view Setting');
+         $adminRole->givePermissionTo('Add Setting');
+         $adminRole->givePermissionTo('Edit Setting');
+         $adminRole->givePermissionTo('Delete Setting');
+         $adminRole->givePermissionTo('view institution');
+         $adminRole->givePermissionTo('Add institution');
+         $adminRole->givePermissionTo('Edit institution');
+         $adminRole->givePermissionTo('Delete institution');
+         $adminRole->givePermissionTo('view permissions');
+         $adminRole->givePermissionTo('Add permissions');
+         $adminRole->givePermissionTo('Delete permissions');
+
+
     }
 
     
