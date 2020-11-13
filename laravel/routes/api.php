@@ -15,17 +15,25 @@ use Illuminate\Http\Request;
 //Route::apiResource('AcademicLevel','AcademiclevelController');
 Route::group(['middleware' => 'api'], function ($router) {
     Route::get('menu', 'MenuController@index');
-
+////
+Route::resource('Purchase','PurchaseController');
+Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
+Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
+////
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('register', 'AuthController@register'); 
+    Route::resource('notes', 'NotesController');
+
+    Route::resource('resource/{table}/resource', 'ResourceController');
+    
+    Route::group(['middleware' => 'admin'], function ($router) {
     ////////my routes
     Route::resource('AcademicLevels','AcademiclevelController');
     Route::resource('Subjects','SubjectsController');
     Route::resource('Cities','CityController');
     Route::resource('Countries','CountryController');
-    Route::resource('Purchase','PurchaseController');
     Route::resource('Category','CategoryController');
     Route::resource('Component','ComponentController');
     Route::resource('Measuretool','MeasureToolsController');
@@ -36,8 +44,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::resource('UnitMeasure','UnitsMeasureController');
     Route::resource('Institution','InstitiutionController');
     Route::resource('Employee','EmployeeController');
-    Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
-    Route::post('Purchase/Free_Student','PurchaseController@Free_Student');
+   
     ////
     Route::get('academiclevel/getpage','AcademiclevelController@getpage');
     Route::get('country/getpage','CountryController@getpage');
@@ -56,6 +63,7 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
+    Route::post('academiclevels/delete','AcademiclevelController@delete');
     Route::post('countries/store1','CountryController@store1');
     Route::post('categories/store1','CategoryController@store1');
     Route::post('cities/store1','CityController@store1');
@@ -70,11 +78,6 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('institutions/store1','InstitiutionController@store1');
     Route::post('employees/store1','EmployeeController@store1');
     //
-    Route::resource('notes', 'NotesController');
-
-    Route::resource('resource/{table}/resource', 'ResourceController');
-    
-    Route::group(['middleware' => 'admin'], function ($router) {
 
         Route::resource('mail',        'MailController');
         Route::get('prepareSend/{id}', 'MailController@prepareSend')->name('prepareSend');

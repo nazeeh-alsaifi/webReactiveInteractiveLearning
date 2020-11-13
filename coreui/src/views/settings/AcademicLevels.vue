@@ -179,7 +179,7 @@
                             <td style="width:10%;">
                                 <div>
                                     <button
-                                        @click="deleteAcademicLevel(academiclevel.id)"
+                                        @click="deleteAcademicLevel(academiclevel)"
                                         class="btn btn-danger"
                                     >
                                         Delete
@@ -246,7 +246,7 @@ export default {
                 .get(this.$apiAdress +'/api/academiclevel/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction+'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     self.academiclevels = response.data;
                 })
@@ -260,7 +260,7 @@ export default {
                 .get(this.$apiAdress +'/api/academiclevel/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction+'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     self.academiclevels = response.data;
                     self.successadd = true;
@@ -277,7 +277,7 @@ export default {
                 .get(this.$apiAdress +'/api/academiclevel/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction+'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     self.academiclevels = response.data;
                     self.successadd = false;
@@ -294,7 +294,7 @@ export default {
                 .get(this.$apiAdress +'/api/academiclevel/getpage?page=' + page
                 + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
-                + '&sort_direction=' + this.sort_direction)
+                + '&sort_direction=' + this.sort_direction+'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     self.academiclevels = response.data;
                     self.successadd = false;
@@ -320,7 +320,7 @@ export default {
         submit() {
            let self = this;
             axios
-                .post(this.$apiAdress +"/api/AcademicLevels", this.fields)
+                .post(this.$apiAdress +'/api/AcademicLevels?token='+ localStorage.getItem("api_token"), this.fields)
                 .then(response => {
                     self.fields = {};
                     self.success = true;
@@ -350,7 +350,7 @@ export default {
         update() {
           let self = this;
             axios
-                .post(this.$apiAdress +"/api/academiclevels/store1", this.editfields)
+                .post(this.$apiAdress +'/api/academiclevels/store1?token='+ localStorage.getItem("api_token"), this.editfields)
                 .then(response => {
                     self.editfields = {};
                     self.edit = false;
@@ -367,11 +367,12 @@ export default {
         },
         deleteAcademicLevel(id) {
             axios
-                .delete(this.$apiAdress +"/api/AcademicLevels/" + id)
+                .post(this.$apiAdress +'/api/academiclevels/delete?token='+ localStorage.getItem("api_token"), id)
                 .then(data => {
                     this.loadAfterDelete();
                 })
                 .catch(function(error) {
+                     this.errors = error.response.data.errors;
                     console.log(error);
                 });
         }
