@@ -11,6 +11,14 @@ use App\Models\User;
 use App\Models\RoleHierarchy;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+use App\Models\settings\Subject;
+use App\Models\settings\Country;
+use App\Models\settings\City;
+use App\Models\settings\Nationality;
+use App\Models\users\Teacher;
+use App\Models\users\Employee;
+use App\Models\users\Student;
+
 
 class UsersAndNotesSeeder extends Seeder
 {
@@ -88,7 +96,7 @@ class UsersAndNotesSeeder extends Seeder
         // student
         // free_student
         // subject_coordinator
-         
+        
 
         $faker = Faker::create();
         /*  insert status  */
@@ -138,6 +146,112 @@ class UsersAndNotesSeeder extends Seeder
             ]);
             $user->assignRole($usersRoles[$i]);
             array_push($usersIds, $user->id);
+
+            if($usersRoles[$i]->name == 'student'){
+                $natio =Nationality::create([
+                    "Nationality_name" => "britsh",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                Student::create([
+                    'First_name' =>$faker->name(),
+                    'Last_Name' => $faker->name(),
+                    'nationality_id'=> $natio->id,
+                    'Mobile' => Str::random(10),
+                    'Gender' => 'male',
+                    'birth_date' => now(),
+                    'user_id' => $user->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            if($usersRoles[$i]->name == 'teacher'){
+                $subject =Subject::create([
+                    "Subject_name" =>"Math",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $natio =Nationality::create([
+                    "Nationality_name" => "lebanese",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                Teacher::create([
+                    'First_name' =>$faker->name(),
+                    'Last_Name' => $faker->name(),
+                    'subject_id' => $subject->id,
+                    'nationality_id'=> $natio->id,
+                    'Mobile' => Str::random(10),
+                    'Gender' => 'male',
+                    'birth_date' => now(),
+                    'user_id' => $user->id,
+                    'Is_Coordinator' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            if($usersRoles[$i]->name == 'coordinator'){
+                $subject =Subject::create([
+                    "Subject_name" =>"Physics",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $natio =Nationality::create([
+                    "Nationality_name" => "German",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                Teacher::create([
+                    'First_name' =>$faker->name(),
+                    'Last_Name' => $faker->name(),
+                    'subject_id' => $subject->id,
+                    'nationality_id'=> $natio->id,
+                    'Mobile' => Str::random(10),
+                    'Gender' => 'male',
+                    'birth_date' => now(),
+                    'user_id' => $user->id,
+                    'Is_Coordinator' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            if($usersRoles[$i]->name == 'editor'){
+                $country=Country::create([
+                    // 'id'=>2,
+                    'country_name' => "Egypt",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $city =City::create([
+                    // "id"=>3,
+                    "Country_id" => $country->id,
+                    "city_name" => "Cairo",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $natio =Nationality::create([
+                    "Nationality_name" => "egyptian",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                Employee::create([
+                    'First_name' =>$faker->name(),
+                    'Last_Name' => $faker->name(),
+                    'Mobile' => Str::random(10),
+                    'Gender' => 'male',
+                    'country_id'=> $country->id,
+                    'city_id' => $city->id,
+                    'nationality_id'=> $natio->id,
+                    'Address' => Str::random(10),
+                    'Address1' => Str::random(10),
+                    'user_id' => $user->id,
+                    'birth_date' => now(),
+                    'jop_date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            
         }
         /*  insert notes  */
         for($i = 0; $i<$numberOfNotes; $i++){
@@ -156,33 +270,33 @@ class UsersAndNotesSeeder extends Seeder
         }
 
 
-        /**   PERMISSIONS */
-        Permission::create(['name' => 'view dashboard']);
-        Permission::create(['name' => 'view Setting']);
-        Permission::create(['name' => 'Add Setting']);
-        Permission::create(['name' => 'Edit Setting']);
-        Permission::create(['name' => 'Delete Setting']);
-        Permission::create(['name' => 'view institution']);
-        Permission::create(['name' => 'Add institution']);
-        Permission::create(['name' => 'Edit institution']);
-        Permission::create(['name' => 'Delete institution']);
-        Permission::create(['name' => 'view permissions']);
-        Permission::create(['name' => 'Add permissions']);
-        Permission::create(['name' => 'Delete permissions']);
+        // /**   PERMISSIONS */
+        // Permission::create(['name' => 'view dashboard']);
+        // Permission::create(['name' => 'view Setting']);
+        // Permission::create(['name' => 'Add Setting']);
+        // Permission::create(['name' => 'Edit Setting']);
+        // Permission::create(['name' => 'Delete Setting']);
+        // Permission::create(['name' => 'view institution']);
+        // Permission::create(['name' => 'Add institution']);
+        // Permission::create(['name' => 'Edit institution']);
+        // Permission::create(['name' => 'Delete institution']);
+        // Permission::create(['name' => 'view permissions']);
+        // Permission::create(['name' => 'Add permissions']);
+        // Permission::create(['name' => 'Delete permissions']);
 
-        //== admin
-         $adminRole->givePermissionTo('view dashboard');
-         $adminRole->givePermissionTo('view Setting');
-         $adminRole->givePermissionTo('Add Setting');
-         $adminRole->givePermissionTo('Edit Setting');
-         $adminRole->givePermissionTo('Delete Setting');
-         $adminRole->givePermissionTo('view institution');
-         $adminRole->givePermissionTo('Add institution');
-         $adminRole->givePermissionTo('Edit institution');
-         $adminRole->givePermissionTo('Delete institution');
-         $adminRole->givePermissionTo('view permissions');
-         $adminRole->givePermissionTo('Add permissions');
-         $adminRole->givePermissionTo('Delete permissions');
+        // //== admin
+        //  $adminRole->givePermissionTo('view dashboard');
+        //  $adminRole->givePermissionTo('view Setting');
+        //  $adminRole->givePermissionTo('Add Setting');
+        //  $adminRole->givePermissionTo('Edit Setting');
+        //  $adminRole->givePermissionTo('Delete Setting');
+        //  $adminRole->givePermissionTo('view institution');
+        //  $adminRole->givePermissionTo('Add institution');
+        //  $adminRole->givePermissionTo('Edit institution');
+        //  $adminRole->givePermissionTo('Delete institution');
+        //  $adminRole->givePermissionTo('view permissions');
+        //  $adminRole->givePermissionTo('Add permissions');
+        //  $adminRole->givePermissionTo('Delete permissions');
 
 
     }
