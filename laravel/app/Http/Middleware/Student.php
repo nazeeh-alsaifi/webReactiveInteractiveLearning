@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class Coordinator
+class Student
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class Coordinator
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if(empty($user) || (!$user->hasRole('coordinator')&& !$user->hasRole('teacher')&& !$user->hasRole('subject_coordinator'))){
-            return response()->json(['message' => 'Unauthenticated. Coordinator role required'], 401);
+        if(empty($user) || (!$user->hasRole('student') && !$user->hasRole('free_student'))){
+            return response()->json(['message' => 'Unauthenticated. Student role required'], 401);
         }
         return $next($request);
     }

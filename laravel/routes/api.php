@@ -32,7 +32,14 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
 
     Route::resource('resource/{table}/resource', 'ResourceController');
     
-    
+    Route::group(['middleware' => 'student'], function ($router) {
+      Route::resource('Student','StudentController');
+      Route::get('student/getNationalities','StudentController@getNationalities');
+      Route::get('student/getUsers','StudentController@getUsers');
+      Route::get('student/getStudent','StudentController@getStudent');
+      Route::post('Students/storeuserprofile','StudentController@storeuserprofile');
+      Route::post('Students/storestudentprofile','StudentController@storestudentprofile');
+    });
     Route::group(['middleware' => 'coordinator'], function ($router) {
       Route::resource('Coordintor','CoordinatorController');
       Route::get('Coordintors/getNationalities','CoordinatorController@getNationalities');
