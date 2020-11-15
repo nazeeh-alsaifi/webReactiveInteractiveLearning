@@ -132,6 +132,10 @@ const UnitsMeasure = () => import("@/views/settings/UnitsMeasure");
 
 //  Institusions
 const InistitutionsDashboard = () => import("@/views/institutions/Dashboard");
+//  Edit Profile
+const EditAdmin = () => import("@/views/editProfile/Admin");
+const EditStudent = () => import("@/views/editProfile/Student");
+const EditTeacher = () => import("@/views/editProfile/Teacher");
 
 /*
  AcademicLevels 
@@ -148,7 +152,7 @@ const InistitutionsDashboard = () => import("@/views/institutions/Dashboard");
  SubSubjects 
  Units 
  UnitsMeasure 
-  */
+*/
 
 Vue.use(Router);
 
@@ -164,16 +168,16 @@ router.beforeEach((to, from, next) => {
   if (roles != null) {
     roles = roles.split(",");
   }
-  console.log(
-    "editor:",
-    to.matched.some((record) => record.meta.requiresEditor)
-  );
+  // console.log(
+  //   "editor:",
+  //   to.matched.some((record) => record.meta.requiresEditor)
+  // );
   if (
-    to.matched.some((record) => record.meta.requiresAdmin) &&
+    to.matched.some((record) => record.meta.requiresAdmin_Editor) &&
     roles != null &&
     roles.indexOf("admin") >= 0
   ) {
-    console.log("path match Admin", to);
+    // console.log("path match Admin", to);
     if (roles != null && roles.indexOf("admin") >= 0) {
       next();
     } else {
@@ -248,6 +252,56 @@ router.beforeEach((to, from, next) => {
         params: { nextUrl: to.fullPath },
       });
     }
+  }
+  // ADMIN - EDITOR
+  else if (to.matched.some((record) => record.meta.requiresAdmin_Editor)) {
+    if (
+      roles != null &&
+      (roles.indexOf("admin") >= 0 || roles.indexOf("editor") >= 0)
+    ) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
+  }
+  // teacher - coordinator - subject_coordinator
+  else if (
+    to.matched.some(
+      (record) => record.meta.requiresTeacher_Coordinator_SubjectCoordinator
+    )
+  ) {
+    if (
+      roles != null &&
+      (roles.indexOf("teacher") >= 0 ||
+        roles.indexOf("coordinator") >= 0 ||
+        roles.indexOf("subject_coordinator") >= 0)
+    ) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
+  }
+  // student - free_student
+  else if (
+    to.matched.some((record) => record.meta.requiresStudent_FreeStudent)
+  ) {
+    if (
+      roles != null &&
+      (roles.indexOf("student") >= 0 || roles.indexOf("free_student") >= 0)
+    ) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath },
+      });
+    }
   } else {
     console.log("path didnt match any role", to);
     next();
@@ -304,8 +358,7 @@ function configRoutes() {
           name: "Media",
           component: Media,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -345,14 +398,38 @@ function configRoutes() {
             requiresUser: true,
           },
         },
+        /* Edit Profile */
+        {
+          path: "edit-admin-profile",
+          name: "EditAdmin",
+          component: EditAdmin,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
+        {
+          path: "edit-student-profile",
+          name: "EditStudent",
+          component: EditStudent,
+          meta: {
+            requiresStudent_FreeStudent: true,
+          },
+        },
+        {
+          path: "edit-teacher-profile",
+          name: "EditTeacher",
+          component: EditTeacher,
+          meta: {
+            requiresTeacher_Coordinator_SubjectCoordinator: true,
+          },
+        },
         /* Institusions */
         {
           path: "institutions",
           name: "Institutions",
           component: InistitutionsDashboard,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         /* Our Settings Routes */
@@ -361,8 +438,7 @@ function configRoutes() {
           name: "AcademicLevels",
           component: AcademicLevels,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -370,8 +446,7 @@ function configRoutes() {
           name: "Categories",
           component: Categories,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -379,8 +454,7 @@ function configRoutes() {
           name: "Cities",
           component: Cities,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -388,8 +462,7 @@ function configRoutes() {
           name: "Components",
           component: Components,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -397,8 +470,7 @@ function configRoutes() {
           name: "Countries",
           component: Countries,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -406,8 +478,7 @@ function configRoutes() {
           name: "Employees",
           component: Employees,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -415,8 +486,7 @@ function configRoutes() {
           name: "MeasureTools",
           component: MeasureTools,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -424,8 +494,7 @@ function configRoutes() {
           name: "MyUsers",
           component: MyUsers,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -433,8 +502,7 @@ function configRoutes() {
           name: "Nationalities",
           component: Nationalities,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -442,8 +510,7 @@ function configRoutes() {
           name: "SubCategories",
           component: SubCategories,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -451,8 +518,7 @@ function configRoutes() {
           name: "Subjects",
           component: Subjects,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -460,8 +526,7 @@ function configRoutes() {
           name: "SubSubjects",
           component: SubSubjects,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -469,8 +534,7 @@ function configRoutes() {
           name: "Units",
           component: Units,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         {
@@ -478,8 +542,7 @@ function configRoutes() {
           name: "UnitsMeasure",
           component: UnitsMeasure,
           meta: {
-            requiresAdmin: true,
-            requiresEditor: true,
+            requiresAdmin_Editor: true,
           },
         },
         /* End our Settings Routes*/
@@ -496,8 +559,7 @@ function configRoutes() {
               path: "",
               component: Menus,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -506,8 +568,7 @@ function configRoutes() {
               name: "CreateMenu",
               component: CreateMenu,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -516,8 +577,7 @@ function configRoutes() {
               name: "EditMenu",
               component: EditMenu,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -526,8 +586,7 @@ function configRoutes() {
               name: "DeleteMenu",
               component: DeleteMenu,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
           ],
@@ -545,8 +604,7 @@ function configRoutes() {
               path: ":menu/menuelement",
               component: MenuElements,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -555,8 +613,7 @@ function configRoutes() {
               name: "Create Menu Element",
               component: CreateMenuElement,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -565,8 +622,7 @@ function configRoutes() {
               name: "Menu Element",
               component: ShowMenuElement,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -575,8 +631,7 @@ function configRoutes() {
               name: "Edit Menu Element",
               component: EditMenuElement,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -585,8 +640,7 @@ function configRoutes() {
               name: "Delete Menu Element",
               component: DeleteMenuElement,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
           ],
@@ -604,8 +658,7 @@ function configRoutes() {
               path: "",
               component: Users,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -614,8 +667,7 @@ function configRoutes() {
               name: "User",
               component: User,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -624,8 +676,7 @@ function configRoutes() {
               name: "Edit User",
               component: EditUser,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
           ],
@@ -688,8 +739,7 @@ function configRoutes() {
               path: "",
               component: Roles,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -698,8 +748,7 @@ function configRoutes() {
               name: "Create Role",
               component: CreateRole,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -708,8 +757,7 @@ function configRoutes() {
               name: "Role",
               component: Role,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -718,8 +766,7 @@ function configRoutes() {
               name: "Edit Role",
               component: EditRole,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
           ],
@@ -737,8 +784,7 @@ function configRoutes() {
               path: "",
               component: Breads,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -747,8 +793,7 @@ function configRoutes() {
               name: "CreateBread",
               component: CreateBread,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -757,8 +802,7 @@ function configRoutes() {
               name: "Bread",
               component: Bread,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -767,8 +811,7 @@ function configRoutes() {
               name: "Edit Bread",
               component: EditBread,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -777,8 +820,7 @@ function configRoutes() {
               name: "Delete Bread",
               component: DeleteBread,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
           ],
@@ -796,8 +838,7 @@ function configRoutes() {
               path: "",
               component: Emails,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -806,8 +847,7 @@ function configRoutes() {
               name: "Create Email Template",
               component: CreateEmail,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -816,8 +856,7 @@ function configRoutes() {
               name: "Show Email Tempalte",
               component: ShowEmail,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -826,8 +865,7 @@ function configRoutes() {
               name: "Edit Email Template",
               component: EditEmail,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
             {
@@ -836,8 +874,7 @@ function configRoutes() {
               name: "Send Email",
               component: SendEmail,
               meta: {
-                requiresAdmin: true,
-                requiresEditor: true,
+                requiresAdmin_Editor: true,
               },
             },
           ],

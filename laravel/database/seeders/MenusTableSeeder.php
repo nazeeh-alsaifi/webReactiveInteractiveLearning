@@ -149,6 +149,13 @@ class MenusTableSeeder extends Seeder
         /* guest menu */
         
         $this->insertLink('guest,user,admin,editor,coordinator,teacher,student,free_student,subject_coordinator', 'Dashboard', '/', 'cil-speedometer');
+        /* Edit Profile */
+        $this->insertLink('admin,editor', 'Edit Profile', '/edit-admin-profile', 'cil-speedometer');
+        $this->insertLink('student,free_student', 'Edit Profile', '/edit-student-profile', 'cil-speedometer');
+        $this->insertLink('teacher,coordinator,subject_coordinator', 'Edit Profile', '/edit-teacher-profile', 'cil-speedometer');
+
+        
+
         $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
         // $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
         $this->insertLink('guest', 'Purchase', '/purchase', 'cil-cart');
