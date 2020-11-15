@@ -215,7 +215,7 @@ export default {
             this.submit();     
             },
             loadusers: function(){
-                    axios.get(this.$apiAdress +'/api/users/myusers?token=' + localStorage.getItem("api_token"))
+                    axios.get(this.$apiAdress +'/api/employee/myusers?token=' + localStorage.getItem("api_token"))
                     .then((response) => {
                         this.users = response.data.users;
                         this.user = response.data.you;
@@ -269,7 +269,7 @@ export default {
                 {
                     this.fields.password = this.user.password;
                 }
-                axios.post(this.$apiAdress +'/api/users/store_user_profile?token='+ localStorage.getItem("api_token"),this.fields).then(response => {
+                axios.post(this.$apiAdress +'/api/employees/store_user_profile?token='+ localStorage.getItem("api_token"),this.fields).then(response => {
                     this.fields = {};
                     this.success = true;
                     this.errors = {};
@@ -279,7 +279,7 @@ export default {
                     }
                     console.log('Error');
                 });
-                axios.post(this.$apiAdress +'/api/users/store_employee_profile?token='+ localStorage.getItem("api_token"), formData).then(response => {
+                axios.post(this.$apiAdress +'/api/employees/store_employee_profile?token='+ localStorage.getItem("api_token"), formData).then(response => {
                     this.employee = {};
                     this.success = true;
                     this.errors = {};

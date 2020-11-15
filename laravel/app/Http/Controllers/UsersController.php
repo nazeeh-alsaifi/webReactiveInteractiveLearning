@@ -36,18 +36,6 @@ class UsersController extends Controller
         return response()->json( compact('users', 'you') );
     }
 
-        /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function myusers()
-    {
-        $you = auth()->user()->id;
-        $users = User::whereNull('deleted_at')->get();
-        return response()->json( compact('users', 'you') );
-    }
-
     /**
      * Display the specified resource.
      *
@@ -98,69 +86,6 @@ class UsersController extends Controller
         //$request->session()->flash('message', 'Successfully updated user');
         return response()->json( ['status' => 'success'] );
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function storeuserprofile(Request $request)
-    {
-        $this->validate($request, [
-            'email'=> 'required',
-            //'password'=> 'required'
-        ]);
-        $id = $request->input('id');
-        $user = User::find($id);
-        if($request->input('password'))
-        {
-            $user->password = Hash::make($request->input('password'));
-        }
-        $user->email = $request->input('email');
-        //$user->Is_delete = 0;
-        $user->save();
-        return $user;
-    }
-
-       //storeemployeeprofile
-       public function storeemployeeprofile(Request $request)
-       {
-           $this->validate($request, [
-               'First_Name'=> 'required',
-               'Last_Name'=> 'required',
-               'Mobile'=> 'required',
-               'birth_date'=> 'required',
-               'Gender'=> 'required',
-               'nationality_id'=> 'required',
-           ]);
-            if($request->hasFile('image')){
-                $filenameWithExt = $request->file('image')->getClientOriginalName();
-                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $fileNameToStore= $filename.'_'.time().'.'.$extension;
-                $path = $request->file('image')->storeAs('public/image',$fileNameToStore);
-                //$image = $request->image->store('public/avatar');
-            }
-           //$path = $request->file('image')->store('images','public');
-           $id = $request->input('id');
-           $employee = Employee::find($id);
-           $user = User::find($employee->user_id);
-           $user->name = $request->input('First_Name').' '.$request->input('Last_Name');
-           if($request->hasFile('image'))
-           {
-             $user->image = $fileNameToStore;
-           }
-           $user->save();
-           $employee->First_Name = $request->input('First_Name');
-           $employee->Last_Name = $request->input('Last_Name');
-           $employee->Mobile = $request->input('Mobile');
-           $employee->Gender = $request->input('Gender');
-           $employee->birth_date = $request->input('birth_date');
-           $employee->nationality_id = $request->input('nationality_id');       
-           $employee->save();
-           return $employee;
-       }
    
     /**
      * Remove the specified resource from storage.

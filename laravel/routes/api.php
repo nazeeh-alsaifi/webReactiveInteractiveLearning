@@ -111,9 +111,9 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::post('employees/store1','EmployeeController@store1');
     Route::post('employees/delete','EmployeeController@delete');
     //
-    Route::get('users/myusers','UsersController@myusers');
-    Route::post('users/store_user_profile','UsersController@storeuserprofile');
-    Route::post('users/store_employee_profile','UsersController@storeemployeeprofile');    
+    Route::get('employee/myusers','EmployeeController@myusers');
+    Route::post('employees/store_user_profile','EmployeeController@storeuserprofile');
+    Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile');    
     //
 
         Route::resource('mail',        'MailController');
