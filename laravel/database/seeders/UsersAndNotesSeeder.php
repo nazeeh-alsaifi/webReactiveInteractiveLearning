@@ -79,6 +79,16 @@ class UsersAndNotesSeeder extends Seeder
         ]);
 
         
+        //  admin
+        //  user
+        //  guest
+        // editor
+        // coordinator
+        // teacher
+        // student
+        // free_student
+        // subject_coordinator
+         
 
         $faker = Faker::create();
         /*  insert status  */
