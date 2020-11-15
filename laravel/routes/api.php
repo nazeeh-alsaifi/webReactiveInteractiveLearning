@@ -32,6 +32,15 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
 
     Route::resource('resource/{table}/resource', 'ResourceController');
     
+    
+    Route::group(['middleware' => 'coordinator'], function ($router) {
+      Route::resource('Coordintor','CoordinatorController');
+      Route::get('Coordintors/getNationalities','CoordinatorController@getNationalities');
+      Route::get('Coordintors/getUsers','CoordinatorController@getUsers');
+      Route::get('Coordintors/getTeachers','CoordinatorController@getTeachers');
+      Route::post('coordintors/storeuserprofile','CoordinatorController@storeuserprofile');
+      Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');    
+    });
     Route::group(['middleware' => 'admin'], function ($router) {
     ////////my routes
     Route::resource('AcademicLevels','AcademiclevelController');

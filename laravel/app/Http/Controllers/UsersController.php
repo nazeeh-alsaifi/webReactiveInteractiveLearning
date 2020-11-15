@@ -99,7 +99,7 @@ class UsersController extends Controller
         return response()->json( ['status' => 'success'] );
     }
 
-        /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -109,11 +109,14 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'email'=> 'required',
-            'password'=> 'required'
+            //'password'=> 'required'
         ]);
         $id = $request->input('id');
         $user = User::find($id);
-        $user->password = Hash::make($request->input('password'));
+        if($request->input('password'))
+        {
+            $user->password = Hash::make($request->input('password'));
+        }
         $user->email = $request->input('email');
         //$user->Is_delete = 0;
         $user->save();
@@ -137,6 +140,7 @@ class UsersController extends Controller
                 $extension = $request->file('image')->getClientOriginalExtension();
                 $fileNameToStore= $filename.'_'.time().'.'.$extension;
                 $path = $request->file('image')->storeAs('public/image',$fileNameToStore);
+                //$image = $request->image->store('public/avatar');
             }
            //$path = $request->file('image')->store('images','public');
            $id = $request->input('id');

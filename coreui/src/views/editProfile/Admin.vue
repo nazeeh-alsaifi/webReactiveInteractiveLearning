@@ -205,7 +205,7 @@ export default {
         },
         methods: {
             getphoto(){
-               return "../laravel/public/storage/image/"+this.freshuser.image;
+               return "../laravel/public/storage/image/"+this.freshuser.image;//"'/"
             },
             getempty(){
                return "../laravel/public/storage/image/no-image.jpg";
