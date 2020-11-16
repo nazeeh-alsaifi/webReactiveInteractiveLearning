@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\users\Employee;
 
 class UsersController extends Controller
 {
@@ -84,7 +86,7 @@ class UsersController extends Controller
         //$request->session()->flash('message', 'Successfully updated user');
         return response()->json( ['status' => 'success'] );
     }
-
+   
     /**
      * Remove the specified resource from storage.
      *

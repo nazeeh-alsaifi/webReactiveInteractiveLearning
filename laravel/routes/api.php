@@ -32,6 +32,22 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
 
     Route::resource('resource/{table}/resource', 'ResourceController');
     
+    Route::group(['middleware' => 'student'], function ($router) {
+      Route::resource('Student','StudentController');
+      Route::get('student/getNationalities','StudentController@getNationalities');
+      Route::get('student/getUsers','StudentController@getUsers');
+      Route::get('student/getStudent','StudentController@getStudent');
+      Route::post('Students/storeuserprofile','StudentController@storeuserprofile');
+      Route::post('Students/storestudentprofile','StudentController@storestudentprofile');
+    });
+    Route::group(['middleware' => 'coordinator'], function ($router) {
+      Route::resource('Coordintor','CoordinatorController');
+      Route::get('Coordintors/getNationalities','CoordinatorController@getNationalities');
+      Route::get('Coordintors/getUsers','CoordinatorController@getUsers');
+      Route::get('Coordintors/getTeachers','CoordinatorController@getTeachers');
+      Route::post('coordintors/storeuserprofile','CoordinatorController@storeuserprofile');
+      Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');    
+    });
     Route::group(['middleware' => 'admin'], function ($router) {
     ////////my routes
     Route::resource('AcademicLevels','AcademiclevelController');
@@ -94,6 +110,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::post('institutions/delete','InstitiutionController@delete');
     Route::post('employees/store1','EmployeeController@store1');
     Route::post('employees/delete','EmployeeController@delete');
+    //
+    Route::get('employee/myusers','EmployeeController@myusers');
+    Route::post('employees/store_user_profile','EmployeeController@storeuserprofile');
+    Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile');    
     //
 
         Route::resource('mail',        'MailController');
