@@ -43,12 +43,7 @@ class SettingsSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        Country::create([
-            // 'id'=>2,
-            'country_name' => "Egypt",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+       
 
 
         // City
@@ -66,13 +61,7 @@ class SettingsSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        City::create([
-            // "id"=>3,
-            "Country_id" => 2,
-            "city_name" => "Cairo",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+       
         City::create([
             // "id"=>4,
             "Country_id" => 2,
@@ -82,11 +71,7 @@ class SettingsSeeder extends Seeder
         ]);
 
         // Subject
-        Subject::create([
-            "Subject_name" =>"Math",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        
         Subject::create([
             "Subject_name" =>"Physics",
             'created_at' => now(),
@@ -94,11 +79,7 @@ class SettingsSeeder extends Seeder
         ]);
 
         // Nationalities
-        Nationality::create([
-            "Nationality_name" => "German",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+       
         Nationality::create([
             "Nationality_name" => "Syrian",
             'created_at' => now(),
