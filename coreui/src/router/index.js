@@ -136,7 +136,8 @@ const InistitutionsDashboard = () => import("@/views/institutions/Dashboard");
 const EditAdmin = () => import("@/views/editProfile/Admin");
 const EditStudent = () => import("@/views/editProfile/Student");
 const EditTeacher = () => import("@/views/editProfile/Teacher");
-
+// activity
+const ActivityIndex = () => import("@/views/activity/ActivityIndex");
 /*
  AcademicLevels 
  Categories 
@@ -421,6 +422,15 @@ function configRoutes() {
           component: EditTeacher,
           meta: {
             requiresTeacher_Coordinator_SubjectCoordinator: true,
+          },
+        },
+        /* activity */
+        {
+          path: "activity",
+          name: "Activity",
+          component: ActivityIndex,
+          meta: {
+            requiresAdmin: true,
           },
         },
         /* Institusions */
