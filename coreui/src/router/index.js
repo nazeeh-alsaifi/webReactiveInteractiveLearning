@@ -132,12 +132,26 @@ const UnitsMeasure = () => import("@/views/settings/UnitsMeasure");
 
 //  Institusions
 const InistitutionsDashboard = () => import("@/views/institutions/Dashboard");
+
 //  Edit Profile
 const EditAdmin = () => import("@/views/editProfile/Admin");
 const EditStudent = () => import("@/views/editProfile/Student");
 const EditTeacher = () => import("@/views/editProfile/Teacher");
+
 // activity
 const ActivityIndex = () => import("@/views/activity/ActivityIndex");
+
+// coordinator
+const CoordinatorSubjects = () => import("@/views/coordinator/MySubjects");
+const CoordinatorTeachers = () => import("@/views/coordinator/MyTeachers");
+
+// subject coordinator
+const SubjectCoordinatorSubjects = () =>
+  import("@/views/subjectCoordinator/MySubjects");
+
+// permissions
+const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
+
 /*
  AcademicLevels 
  Categories 
@@ -399,6 +413,41 @@ function configRoutes() {
             requiresUser: true,
           },
         },
+        /* coordinator */
+        {
+          path: "coordinator-subjects",
+          name: "CoordinatorSubjects",
+          component: CoordinatorSubjects,
+          meta: {
+            requiresCoordinator: true,
+          },
+        },
+        {
+          path: "coordinator-teachers",
+          name: "CoordinatorSubjects",
+          component: CoordinatorTeachers,
+          meta: {
+            requiresCoordinator: true,
+          },
+        },
+        /* subject coordinator*/
+        {
+          path: "subject-coordinator-teachers",
+          name: "SubjectCoordinatorTeachers",
+          component: SubjectCoordinatorSubjects,
+          meta: {
+            requiresSubjectCoordinator: true,
+          },
+        },
+        /* teacher */
+        {
+          path: "teacher-classes",
+          name: "TeacherClasses",
+          component: CoordinatorTeachers,
+          meta: {
+            requiresTeacher: true,
+          },
+        },
         /* Edit Profile */
         {
           path: "edit-admin-profile",
@@ -426,11 +475,11 @@ function configRoutes() {
         },
         /* activity */
         {
-          path: "activity",
+          path: "activity-student",
           name: "Activity",
           component: ActivityIndex,
           meta: {
-            requiresAdmin: true,
+            requiresStudent_FreeStudent: true,
           },
         },
         /* Institusions */
@@ -442,7 +491,15 @@ function configRoutes() {
             requiresAdmin_Editor: true,
           },
         },
-        /* Our Settings Routes */
+        /* Admin - editor */
+        {
+          path: "permissions",
+          name: "Permissions",
+          component: PermissionsIndex,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
         {
           path: "academic-levels",
           name: "AcademicLevels",
@@ -555,7 +612,7 @@ function configRoutes() {
             requiresAdmin_Editor: true,
           },
         },
-        /* End our Settings Routes*/
+        /* End of Admin - editor Routes*/
         {
           path: "menu",
           meta: { label: "Menu" },
