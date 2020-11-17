@@ -591,10 +591,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                        v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                    <div v-if="permission.permission =='add Settings'">
                         <a v-on:click="addEmployee()" class="btn btn-info"
                             >Add New Employee</a
                         >
+                    </div>
                     </div>
                 </div>
                 <hr>
@@ -715,7 +718,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='edit Settings'">
                                 <button
                                         v-on:click="
                                             editEmployee(employee)
@@ -735,14 +739,17 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                </div>    
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div  v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='delete Settings'">
                                    <button
                                         @click="deleteEmployee(employee)"
                                         class="btn btn-danger"
                                     >X</button>
+                                  </div>  
                                 </div>
                             </td>
                         </tr>
@@ -770,6 +777,7 @@ export default {
             employees: [],
             countries: [],
             cities: [],
+            permissions: [],
             nationalities:[],
             successadd: false,
             successedit: false,
@@ -796,6 +804,7 @@ export default {
         this.loadCountries();
         this.loadCities();
         this.loadEmployees();
+        this.Permissions();
     },
     computed: {
         filteredCities: function() {
@@ -820,6 +829,16 @@ export default {
         }
     },
      methods: {
+         Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         showpass() {
             this.passwordshow = true;
         },

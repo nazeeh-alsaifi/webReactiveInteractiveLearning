@@ -66,10 +66,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                        v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                     <div v-if="permission.permission =='add Settings'">
                         <a v-on:click="addNationality()" class="btn btn-info"
                             >Add New Nationality</a
                         >
+                    </div>
                     </div>
                 </div>
                 <br>
@@ -109,7 +112,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                     <div v-if="permission.permission =='edit Settings'">
                                     <a
                                         v-on:click="
                                             editNationality(nationality)
@@ -128,6 +132,7 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                    </div>
                                 </div>
                                 <form
                                     @submit.prevent="update"
@@ -186,8 +191,9 @@
                             </td>
                             <td>
                                 <div
-                                    style="display:inline-block"
+                                    v-for="permission in permissions" v-bind:key="permission.id"
                                 >
+                                <div v-if="permission.permission =='delete Settings'">
                                     <button
                                         @click="
                                             deleteNationality(nationality)
@@ -196,6 +202,7 @@
                                     >
                                         Delete
                                     </button>
+                                </div>
                                 </div>
                             </td>
                         </tr>
@@ -219,6 +226,7 @@ export default {
    data: function() {
         return {
             nationalities: [],
+            permissions: [],
             successadd: false,
             successedit: false,
             successdelete: false,
@@ -234,6 +242,7 @@ export default {
     },
     mounted() {
         this.loadNationalities();
+        this.Permissions();
     },
      watch:{
         searchtext(){
@@ -241,6 +250,16 @@ export default {
         }
     },
         methods: {
+            Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         change_sort(field){
             if(this.sort_field === field)
             {

@@ -95,10 +95,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                        v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                    <div v-if="permission.permission =='add Settings'">
                         <a v-on:click="addSub()" class="btn btn-info"
                             >Add New Sub_Category</a
                         >
+                    </div>
                     </div>
                 </div>
                 <hr>
@@ -161,7 +164,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div  v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='edit Settings'">
                                     <button
                                         v-on:click="editSub(sub_category)"
                                         v-if="
@@ -179,6 +183,7 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                    </div>
                                 </div>
                                 <form
                                     @submit.prevent="update"
@@ -267,8 +272,9 @@
                             </td>
                             <td>
                                 <div
-                                    style="display:inline-block"
+                                     v-for="permission in permissions" v-bind:key="permission.id"
                                 >
+                                <div v-if="permission.permission =='delete Settings'">
                                     <button
                                         @click="
                                             deleteSubCategory(sub_category)
@@ -277,6 +283,7 @@
                                     >
                                         Delete
                                     </button>
+                                </div>
                                 </div>
                             </td>
                         </tr>
@@ -301,6 +308,7 @@ export default {
         return {
             sub_categories: [],
             categories: [],
+            permissions: [],
             successadd: false,
             successedit: false,
             successdelete: false,
@@ -317,6 +325,7 @@ export default {
     mounted() {
         this.loadCategories();
         this.loadSubCategories();
+        this.Permissions();
     },
     watch:{
         searchtext(){
@@ -324,6 +333,16 @@ export default {
         }
     },
     methods: {
+          Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         loadCategories: function() {
             axios
                 .get(this.$apiAdress +'/api/Category?token='+ localStorage.getItem("api_token"))

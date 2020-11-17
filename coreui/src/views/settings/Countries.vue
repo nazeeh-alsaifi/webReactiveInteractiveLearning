@@ -67,10 +67,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                        v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                    <div v-if="permission.permission =='add Settings'">                    
                         <a v-on:click="addCountry()" class="btn btn-info"
                             >Add New Country</a
                         >
+                    </div>    
                     </div>
                 </div>
                 <hr>
@@ -106,7 +109,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='edit Settings'">
                                     <a
                                         v-on:click="editCountry(country)"
                                         v-if="
@@ -122,6 +126,7 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                </div>
                                 </div>
                                 <form
                                     @submit.prevent="update"
@@ -173,13 +178,15 @@
                                 </form>
                             </td>
                             <td>
-                                <div >
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='delete Settings'">
                                     <button
                                         @click="deleteCountry(country)"
                                         class="btn btn-danger"
                                     >
                                         Delete
                                     </button>
+                                </div>
                                 </div>
                             </td>
                         </tr>
@@ -204,6 +211,7 @@ export default {
     data: function() {
         return {
             countries: [],
+            permissions: [],
             successadd: false,
             successedit: false,
             successdelete: false,
@@ -220,6 +228,7 @@ export default {
     },
      mounted() {
         this.loadCountries();
+        this.Permissions();
     },
   
     watch:{
@@ -228,6 +237,16 @@ export default {
         }
     },
      methods: { 
+        Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         change_sort(field){
             if(this.sort_field === field)
             {

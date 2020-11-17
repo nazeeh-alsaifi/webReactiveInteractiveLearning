@@ -689,10 +689,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                        v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                    <div v-if="permission.permission =='add Institution'">
                         <a v-on:click="addInstitution()" v-if="!edit" class="btn btn-info"
                             >Add New Institution</a
                         >
+                    </div>
                     </div>
                 </div>
                 <br />
@@ -1102,7 +1105,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='edit Institution'">
                                     <button
                                         v-on:click="
                                             editInstitution(Institution)
@@ -1122,15 +1126,18 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                 </div>   
                                 </div>                               
                             </td>
                             <td>
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='delete Institution'">
                                     <button
                                         @click="deleteComponent(Institution)"
                                         class="btn btn-danger"
                                         style="width:25%;"
                                     >x</button>
+                                </div>
                                 </div>
                             </td>
                         </tr>
@@ -1160,6 +1167,7 @@ data: function() {
             countries: [],
             academiclevels: [],
             cities: [],
+             permissions: [],
             successadd: false,
             successedit: false,
             successdelete: false,
@@ -1185,6 +1193,7 @@ data: function() {
         this.loadCountries();
         this.loadCities();
         this.loadAcademiclevels();
+        this.Permissions();
     },
     computed: {
         filteredCities: function() {
@@ -1207,6 +1216,16 @@ data: function() {
         }
     },
     methods: {
+         Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         showpass() {
             this.passwordshow = true;
         },
