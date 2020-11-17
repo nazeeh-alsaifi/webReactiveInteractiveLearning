@@ -1,6 +1,6 @@
 <template>
   <CRow>
-    <CCol col="12" xl="6">
+    <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
           <CCardBody>
@@ -67,10 +67,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                         v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                    <div v-if="permission.permission =='add Settings'">
                         <a v-on:click="addMeasureTool()" class="btn btn-info"
                             >Add New Measure Tools</a
                         >
+                    </div>
                     </div>
                 </div>
                 <hr>
@@ -110,7 +113,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='edit Settings'">
                                     <a
                                         v-on:click="
                                             editMeasureTool(measuretool)
@@ -129,6 +133,7 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                    </div>
                                 </div>
                                 <form
                                     @submit.prevent="update"
@@ -189,7 +194,9 @@
                             <td>
                                 <div
                                     style="display:inline-block"
+                                    v-for="permission in permissions" v-bind:key="permission.id"
                                 >
+                                <div v-if="permission.permission =='delete Settings'">
                                     <button
                                         @click="
                                             deleteMeasureTool(measuretool)
@@ -198,6 +205,7 @@
                                     >
                                         Delete
                                     </button>
+                                </div>
                                 </div>
                             </td>
                         </tr>
@@ -222,6 +230,7 @@ export default {
   data: function() {
         return {
             measuretools: [],
+            permissions: [],
             successadd: false,
             successedit: false,
             successdelete: false,
@@ -237,6 +246,7 @@ export default {
     },
     mounted() {
         this.loadMeasureTools();
+        this.Permissions();
     },
     watch:{
         searchtext(){
@@ -244,6 +254,16 @@ export default {
         }
     },
     methods: {
+         Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         change_sort(field){
             if(this.sort_field === field)
             {

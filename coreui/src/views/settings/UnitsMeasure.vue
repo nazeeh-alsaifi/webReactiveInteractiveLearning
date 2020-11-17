@@ -1,6 +1,6 @@
 <template>
   <CRow>
-    <CCol col="12" xl="6">
+    <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
           <CCardBody>
@@ -121,10 +121,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                        v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                    <div v-if="permission.permission =='add Settings'">
                         <a v-on:click="addUnit()" class="btn btn-info"
                             >Add New Sub_Subject</a
                         >
+                    </div>
                     </div>
                 </div>
                 <hr>
@@ -196,7 +199,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='edit Settings'">
                                     <button
                                         v-on:click="editUnit(unitsmeasure)"
                                         v-if="
@@ -214,6 +218,7 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                    </div>
                                 </div>
                                 <form
                                     @submit.prevent="update"
@@ -327,8 +332,9 @@
                             </td>
                             <td>
                                 <div
-                                    style="display:inline-block"
+                                    v-for="permission in permissions" v-bind:key="permission.id"
                                 >
+                                <div v-if="permission.permission =='delete Settings'">
                                     <button
                                         @click="
                                             deleteUnitMeasure(unitsmeasure)
@@ -337,6 +343,7 @@
                                     >
                                         Delete
                                     </button>
+                                </div>
                                 </div>
                             </td>
                         </tr>
@@ -362,6 +369,7 @@ data: function() {
         return {
             unitmeasures: [],
             units: [],
+            permissions: [],
             loading: true,
             successadd: false,
             successedit: false,
@@ -379,6 +387,7 @@ data: function() {
     mounted() {
         this.loadUnitsMeasure();
         this.loadUnits();
+        this.Permissions();
     },
     watch:{
         searchtext(){
@@ -386,6 +395,16 @@ data: function() {
         }
     },
     methods: {
+        Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         change_sort(field){
             if(this.sort_field === field)
             {

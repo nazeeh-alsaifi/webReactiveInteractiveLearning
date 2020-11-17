@@ -1,6 +1,6 @@
 <template>
   <CRow>
-    <CCol col="12" xl="6">
+    <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
           <CCardBody>
@@ -67,10 +67,13 @@
                 <div style="text-align:left">
                     <div
                         style="display:inline-block"
+                        v-for="permission in permissions" v-bind:key="permission.id"
                     >
+                    <div v-if="permission.permission =='add Settings'">
                         <a v-on:click="addAcademic()" class="btn btn-info"
                             >Add New Academic Level</a
                         >
+                    </div>    
                     </div>
                 </div>
                 <hr>
@@ -110,7 +113,8 @@
                                 </div>
                             </td>
                             <td style="width:30%;" >
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='edit Settings'">
                                     <a
                                         v-on:click="editAcademic(academiclevel)"
                                         v-if="!edit &&academiclevel.id !=editfields.id"
@@ -124,6 +128,7 @@
                                     >
                                         Cancel Edit
                                     </button>
+                                   </div>
                                 </div>
                                 <form
                                     @submit.prevent="update"
@@ -177,13 +182,15 @@
                                 </form>
                             </td>
                             <td style="width:10%;">
-                                <div>
+                                <div v-for="permission in permissions" v-bind:key="permission.id">
+                                    <div v-if="permission.permission =='delete Settings'">
                                     <button
                                         @click="deleteAcademicLevel(academiclevel)"
                                         class="btn btn-danger"
                                     >
                                         Delete
                                     </button>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -207,6 +214,7 @@ export default {
    data: function() {
         return {
             academiclevels: [],
+            permissions: [],
             successadd: false,
             successedit: false,
             successdelete: false,
@@ -223,6 +231,7 @@ export default {
     },
     mounted() {
         this.loadAcademiclevels();
+        this.Permissions();
     },
     watch:{
         searchtext(){
@@ -230,6 +239,16 @@ export default {
         }
     },
         methods: {
+        Permissions(){
+                axios
+                .get(this.$apiAdress +'/api/user/getUserPermissions?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.permissions = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         change_sort(field){
             if(this.sort_field === field)
             {
