@@ -46,10 +46,16 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::group(['middleware' => 'coordinator'], function ($router) {
       Route::resource('Coordintor','CoordinatorController');
       Route::get('Coordintors/getNationalities','CoordinatorController@getNationalities');
+      Route::get('Coordintors/getSubjects','CoordinatorController@getSubjects');
+      Route::get('Coordintors/getInstitutionSubject','CoordinatorController@getInstitutionSubject');
+      Route::get('Coordintors/getInstitution','CoordinatorController@getInstitution');
+      Route::get('Coordintors/{id}/getMySubject','CoordinatorController@getMySubject');
+      Route::get('Coordintors/{id}/getClasses','CoordinatorController@getClasses');      
       Route::get('Coordintors/getUsers','CoordinatorController@getUsers');
       Route::get('Coordintors/getTeachers','CoordinatorController@getTeachers');
       Route::post('coordintors/storeuserprofile','CoordinatorController@storeuserprofile');
-      Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');    
+      Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');
+      Route::post('coordintors/new_subject','CoordinatorController@new_subject');    
     });
     Route::group(['middleware' => 'admin'], function ($router) {
     ////////my routes

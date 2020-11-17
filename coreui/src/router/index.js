@@ -143,6 +143,7 @@ const ActivityIndex = () => import("@/views/activity/ActivityIndex");
 
 // coordinator
 const CoordinatorSubjects = () => import("@/views/coordinator/MySubjects");
+const CoordinatorSubjectsClasses = () => import("@/views/coordinator/Classes");
 const CoordinatorTeachers = () => import("@/views/coordinator/MyTeachers");
 
 // subject coordinator
@@ -416,12 +417,31 @@ function configRoutes() {
         /* coordinator */
         {
           path: "coordinator-subjects",
-          name: "CoordinatorSubjects",
+          meta: { label: "My Subjects" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+          {
+          path: "",
           component: CoordinatorSubjects,
           meta: {
             requiresCoordinator: true,
           },
+          },
+          {
+            path: ":id/classes",
+            name: "classes",
+            component: CoordinatorSubjectsClasses,
+            meta: {
+              requiresCoordinator: true,
+            },
+            },
+          ]
         },
+        //
         {
           path: "coordinator-teachers",
           name: "CoordinatorSubjects",

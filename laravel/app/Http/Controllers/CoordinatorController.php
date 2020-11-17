@@ -6,8 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Models\settings\Nationality;
+use App\Models\institutions\Institution;
+use App\Models\Institutions\InstitutionSubject;
+use App\Models\Institutions\InstitutionClass;
+use App\Models\settings\Subject;
 use App\Models\users\Teacher;
+use App\Models\users\SubjectCoordinator;
 use App\Models\User;
+use App\Models\durations\DurationCourseInstitution;
+use App\Models\durations\DurationCourse;
+use App\Models\users\ActivationCodes;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
+use Keygen\Keygen;
 
 class CoordinatorController extends Controller
 {
@@ -38,6 +50,55 @@ class CoordinatorController extends Controller
     public function getNationalities()
     {
         return Nationality::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSubjects()
+    {
+        return Subject::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getInstitution()
+    {
+        $you = auth()->user();
+        $Institution = Institution::where('coordinator_id',$you->id)->first();
+        return $Institution;
+    }
+
+      /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getInstitutionSubject()
+    {
+        $you = auth()->user();
+        $Institution = Institution::where('coordinator_id',$you->id)->first();
+        $sortField = request('sort_field','id');
+        if(!in_array($sortField,['id','subject_id','Teacher_count','Student_count'])){
+            $sortField = 'id';
+        }
+        $sortDirection = request('sort_direction','desc');
+        if(!in_array($sortDirection,['asc','dec'])){
+            $sortDirection = 'desc';
+        }
+        $column= request('column','Institu_name');
+        if(!in_array($column,['Institu_name','Email','Mobile','Address','Address1'])){
+            $column = 'Component_name';
+        }
+        $Institution_Subjects = InstitutionSubject::when(request('search','') != '', function($query){
+            $query->where('id','LIKE','%'.request('search').'%');
+        })->where('institution_id',$Institution->id)->orderBy($sortField,$sortDirection)->paginate(5);
+        return $Institution_Subjects;
     }
 
     /**
@@ -151,6 +212,128 @@ class CoordinatorController extends Controller
         return $Teacher;
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function new_subject(Request $request)
+    {
+        //     $this->validate($request, [
+        //         'Id_subj' => 'required',
+        //         'Student_count' => 'required',
+        //         'Teacher_count' => 'required',
+        //         //'Id_Duration_tearm' => 'required',
+        //         'Subject_Coordinator_password'=>'required',
+        //         'Subject_Coordinator_Email'=>['required', 'string', 'email', 'max:255', 'unique:users'],
+        //         'Subject_Coordinator_name'=>'required',
+        //  ]);
+        $user = new User;
+        $user->name = $request->input('First_name').' '.$request->input('Last_Name');
+        $user->password = Hash::make('password');
+        $user->email = $request->input('Subject_Coordinator_Email');
+        $user->assignRole('subject_coordinator');
+        $user->menuroles = 'subject_coordinator';
+        $user->save();
+        
+        //coordinator//
+        $Teacher = new Teacher;
+        $Teacher->user_id = $user->id;
+        $Teacher->subject_id =  $request->input('subject_id');
+        $Teacher->First_name =  $request->input('First_name');
+        $Teacher->Last_Name =  $request->input('Last_Name');
+        $Teacher->Mobile =  $request->input('Mobile');
+        $Teacher->Is_Coordinator = 1;
+        $Teacher->save();
+        //        
+        $you = auth()->user();
+        $Institution = Institution::where('coordinator_id',$you->id)->first();
+        $Institution_Subject = new InstitutionSubject;
+        $Institution_Subject->institution_id = $Institution->id;
+        $Institution_Subject->subject_id = $request->input('subject_id');
+        $Institution_Subject->Student_count = $request->input('Student_count');
+        $Institution_Subject->Teacher_count = $request->input('Teacher_count');
+
+        $Institution_Subject->buyment_method_id = 1;
+        $Institution_Subject->save();
+           //
+           $current_date = Carbon::now();
+           $Temp_current_date = new Carbon(); 
+           $Duration_Course_institution = new DurationCourseInstitution;
+           $Duration_Course_institution->institution_subject_id = $Institution_Subject->id;
+           if($Institution->academicLevels_id == 1)
+           {
+            $Duration_Course_institution->duration_course_id = 1;
+           }
+           if($Institution->academicLevels_id == 2)
+            {
+                $Duration_Course_institution->duration_course_id = 2;
+            }
+           $Duration_Course_institution->From = $current_date;
+           if($Institution->academicLevels_id == 1)
+           {
+               $Duration_Course_institution->To = $Temp_current_date->addMonths(3);
+           }
+           if($Institution->academicLevels_id == 2)
+           {
+               $Duration_Course_institution->To = $Temp_current_date->addYear();
+           }
+           $Duration_Course_institution->save();
+   
+        $institution_subject_coordinator = new SubjectCoordinator;
+        $institution_subject_coordinator->user_id = $user->id;
+        $institution_subject_coordinator->institution_subject_id = $Institution_Subject->id;
+        $institution_subject_coordinator->save();
+        
+       //
+       $Activation_code = new ActivationCodes;
+       $Activation_code->user_id = $user->id;
+       $Activation_code->Activate_code = Keygen::alphanum(8)->generate();
+       $Activation_code->save();
+       $data = $Activation_code->Activate_code;
+       Mail::to($user->email)->send(new SendMail($data));
+       
+        return $Institution_Subject;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMySubject($id)
+    {
+       $InstitutionSubject = InstitutionSubject::find($id);
+       return $InstitutionSubject;
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getClasses($id)
+    {
+        $sortField = request('sort_field','id');
+        if(!in_array($sortField,['id','Id_subj','Id_teach','keyclass'])){
+            $sortField = 'id';
+        }
+        $sortDirection = request('sort_direction','desc');
+        if(!in_array($sortDirection,['asc','dec'])){
+            $sortDirection = 'desc';
+        }
+        $column= request('column','Institu_name');
+        if(!in_array($column,['Institu_name','Email','Mobile','Address','Address1'])){
+            $column = 'Component_name';
+        }
+        $Institution_keyClasses = InstitutionClass::when(request('search','') != '', function($query){
+            $query->where('keyclass','LIKE','%'.request('search').'%');
+        })->where('institution_subject_id',$id)->orderBy($sortField,$sortDirection)->paginate(5);
+        return $Institution_keyClasses;
+    }
     /**
      * Display the specified resource.
      *
