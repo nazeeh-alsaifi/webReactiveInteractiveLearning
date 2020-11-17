@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\users\Employee;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
 {
@@ -35,6 +40,59 @@ class UsersController extends Controller
         ->get();
         return response()->json( compact('users', 'you') );
     }
+
+      /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUsersRoles()
+    {
+        $Users_Roles = [];
+        $users =User::whereNull('deleted_at')->get();
+        $roles =Role::all();
+        foreach($roles as $role)
+        {
+            foreach($users as $user)
+            {
+               if($user->hasRole($role->name))
+               {
+                $array = array('user_id' =>$user->id , 'role_id' =>$role->id);
+                //$array = Arr::flatten($array);
+                $Users_Roles [] = $array;
+               }
+            }
+            
+        }
+        return $Users_Roles;
+    }
+
+      /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserPermissions()
+    {
+        $Permissions_Roles = [];
+        $you = auth()->user();
+        //Permission::create(['name'=>'delete Institution']);
+        // $role = Role::findByName('admin');
+        // $Permission = Permission::findById(13);
+        // $role->givePermissionTo($Permission);
+        $permissions =Permission::all();
+            foreach($permissions as $permission)
+            {
+               if($you->can($permission->name))
+               {
+                $array = array('permission' =>$permission->name);
+                $Permissions_Roles [] = $array;
+               }
+            }
+            
+        return $Permissions_Roles;
+    }
+
 
     /**
      * Display the specified resource.

@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 //Route::apiResource('AcademicLevel','AcademiclevelController');
 Route::group(['middleware' => 'api'], function ($router) {
     Route::get('menu', 'MenuController@index');
+    Route::get('user/getUsersRoles', 'UsersController@getUsersRoles');
+    Route::get('user/getUserPermissions', 'UsersController@getUserPermissions');
+
 ////
 Route::resource('Purchase','PurchaseController');
 Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
