@@ -150,11 +150,19 @@ class MenusTableSeeder extends Seeder
         
         $this->insertLink('guest,user,admin,editor,coordinator,teacher,student,free_student,subject_coordinator', 'Dashboard', '/', 'cil-speedometer');
         /* Edit Profile */
-        $this->insertLink('admin,editor', 'Edit Profile', '/edit-admin-profile', 'cil-speedometer');
+
         $this->insertLink('student,free_student', 'Edit Profile', '/edit-student-profile', 'cil-speedometer');
+        $this->insertLink('student,free_student', 'Activity', '/activity', 'cil-speedometer');
+
         $this->insertLink('teacher,coordinator,subject_coordinator', 'Edit Profile', '/edit-teacher-profile', 'cil-speedometer');
 
-        
+        $this->insertLink('coordinator', 'My Subjects', '/coordinator-subjects', 'cil-speedometer');
+        $this->insertLink('coordinator', 'My Teachers', '/coordinator-teachers', 'cil-speedometer');
+
+        $this->insertLink('subject_coordinator', 'My Teachers', '/subject-coordinator-teachers', 'cil-speedometer');
+
+        $this->insertLink('teacher', 'My classes', '/teacher-classes', 'cil-speedometer');
+
 
         $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
         // $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
@@ -175,6 +183,7 @@ class MenusTableSeeder extends Seeder
          $this->insertLink('guest', 'Support',    '/support');
         $this->endDropdown();
 
+        $this->insertLink('admin,editor', 'Edit Profile', '/edit-admin-profile', 'cil-speedometer');
         $this->insertLink('admin,editor', 'Institutions', '/institutions', 'cil-speedometer');
 
         $this->beginDropdown('admin,editor', 'Settings', '/settings', 'cil-puzzle');
@@ -183,6 +192,7 @@ class MenusTableSeeder extends Seeder
             $this->insertLink('admin,editor', 'Menu',    '/menu');
             $this->insertLink('admin,editor', 'BREAD',    '/bread');
             $this->insertLink('admin,editor', 'Email',    '/email');
+            $this->insertLink('admin,editor', 'Permissions',    '/permissions');
             $this->insertLink('admin,editor', 'Academic Levels','/academic-levels'); 
             $this->insertLink('admin,editor', 'Categories','/categories'); 
             $this->insertLink('admin,editor', 'Cities','/cities'); 
