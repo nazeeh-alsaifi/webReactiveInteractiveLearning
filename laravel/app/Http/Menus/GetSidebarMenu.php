@@ -53,7 +53,7 @@ class GetSidebarMenu implements MenuInterface{
         $this->getMenuFromDB($menuName, 'free_student');
     }
     private function getSubjectCoordinatorMenu($menuName){
-        $this->getMenuFromDB($menuName, 'free_student');
+        $this->getMenuFromDB($menuName, 'subject_coordinator');
     }
 
     public function get($roles, $menuName = 'sidebar menu'){
