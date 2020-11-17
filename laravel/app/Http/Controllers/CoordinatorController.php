@@ -306,7 +306,8 @@ class CoordinatorController extends Controller
     public function getMySubject($id)
     {
        $InstitutionSubject = InstitutionSubject::find($id);
-       return $InstitutionSubject;
+       $Subject = Subject::find($InstitutionSubject->subject_id);
+       return $Subject;
     }
 
      /**
@@ -318,16 +319,12 @@ class CoordinatorController extends Controller
     public function getClasses($id)
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','Id_subj','Id_teach','keyclass'])){
+        if(!in_array($sortField,['id','institution_subject_id','teacher_id','keyclass'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
-        }
-        $column= request('column','Institu_name');
-        if(!in_array($column,['Institu_name','Email','Mobile','Address','Address1'])){
-            $column = 'Component_name';
         }
         $Institution_keyClasses = InstitutionClass::when(request('search','') != '', function($query){
             $query->where('keyclass','LIKE','%'.request('search').'%');
