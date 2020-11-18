@@ -54,7 +54,6 @@ const Register = () => import("@/views/pages/Register");
 const Purchase = () => import("@/views/pages/Purchase");
 const FreeStudent = () => import("@/views/pages/FreeStudent");
 const FreeTrial = () => import("@/views/pages/FreeTrial");
-const JoinClass = () => import("@/views/pages/JoinClass");
 
 // Users
 const Users = () => import("@/views/users/Users");
@@ -152,6 +151,10 @@ const SubjectCoordinatorSubjects = () =>
 // permissions
 const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
 
+// join class
+const JoinClass = () => import("@/views/joinClass/JoinClassIndex");
+const JoinEditCoordinator = () =>
+  import("@/views/joinClass/joinEditCoordinator");
 /*
  AcademicLevels 
  Categories 
@@ -211,7 +214,7 @@ router.beforeEach((to, from, next) => {
       });
     }
   } else if (to.matched.some((record) => record.meta.requiresEditor)) {
-    console.log("path  match editor");
+    // console.log("path  match editor");
     if (roles != null && roles.indexOf("editor") >= 0) {
       next();
     } else {
@@ -363,10 +366,32 @@ function configRoutes() {
           name: "Free Student",
           component: FreeStudent,
         },
+        // {
+        //   path: "join-to-class",
+        //   name: "Join Class",
+        //   component: JoinClass,
+        // },
+        /* join class */
+
         {
           path: "join-to-class",
-          name: "Join Class",
-          component: JoinClass,
+          meta: { label: "Join Class" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: JoinClass,
+            },
+            {
+              path: "join-edit-coordinator-profile",
+              name: "JoinEditCoordinator",
+              component: JoinEditCoordinator,
+            },
+          ],
         },
         {
           path: "media",
@@ -424,7 +449,7 @@ function configRoutes() {
         },
         {
           path: "coordinator-teachers",
-          name: "CoordinatorSubjects",
+          name: "CoordinatorTeachers",
           component: CoordinatorTeachers,
           meta: {
             requiresCoordinator: true,

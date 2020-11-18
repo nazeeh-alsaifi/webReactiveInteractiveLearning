@@ -18,6 +18,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('user/getUsersRoles', 'UsersController@getUsersRoles');
     Route::get('user/getUserPermissions', 'UsersController@getUserPermissions');
 
+Route::post('activation-code','JoinClassController@checkActivationCode');
 ////
 Route::resource('Purchase','PurchaseController');
 Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
