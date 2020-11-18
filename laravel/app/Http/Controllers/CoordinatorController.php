@@ -118,6 +118,31 @@ class CoordinatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getSortTeachers()
+    {
+        $sortField = request('sort_field','id');
+        if(!in_array($sortField,['id','First_name','Last_Name','Mobile'])){
+            $sortField = 'id';
+        }
+        $sortDirection = request('sort_direction','desc');
+        if(!in_array($sortDirection,['asc','dec'])){
+            $sortDirection = 'desc';
+        }
+        $column= request('column','First_name');
+        if(!in_array($column,['First_name','Last_Name','Mobile'])){
+            $column = 'First_name';
+        }
+        $Teachers = Teacher::when(request('search','') != '', function($query){
+            $query->where(request('column',''),'LIKE','%'.request('search').'%');
+        })->orderBy($sortField,$sortDirection)->get();
+        return $Teachers;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getUsers()
     {
         $you = auth()->user()->id;
@@ -125,6 +150,40 @@ class CoordinatorController extends Controller
         return response()->json( compact('users', 'you') );
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getNoPageInstitutionSubject()
+    {
+        $you = auth()->user();
+        $Institution = Institution::where('coordinator_id',$you->id)->first();
+        $Institution_Subjects = InstitutionSubject::where('institution_id',$Institution->id)->get();
+        return $Institution_Subjects;
+    }
+
+       /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getNoPageClasses()
+    {
+        return InstitutionClass::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCoordinatorTeachers()
+    {
+        $coordinator = auth()->user();
+
+
+    }
 
     /**
      * Show the form for creating a new resource.
