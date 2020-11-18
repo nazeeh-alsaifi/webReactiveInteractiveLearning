@@ -38,6 +38,24 @@ class JoinClassController extends Controller
     public function __construct(){
 
     }
+    public function getActivationCodes(){
+        return ActivationCodes::all();
+    }
 
-    
+    public function checkActivationCode(Request $request){
+        $validatedRequest =$request->validate( [
+            'activationCode' => 'required',
+        ]);
+            $user_id = ActivationCodes::select("user_id")->where('Activate_code','=',$request->activationCode)->first()->user_id;
+            // getting the user to change its status
+            $user = User::find($user_id);
+            $user->status ="Active";
+            $user->save();
+
+            $role = $user->menuroles;
+            
+            return response()->json(['role'=>$role]);
+        
+       
+    }
 }
