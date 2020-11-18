@@ -146,6 +146,8 @@ const CoordinatorSubjects = () => import("@/views/coordinator/MySubjects");
 const CoordinatorSubjectsClasses = () => import("@/views/coordinator/Classes");
 const SubjectClass = () => import("@/views/coordinator/Class");
 const CoordinatorTeachers = () => import("@/views/coordinator/MyTeachers");
+const TeacherClasses = () => import("@/views/coordinator/TeacherClasses");
+
 
 // subject coordinator
 const SubjectCoordinatorSubjects = () =>
@@ -418,7 +420,7 @@ function configRoutes() {
         /* coordinator */
         {
           path: "coordinator-subjects",
-          meta: { label: "My Subjects" },
+          meta: { label: "My_Subjects" },
           component: {
             render(c) {
               return c("router-view");
@@ -468,11 +470,48 @@ function configRoutes() {
         //
         {
           path: "coordinator-teachers",
-          name: "CoordinatorSubjects",
+          meta: { label: "My_Teachers" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+          {
+          path: "",
           component: CoordinatorTeachers,
           meta: {
             requiresCoordinator: true,
           },
+          },
+          {
+            path: ":id/teacherclasses",
+            meta: { label: "Teacher_Classes" },
+            component: {
+              render(b) {
+                return b("router-view");
+              },
+            },
+            children: [
+              {
+              path: "",
+              component: TeacherClasses,
+              meta: {
+                requiresCoordinator: true,
+              },
+              },
+              {
+                path: ":id/myclass",
+                name: "class",
+                component: SubjectClass,
+                meta: {
+                  requiresCoordinator: true,
+                },
+              },
+            ]    
+            },
+            
+          ]
         },
         /* subject coordinator*/
         {

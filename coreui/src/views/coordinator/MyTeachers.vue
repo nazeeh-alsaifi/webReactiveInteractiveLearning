@@ -76,12 +76,12 @@
                         <tr v-for="teacher in teachers" v-bind:key="teacher.id">
                             <td>
                                 <div style="word-wrap: break-word;">
-                                    <a v-bind:href="'/Institutions/'+teacher.id+'/classes'"> {{ teacher.id }}</a>
+                                    <a @click="gotoclasses(teacher.id)"> {{ teacher.id }}</a>
                                 </div>
                             </td>
                             <td>
                                  <div style="word-wrap: break-word;">
-                                    <a v-bind:href="'/Institutions/'+teacher.id+'/classes'"> {{ teacher.First_name }}</a>
+                                    <a @click="gotoclasses(teacher.id)"> {{ teacher.First_name }}</a>
                                 </div>
                             </td>
                             <td>
@@ -144,6 +144,9 @@ export default {
         }
     },
     methods:{
+      gotoclasses(id){
+            this.$router.push({path: `coordinator-teachers/${id.toString()}/teacherclasses`});
+        },
          change_sort(field) {
             if (this.sort_field === field) {
                 this.sort_direction =

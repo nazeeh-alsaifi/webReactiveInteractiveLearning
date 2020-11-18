@@ -132,7 +132,7 @@ class CoordinatorController extends Controller
         if(!in_array($column,['First_name','Last_Name','Mobile'])){
             $column = 'First_name';
         }
-        $Teachers = Teacher::when(request('search','') != '', function($query){
+        $Teachers = Teacher::where('Is_Coordinator','0')->when(request('search','') != '', function($query){
             $query->where(request('column',''),'LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->get();
         return $Teachers;
@@ -163,7 +163,17 @@ class CoordinatorController extends Controller
         return $Institution_Subjects;
     }
 
-       /**
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllInstitutionSubject()
+    {
+        return InstitutionSubject::all();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -371,6 +381,18 @@ class CoordinatorController extends Controller
        return $Subject;
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyTeacher($id)
+    {
+       $Teacher = Teacher::find($id);
+       return $Teacher;
+    }
+
      /**
      * Show the form for editing the specified resource.
      *
@@ -393,6 +415,27 @@ class CoordinatorController extends Controller
         return $Institution_keyClasses;
     }
     
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getTeacherClasses($id)
+    {
+        $sortField = request('sort_field','id');
+        if(!in_array($sortField,['id','institution_subject_id','teacher_id','keyclass'])){
+            $sortField = 'id';
+        }
+        $sortDirection = request('sort_direction','desc');
+        if(!in_array($sortDirection,['asc','dec'])){
+            $sortDirection = 'desc';
+        }
+        $Institution_keyClasses = InstitutionClass::when(request('search','') != '', function($query){
+            $query->where('keyclass','LIKE','%'.request('search').'%');
+        })->where('teacher_id',$id)->orderBy($sortField,$sortDirection)->paginate(5);
+        return $Institution_keyClasses;
+    }
     /**
      * Show the form for editing the specified resource.
      *
