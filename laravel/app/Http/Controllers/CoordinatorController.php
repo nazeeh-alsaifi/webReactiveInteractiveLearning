@@ -9,8 +9,10 @@ use App\Models\settings\Nationality;
 use App\Models\institutions\Institution;
 use App\Models\Institutions\InstitutionSubject;
 use App\Models\Institutions\InstitutionClass;
+use App\Models\Institutions\StudentClass;
 use App\Models\settings\Subject;
 use App\Models\users\Teacher;
+use App\Models\users\Student;
 use App\Models\users\SubjectCoordinator;
 use App\Models\User;
 use App\Models\durations\DurationCourseInstitution;
@@ -331,6 +333,59 @@ class CoordinatorController extends Controller
         })->where('institution_subject_id',$id)->orderBy($sortField,$sortDirection)->paginate(5);
         return $Institution_keyClasses;
     }
+    
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getStudentClasses($id)
+    {
+       $StudentClass = StudentClass::where('institution_class_id',$id)->get();
+       return $StudentClass;
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyClassSubject($id)
+    {
+       $InstitutionClasses = InstitutionClass::find($id);
+       $InstitutionSubject = InstitutionSubject::find($InstitutionClasses->institution_subject_id);
+       $Subject = Subject::find($InstitutionSubject->subject_id);
+       return $Subject;
+    }
+
+  /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getStudents()
+    {
+        $sortField = request('sort_field','id');
+        if(!in_array($sortField,['id','First_Name','Last_Name','Mobile'])){
+            $sortField = 'id';
+        }
+        $sortDirection = request('sort_direction','desc');
+        if(!in_array($sortDirection,['asc','dec'])){
+            $sortDirection = 'desc';
+        }
+        $column= request('column','First_Name');
+        if(!in_array($column,['First_Name','Last_Name','Mobile'])){
+            $column = 'First_Name';
+        }
+        $Students = Student::when(request('search','') != '', function($query){
+            $query->where(request('column',''),'LIKE','%'.request('search').'%');
+        })->orderBy($sortField,$sortDirection)->get();
+        return  $Students;
+
+    }
+
     /**
      * Display the specified resource.
      *
