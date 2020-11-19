@@ -67,6 +67,22 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');
       Route::post('coordintors/new_subject','CoordinatorController@new_subject');    
     });
+    //
+    Route::group(['middleware' => 'subjectcoordinator'], function ($router) {
+        Route::resource('SubjectCoordinator','SubjectCoordinatorController');
+        Route::get('SubjectCoordinators/myInstitutionClasses','SubjectCoordinatorController@myInstitutionClasses');
+        Route::get('SubjectCoordinators/getSortTeachers','SubjectCoordinatorController@getSortTeachers');
+        Route::get('SubjectCoordinators/{id}/getMyTeacher','SubjectCoordinatorController@getMyTeacher');
+        Route::get('SubjectCoordinators/getSubjects','SubjectCoordinatorController@getSubjects'); 
+        Route::get('SubjectCoordinators/{id}/getTeacherClasses','SubjectCoordinatorController@getTeacherClasses');
+        Route::get('SubjectCoordinators/getTeachers','SubjectCoordinatorController@getTeachers');
+        Route::get('SubjectCoordinators/getAllInstitutionSubject','SubjectCoordinatorController@getAllInstitutionSubject');
+        Route::get('SubjectCoordinators/{id}/getMyClassSubject','SubjectCoordinatorController@getMyClassSubject');
+        Route::get('SubjectCoordinators/getStudents','SubjectCoordinatorController@getStudents');
+        Route::get('SubjectCoordinators/{id}/getStudentClasses','SubjectCoordinatorController@getStudentClasses');
+    });
+    
+    //
     Route::group(['middleware' => 'admin'], function ($router) {
     ////////my routes
     Route::resource('AcademicLevels','AcademiclevelController');
