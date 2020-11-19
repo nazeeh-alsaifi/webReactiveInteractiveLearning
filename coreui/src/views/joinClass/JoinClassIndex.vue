@@ -61,13 +61,14 @@ export default {
         .then(function (response) {
           // console.log(response);
           self.role = response.data.role;
+          self.id = response.data.id;
           self.message =
             "You activation code is valid. You will be redirected shortly...";
           console.log("role", self.role);
           if (self.role == "coordinator") {
             console.log("pushing path");
             self.$router.push({
-              path: "join-to-class/join-edit-coordinator-profile",
+              path: `join-to-class/${self.id.toString()}/join-edit-coordinator-profile`,
             });
           }
         })

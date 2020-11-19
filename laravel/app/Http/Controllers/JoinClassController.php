@@ -41,6 +41,11 @@ class JoinClassController extends Controller
     public function getActivationCodes(){
         return ActivationCodes::all();
     }
+    // public function getTeacher(Request $request)
+    // {
+    //     $teacher =Teacher::find($request->input('id'));
+    //     return response()->json(["teacher"=>$teacher]);
+    // }
 
     public function checkActivationCode(Request $request){
         $validatedRequest =$request->validate( [
@@ -54,8 +59,27 @@ class JoinClassController extends Controller
 
             $role = $user->menuroles;
             
-            return response()->json(['role'=>$role]);
+            return response()->json(['role'=>$role,'id'=>$user_id]);
         
        
+    }
+    public function updateTeacher(Request $request){
+        // TODO:we have to add old password check in the future 
+        $validatedRequest = $request->validate([
+            "id" => "required",
+            "email" => "required|email",
+            "new_password" => "required"
+        ]);
+        
+        $user = User::find($validatedRequest["id"]);
+        if($user->email == $validatedRequest["email"]){
+            $user->password = Hash::make($validatedRequest["new_password"]);
+            $user->save();
+            return response()->json(array('success' => true));
+        }
+      
+        return response()->json(array('success' => false));
+        
+
     }
 }

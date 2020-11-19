@@ -387,10 +387,15 @@ function configRoutes() {
               component: JoinClass,
             },
             {
-              path: "join-edit-coordinator-profile",
+              path: ":id/join-edit-coordinator-profile",
               name: "JoinEditCoordinator",
               component: JoinEditCoordinator,
             },
+            // {
+            //   path: "join-edit-coordinator-profile",
+            //   name: "JoinEditCoordinator",
+            //   component: JoinEditCoordinator,
+            // },
           ],
         },
         {

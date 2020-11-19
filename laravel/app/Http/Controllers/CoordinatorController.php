@@ -49,6 +49,7 @@ class CoordinatorController extends Controller
     {
         return Teacher::all();
     }
+    
 
     /**
      * Display a listing of the resource.

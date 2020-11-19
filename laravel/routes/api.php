@@ -19,6 +19,10 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('user/getUserPermissions', 'UsersController@getUserPermissions');
 
 Route::post('activation-code','JoinClassController@checkActivationCode');
+Route::post('joinClass/updateTeacherProfile','JoinClassController@updateTeacher');
+
+// Route::get('joinClass/getTeacher','JoinClassController@getTeacher');
+
 ////
 Route::resource('Purchase','PurchaseController');
 Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');
