@@ -4,9 +4,9 @@
       <transition name="slide">
         <CCard>
           <CCardBody>
-    <div class="container">
+     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading"><h1>{{Institution.Institu_name}}'s Teachers</h1></div>
+            <div class="panel-heading"><h1>My Teachers</h1></div>
             <div class="panel-body">
                 <div style="text-align:left">
                   
@@ -103,13 +103,11 @@
             </div>
         </div>
     </div>
-
-            </CCardBody>
+           </CCardBody>
         </CCard>
       </transition>
     </CCol>
   </CRow>
-
 </template>
 
 <script>
@@ -118,8 +116,6 @@ export default {
     data: function() {
         return {
             teachers: [],
-            Institution:{},
-            institution_subjects: [],
             institution_calsses: [],
             searchtext: "",
             column: "First_name",
@@ -130,10 +126,8 @@ export default {
         };
     },
      mounted() {
-        this.loadInstitutions();
-        this.loadInstitutionsSubjects();
-        this.loadInstitutionClass();
-        this.loadteachers();
+      this.loadMyInstitutionClasses();
+      this.loadteachers();
     },
      watch: {
         searchtext() {
@@ -145,7 +139,7 @@ export default {
     },
     methods:{
       gotoclasses(id){
-            this.$router.push({path: `coordinator-teachers/${id.toString()}/teacherclasses`});
+            this.$router.push({path: `subject-coordinator-teachers/${id.toString()}/teacherclasses`});
         },
          change_sort(field) {
             if (this.sort_field === field) {
@@ -157,39 +151,18 @@ export default {
             }
             this.loadteachers();
         },
-        loadInstitutionsSubjects:function(){
-            axios
-                .get(this.$apiAdress +'/api/Coordintors/getNoPageInstitutionSubject?token='+ localStorage.getItem("api_token"))
+        loadMyInstitutionClasses:function(){
+        axios
+                .get(this.$apiAdress +'/api/SubjectCoordinators/myInstitutionClasses?token='+ localStorage.getItem("api_token"))
                 .then(response => {
-                    this.institution_subjects = response.data;
+                    this.institution_calsses = response.data;
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
-        loadInstitutionClass:function(){
-            axios
-                .get(this.$apiAdress +'/api/Coordintors/getNoPageClasses?token='+ localStorage.getItem("api_token"))
-                .then(response => {
-                    //this.institution_calsses = response.data;
-                    this.institution_calsses = this.filterinstitutionClasses(response.data);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-         filterinstitutionClasses(institutioncalsses){
-                return institutioncalsses.filter((institutioncalss)=>{
-                   for (var i in this.institution_subjects) {
-                       if(institutioncalss.institution_subject_id==this.institution_subjects[i].id)
-                       {
-                           return (institutioncalss.institution_subject_id==this.institution_subjects[i].id);
-                       }
-                    }
-              });
-         },
             loadteachers: function(){
-                    axios.get(this.$apiAdress +'/api/Coordintors/getSortTeachers?search=' +
+                    axios.get(this.$apiAdress +'/api/SubjectCoordinators/getSortTeachers?search=' +
                         this.searchtext +
                         "&sort_field=" +
                         this.sort_field +
@@ -217,16 +190,6 @@ export default {
                     }
               });
          },
-    loadInstitutions(){
-            axios
-                .get(this.$apiAdress +'/api/Coordintors/getInstitution?token='+ localStorage.getItem("api_token"))
-                .then(response => {
-                    this.Institution = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
     }
 
 };

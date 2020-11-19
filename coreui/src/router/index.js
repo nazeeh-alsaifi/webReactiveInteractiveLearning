@@ -150,8 +150,15 @@ const TeacherClasses = () => import("@/views/coordinator/TeacherClasses");
 
 
 // subject coordinator
-const SubjectCoordinatorSubjects = () =>
-  import("@/views/subjectCoordinator/MySubjects");
+const SubjectCoordinatorTeachers = () =>
+  import("@/views/subjectCoordinator/MyTeachers");
+const SubjectCoordinatorTeacherClasses = () =>
+  import("@/views/subjectCoordinator/Classes");
+  const SubjectCoordinatorClass = () =>
+  import("@/views/subjectCoordinator/Class");
+
+//teacher
+const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
 
 // permissions
 const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
@@ -516,17 +523,54 @@ function configRoutes() {
         /* subject coordinator*/
         {
           path: "subject-coordinator-teachers",
-          name: "SubjectCoordinatorTeachers",
-          component: SubjectCoordinatorSubjects,
+          meta: { label: "SubjectCoordinatorTeachers" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+          {
+          path: "",
+          component: SubjectCoordinatorTeachers,
           meta: {
             requiresSubjectCoordinator: true,
           },
+          },
+          {
+            path: ":id/teacherclasses",
+            meta: { label: "Teacher_Classes" },
+            component: {
+              render(b) {
+                return b("router-view");
+              },
+            },
+            children: [
+              {
+              path: "",
+              component: SubjectCoordinatorTeacherClasses,
+              meta: {
+                requiresSubjectCoordinator: true,
+              },
+              },
+              {
+                path: ":id/myclass",
+                name: "class",
+                component: SubjectCoordinatorClass,
+                meta: {
+                  requiresSubjectCoordinator: true,
+                },
+              },
+            ]    
+            },
+            
+          ]  
         },
         /* teacher */
         {
           path: "teacher-classes",
           name: "TeacherClasses",
-          component: CoordinatorTeachers,
+          component: MyTeacherClasses,
           meta: {
             requiresTeacher: true,
           },
