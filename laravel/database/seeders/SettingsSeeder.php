@@ -37,7 +37,7 @@ class SettingsSeeder extends Seeder
         ]);
 
         // Country
-        Country::create([
+        $country=Country::create([
             // 'id'=>1,
             'country_name' => "Syria",
             'created_at' => now(),
@@ -45,95 +45,78 @@ class SettingsSeeder extends Seeder
         ]);
        
 
-
         // City
         City::create([
             // "id"=>1,
-            "Country_id" => 1,
+            "Country_id" => $country->id,
             "city_name" => "Damscuss",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         City::create([
             // "id"=>2,
-            "Country_id" => 1,
+            "Country_id" => $country->id,
             "city_name" => "Aleppo",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
        
-        City::create([
-            // "id"=>4,
-            "Country_id" => 2,
-            "city_name" => "Jiza",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+       
 
-        // Subject
         
-        Subject::create([
-            "Subject_name" =>"Physics",
+        // Nationalities
+        Nationality::create([
+            "Nationality_name" => "default",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        // Nationalities
        
         Nationality::create([
             "Nationality_name" => "Syrian",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        // Subject
        
+        $subject = Subject::where("Subject_name" ,'=','Physics')->first();
+
         // Categories
-        Category::create([
-            "subject_id" => 1,
-            "Cat_name" => "Category 1 of subject 1",
+        $cat1 =Category::create([
+            "subject_id" => $subject->id,
+            "Cat_name" => "Category 1 of subject " . $subject->id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        Category::create([
-            "subject_id" => 1,
-            "Cat_name" => "Category 2 of subject 1",
+        $cat2 =Category::create([
+            "subject_id" => $subject->id,
+            "Cat_name" => "Category 2 of subject " . $subject->id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        Category::create([
-            "subject_id" => 2,
-            "Cat_name" => "Category 1 of subject 2",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        Category::create([
-            "subject_id" => 2,
-            "Cat_name" => "Category 2 of subject 2",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-       
+      
         // Sub Categories
         SubCategory::create([
-            "category_id" => 1,
-            "sub_cat_name" => "SubCategory 1 of catergory 1",
+            "category_id" => $cat1->id,
+            "sub_cat_name" => "SubCategory 1 of catergory " . $cat1->id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         SubCategory::create([
-            "category_id" => 1,
-            "sub_cat_name" => "SubCategory 2 of category 1",
+            "category_id" => $cat1->id,
+            "sub_cat_name" => "SubCategory 2 of category " . $cat1->id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         SubCategory::create([
-            "category_id" => 2,
-            "sub_cat_name" => "SubCategory 1 of category 2",
+            "category_id" => $cat2->id,
+            "sub_cat_name" => "SubCategory 2 of category " . $cat2->id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         SubCategory::create([
-            "category_id" => 2,
-            "sub_cat_name" => "SubCategory 2 of category 2",
+            "category_id" => $cat2->id,
+            "sub_cat_name" => "SubCategory 2 of category " . $cat2->id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

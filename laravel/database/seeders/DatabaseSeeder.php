@@ -25,13 +25,13 @@ class DatabaseSeeder extends Seeder
         $this->call('EmailSeeder');
         */
         $this->call([
+            SettingsSeeder::class,
             UsersAndNotesSeeder::class,
             MenusTableSeeder::class,
             FolderTableSeeder::class,
             ExampleSeeder::class,
             BREADSeeder::class,
             EmailSeeder::class,
-            SettingsSeeder::class,
         ]);
     }
 }

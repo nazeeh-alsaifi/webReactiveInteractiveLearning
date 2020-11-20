@@ -229,6 +229,13 @@ class UsersAndNotesSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+                City::create([
+                    // "id"=>4,
+                    "Country_id" => $country->id,
+                    "city_name" => "Jiza",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
                 $natio =Nationality::create([
                     "Nationality_name" => "egyptian",
                     'created_at' => now(),
