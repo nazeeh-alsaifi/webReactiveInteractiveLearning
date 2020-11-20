@@ -68,7 +68,7 @@ export default {
           if (self.role == "coordinator") {
             console.log("pushing path");
             self.$router.push({
-              path: `join-to-class/${self.id.toString()}/join-edit-coordinator-profile`,
+              path: `join-to-class/${self.id.toString()}/join-edit-coordinator-profile/`,
             });
           }
         })
@@ -84,7 +84,7 @@ export default {
             self.showAlert();
           } else {
             console.log(error);
-            self.$router.push({ path: "dashboard" });
+            self.$router.push({ path: "/" });
           }
         });
     },

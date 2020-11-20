@@ -14,7 +14,7 @@
 
               <CRow style="margin-bottom: 1rem">
                 <CCol>
-                  <CLabel name="email">Email:</CLabel>
+                  <label htmlFor="email">Email:</label>
                   <div>
                     <input
                       id="email"
@@ -37,9 +37,7 @@
 
               <CRow>
                 <CCol>
-                  <CLabel name="password" class="col-form-label"
-                    >New Password</CLabel
-                  >
+                  <label for="password">New Password</label>
                   <div v-if="!passwordshow">
                     <div>
                       <input
@@ -141,8 +139,11 @@ export default {
   },
   mounted() {
     // this.loadteacher();
+    this.id = this.$route.params.id;
+    console.log("router1:", this.$route);
   },
   methods: {
+    /* 
     loadteacher: function () {
       axios
         .get(
@@ -158,7 +159,9 @@ export default {
           console.log(error);
         });
     },
+     */
     submit() {
+      let self = this;
       const formData = new FormData();
       formData.set("id", this.$route.params.id);
       formData.set("email", this.fields.email);
@@ -172,18 +175,31 @@ export default {
       axios
         .post(this.$apiAdress + "/api/joinClass/updateTeacherProfile", formData)
         .then((response) => {
-          this.teacher = {};
-          this.success = true;
-          this.errors = {};
-          console.log("update teacher response", this.response);
+          self.teacher = {};
+          self.success = true;
+          self.errors = {};
+          console.log("update teacher response", self.response);
+          self.$router.push({
+            path: `addTeachers`,
+          });
         })
         .catch((error) => {
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors;
+          console.log(error);
+          if (error.response.data.message == "The given data was invalid.") {
+            self.message = "";
+            for (let key in error.response.data.errors) {
+              if (error.response.data.errors.hasOwnProperty(key)) {
+                self.message += error.response.data.errors[key][0] + "  ";
+              }
+            }
+            self.showAlert();
+          } else {
+            console.log(error);
+            self.$router.push({ path: "dashboard" });
           }
-          console.log("Error");
         });
     },
+
     genratePassAdd() {
       var generator = require("generate-password");
       this.fields.password = generator.generate({
@@ -193,7 +209,7 @@ export default {
         uppercase: true,
       });
       this.addgeneratepass = true;
-      return Coordinator_password;
+      // return Coordinator_password;
     },
     showpass() {
       this.passwordshow = true;
