@@ -112,6 +112,7 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::resource('UnitMeasure','UnitsMeasureController');
     Route::resource('Institution','InstitiutionController');
     Route::resource('Employee','EmployeeController');
+    Route::resource('Permissions','PermissionsController');
    
     ////
     Route::get('academiclevel/getpage','AcademiclevelController@getpage');
@@ -163,6 +164,11 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::post('employees/store_user_profile','EmployeeController@storeuserprofile');
     Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile');    
     //
+    Route::get('permissions/roles_permissions','PermissionsController@rolesPermissions');
+    Route::post('permissions/addtorole','PermissionsController@addtorole');
+    Route::get('permissions/{id}/delete','PermissionsController@delete');
+    //
+
 
         Route::resource('mail',        'MailController');
         Route::get('prepareSend/{id}', 'MailController@prepareSend')->name('prepareSend');
