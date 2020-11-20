@@ -83,6 +83,19 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     });
     
     //
+    //
+    Route::group(['middleware' => 'teacher'], function ($router) {
+        Route::resource('Teacher','TeacherController');
+        Route::get('Teachers/getMyTeacher','TeacherController@getMyTeacher');
+        Route::get('Teachers/getSubjects','TeacherController@getSubjects');
+        Route::get('Teachers/getTeacherClasses','TeacherController@getTeacherClasses');
+        Route::get('Teachers/getAllInstitutionSubject','TeacherController@getAllInstitutionSubject');
+        Route::get('Teachers/getTeachers','TeacherController@getTeachers');
+        Route::get('Teachers/{id}/getMyClassSubject','TeacherController@getMyClassSubject');
+        Route::get('Teachers/getStudents','TeacherController@getStudents');
+        Route::get('Teachers/{id}/getStudentClasses','TeacherController@getStudentClasses');
+    });
+    //
     Route::group(['middleware' => 'admin'], function ($router) {
     ////////my routes
     Route::resource('AcademicLevels','AcademiclevelController');
