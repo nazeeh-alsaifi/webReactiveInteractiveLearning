@@ -155,6 +155,7 @@ const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
 const JoinClass = () => import("@/views/joinClass/JoinClassIndex");
 const JoinEditCoordinator = () =>
   import("@/views/joinClass/joinEditCoordinator");
+const AddTeacher = () => import("@/views/joinClass/addTeacher");
 /*
  AcademicLevels 
  Categories 
@@ -388,9 +389,25 @@ function configRoutes() {
             },
             {
               path: ":id/join-edit-coordinator-profile",
-              name: "JoinEditCoordinator",
-              component: JoinEditCoordinator,
+              meta: { label: "edit profile" },
+              component: {
+                render(c) {
+                  return c("router-view");
+                },
+              },
+              children: [
+                {
+                  path: "",
+                  component: JoinEditCoordinator,
+                },
+                {
+                  path: "addTeachers",
+                  name: "Add Teachers",
+                  component: AddTeacher,
+                },
+              ],
             },
+
             // {
             //   path: "join-edit-coordinator-profile",
             //   name: "JoinEditCoordinator",

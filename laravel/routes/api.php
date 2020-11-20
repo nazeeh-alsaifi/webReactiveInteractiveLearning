@@ -20,6 +20,8 @@ Route::group(['middleware' => 'api'], function ($router) {
 
 Route::post('activation-code','JoinClassController@checkActivationCode');
 Route::post('joinClass/updateTeacherProfile','JoinClassController@updateTeacher');
+Route::post('joinClass/createTeachers','JoinClassController@createTeachers');
+Route::post('joinClass/updateTeachers','JoinClassController@updateTeachers');
 
 // Route::get('joinClass/getTeacher','JoinClassController@getTeacher');
 
