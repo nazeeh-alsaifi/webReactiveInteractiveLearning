@@ -11,9 +11,48 @@
               <div class="alert alert-success" v-show="success">
                 Profile Updated Successfully.
               </div>
-
-              <CRow style="margin-bottom: 1rem">
-                <CCol>
+              <CRow>
+                <CCol sm="12" md="6" xl="6" l="6" style="margin-bottom: 1rem">
+                  <label>First Name:</label>
+                  <div>
+                    <input
+                      minlength="3"
+                      type="text"
+                      class="form-control"
+                      name="firstName"
+                      v-model="fields.firstName"
+                      required
+                      autofocus
+                    />
+                    <div
+                      class="alert alert-danger"
+                      v-if="errors && errors.email"
+                    >
+                      {{ errors.email[0] }}
+                    </div>
+                  </div>
+                </CCol>
+                <CCol sm="12" md="6" xl="6" l="6" style="margin-bottom: 1rem">
+                  <label>Last Name:</label>
+                  <div>
+                    <input
+                      minlength="3"
+                      type="text"
+                      class="form-control"
+                      name="lastName"
+                      v-model="fields.lastName"
+                      required
+                      autofocus
+                    />
+                    <div
+                      class="alert alert-danger"
+                      v-if="errors && errors.email"
+                    >
+                      {{ errors.email[0] }}
+                    </div>
+                  </div>
+                </CCol>
+                <CCol sm="12" md="6" xl="6" l="6" style="margin-bottom: 1rem">
                   <label htmlFor="email">Email:</label>
                   <div>
                     <input
@@ -33,10 +72,7 @@
                     </div>
                   </div>
                 </CCol>
-              </CRow>
-
-              <CRow>
-                <CCol>
+                <CCol sm="12" md="6" xl="6" l="6">
                   <label for="password">New Password</label>
                   <div v-if="!passwordshow">
                     <div>
@@ -166,6 +202,9 @@ export default {
       formData.set("id", this.$route.params.id);
       formData.set("email", this.fields.email);
       formData.set("new_password", this.fields.password);
+      formData.set("firstName", this.fields.firstName);
+      formData.set("lastName", this.fields.lastName);
+
       /*
       if (!this.fields.password) {
         this.fields.password = this.freshuser.password;
@@ -173,17 +212,13 @@ export default {
       */
 
       axios
-        .post(
-          this.$apiAdress + "/api/joinClass/updateCoordinatorProfile",
-          formData
-        )
+        .post(this.$apiAdress + "/api/joinClass/updateTeacherProfile", formData)
         .then((response) => {
-          self.teacher = {};
           self.success = true;
           self.errors = {};
           console.log("update teacher response", self.response);
           self.$router.push({
-            path: `addTeachers`,
+            path: `addClasses`,
           });
         })
         .catch((error) => {

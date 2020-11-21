@@ -61,7 +61,7 @@ class JoinClassController extends Controller
         
        
     }
-    public function updateTeacher(Request $request){
+    public function updateCoordinatorProfile(Request $request){
         // TODO:we have to add old password check in the future 
         $validatedRequest = $request->validate([
             "id" => "required",
@@ -170,11 +170,36 @@ class JoinClassController extends Controller
             $teacher->Last_Name = $teacherData["lastName"];
             $teacher->save();
 
-            // Mail::to($teacherData->email)->send(new SendMail($teacherData->kClass));
+            // Mail::to($teacherData["email"])->send(new SendMail($teacherData["kClass"]));
 
         }
 
         return response()->json(array("success" => true));
 
     }
+
+    public function updateTeacherProfile(Request $request){
+        $validatedRequest = $request->validate([
+            "id" => "required",
+            "email" => "required|email",
+            "new_password" => "required", 
+            "firstName" => "required",
+            "lastName" => "required"
+        ]);
+        
+        $user = User::find($validatedRequest["id"]);
+        if($user->email == $validatedRequest["email"]){
+            $user->password = Hash::make($validatedRequest["new_password"]);
+            $user->name = $validatedRequest["firstName"] . " " . $validatedRequest["lastName"];
+            $user->save();
+
+            $teacher = Teacher::where("user_id",'=',$validatedRequest["id"])->first();
+            $teacher->First_name = $validatedRequest["firstName"];
+            $teacher->Last_Name = $validatedRequest["lastName"];
+            $teacher->save();
+
+            return response()->json(array('success' => true));
+        }
+    }
 }
+
