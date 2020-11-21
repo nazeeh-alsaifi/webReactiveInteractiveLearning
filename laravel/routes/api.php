@@ -18,6 +18,15 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('user/getUsersRoles', 'UsersController@getUsersRoles');
     Route::get('user/getUserPermissions', 'UsersController@getUserPermissions');
 
+Route::post('activation-code','JoinClassController@checkActivationCode');
+Route::post('joinClass/updateCoordinatorProfile','JoinClassController@updateCoordinatorProfile');
+Route::post('joinClass/createTeachers','JoinClassController@createTeachers');
+Route::post('joinClass/updateTeachers','JoinClassController@updateTeachers');
+
+Route::post('joinClass/updateTeacherProfile','JoinClassController@updateTeacherProfile');
+
+// Route::get('joinClass/getTeacher','JoinClassController@getTeacher');
+
 ////
 Route::resource('Purchase','PurchaseController');
 Route::post('Purchase/Free_Trail','PurchaseController@Free_Trail');

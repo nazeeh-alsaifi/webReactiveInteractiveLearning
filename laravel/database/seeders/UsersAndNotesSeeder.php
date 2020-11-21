@@ -191,11 +191,7 @@ class UsersAndNotesSeeder extends Seeder
                 ]);
             }
             if($usersRoles[$i]->name == 'coordinator'){
-                $subject =Subject::create([
-                    "Subject_name" =>"Physics",
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                $subject =Subject::where("Subject_name" ,'=','Physics')->first();
                 $natio =Nationality::create([
                     "Nationality_name" => "German",
                     'created_at' => now(),
@@ -226,6 +222,13 @@ class UsersAndNotesSeeder extends Seeder
                     // "id"=>3,
                     "Country_id" => $country->id,
                     "city_name" => "Cairo",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                City::create([
+                    // "id"=>4,
+                    "Country_id" => $country->id,
+                    "city_name" => "Jiza",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

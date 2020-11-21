@@ -9,6 +9,8 @@ class InstitutionClass extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];  
+
     public function institutionSubject()
     {
         return $this->belongsTo('App\Models\institutions\InstitutionSubject','institution_subject_id');

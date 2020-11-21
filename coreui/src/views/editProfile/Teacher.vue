@@ -484,7 +484,7 @@ export default {
         uppercase: true,
       });
       this.addgeneratepass = true;
-      return Coordinator_password;
+      // return Coordinator_password;
     },
     showpass() {
       this.passwordshow = true;
