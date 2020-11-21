@@ -143,11 +143,23 @@ const ActivityIndex = () => import("@/views/activity/ActivityIndex");
 
 // coordinator
 const CoordinatorSubjects = () => import("@/views/coordinator/MySubjects");
+const CoordinatorSubjectsClasses = () => import("@/views/coordinator/Classes");
+const SubjectClass = () => import("@/views/coordinator/Class");
 const CoordinatorTeachers = () => import("@/views/coordinator/MyTeachers");
+const TeacherClasses = () => import("@/views/coordinator/TeacherClasses");
+
 
 // subject coordinator
-const SubjectCoordinatorSubjects = () =>
-  import("@/views/subjectCoordinator/MySubjects");
+const SubjectCoordinatorTeachers = () =>
+  import("@/views/subjectCoordinator/MyTeachers");
+const SubjectCoordinatorTeacherClasses = () =>
+  import("@/views/subjectCoordinator/Classes");
+  const SubjectCoordinatorClass = () =>
+  import("@/views/subjectCoordinator/Class");
+
+//teacher
+const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
+const MyTeacherClass = () => import("@/views/teacher/Class");
 
 // permissions
 const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
@@ -416,37 +428,171 @@ function configRoutes() {
         /* coordinator */
         {
           path: "coordinator-subjects",
-          name: "CoordinatorSubjects",
+          meta: { label: "My_Subjects" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+          {
+          path: "",
           component: CoordinatorSubjects,
           meta: {
             requiresCoordinator: true,
           },
+          },
+          {
+            path: ":id/classes",
+            meta: { label: "classes" },
+           //component: CoordinatorSubjectsClasses,
+            //meta: {
+            //  requiresCoordinator: true,
+            //},
+            component: {
+              render(b) {
+                return b("router-view");
+              },
+            },
+            children: [
+              {
+              path: "",
+              component: CoordinatorSubjectsClasses,
+              meta: {
+                requiresCoordinator: true,
+              },
+              },
+              {
+                path: ":id/myclass",
+                name: "class",
+                component: SubjectClass,
+                meta: {
+                  requiresCoordinator: true,
+                },
+              },
+            ]    
+            },
+            
+          ]
         },
+        //
         {
           path: "coordinator-teachers",
-          name: "CoordinatorSubjects",
+          meta: { label: "My_Teachers" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+          {
+          path: "",
           component: CoordinatorTeachers,
           meta: {
             requiresCoordinator: true,
           },
+          },
+          {
+            path: ":id/teacherclasses",
+            meta: { label: "Teacher_Classes" },
+            component: {
+              render(b) {
+                return b("router-view");
+              },
+            },
+            children: [
+              {
+              path: "",
+              component: TeacherClasses,
+              meta: {
+                requiresCoordinator: true,
+              },
+              },
+              {
+                path: ":id/myclass",
+                name: "class",
+                component: SubjectClass,
+                meta: {
+                  requiresCoordinator: true,
+                },
+              },
+            ]    
+            },
+            
+          ]
         },
         /* subject coordinator*/
         {
           path: "subject-coordinator-teachers",
-          name: "SubjectCoordinatorTeachers",
-          component: SubjectCoordinatorSubjects,
+          meta: { label: "SubjectCoordinatorTeachers" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+          {
+          path: "",
+          component: SubjectCoordinatorTeachers,
           meta: {
             requiresSubjectCoordinator: true,
           },
+          },
+          {
+            path: ":id/teacherclasses",
+            meta: { label: "Teacher_Classes" },
+            component: {
+              render(b) {
+                return b("router-view");
+              },
+            },
+            children: [
+              {
+              path: "",
+              component: SubjectCoordinatorTeacherClasses,
+              meta: {
+                requiresSubjectCoordinator: true,
+              },
+              },
+              {
+                path: ":id/myclass",
+                name: "class",
+                component: SubjectCoordinatorClass,
+                meta: {
+                  requiresSubjectCoordinator: true,
+                },
+              },
+            ]    
+            },
+            
+          ]  
         },
         /* teacher */
         {
           path: "teacher-classes",
-          name: "TeacherClasses",
-          component: CoordinatorTeachers,
+          meta: { label: "TeacherClasses" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+          {
+          path: "",
+          component: MyTeacherClasses,
           meta: {
             requiresTeacher: true,
           },
+          },
+          {
+            path: ":id/myclass",
+            name: "class",
+            component: MyTeacherClass,
+            meta: {
+              requiresTeacher: true,
+            },
+          },
+        ]
         },
         /* Edit Profile */
         {

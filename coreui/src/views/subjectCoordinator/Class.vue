@@ -1,12 +1,12 @@
 <template>
- <CRow>
+<CRow>
     <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
           <CCardBody>
-    <div class="container">
+<div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading"><h1>{{Institution.Institu_name}}'s Teachers</h1></div>
+            <div class="panel-heading"><h1>Subject:  {{subject.Subject_name}}</h1></div>
             <div class="panel-body">
                 <div style="text-align:left">
                   
@@ -22,14 +22,14 @@
                             <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
                             </div>
                         </th>
-                         <th style="text-align:left;width:20%;">
+                         <th style="text-align:left;width:15%;">
                             <div style="text-align:left;">
-                            <a style="text-align:left;" @click.prevent="change_sort('First_name')">First_name</a>
-                            <span v-if="this.sort_field=='First_name' && this.sort_direction=='asc'" @click.prevent="change_sort('First_name')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='First_name' && this.sort_direction=='desc'" @click.prevent="change_sort('First_name')"><i class="fa-fw select-all fas"></i></span>
+                            <a style="text-align:left;" @click.prevent="change_sort('First_Name')">First_Name</a>
+                            <span v-if="this.sort_field=='First_Name' && this.sort_direction=='asc'" @click.prevent="change_sort('First_Name')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='First_Name' && this.sort_direction=='desc'" @click.prevent="change_sort('First_Name')"><i class="fa-fw select-all fas"></i></span>
                             </div>
                         </th>
-                        <th style="text-align:left;width:20%;">
+                        <th style="text-align:left;width:15%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('Last_Name')">Last_Name</a>
                             <span v-if="this.sort_field=='Last_Name' && this.sort_direction=='asc'" @click.prevent="change_sort('Last_Name')"><i class="fa-fw select-all fas"></i></span>
@@ -44,9 +44,9 @@
                             </div>
                         </th>
                         <th style="width:20%;">   
-                            <input style="width:100%;" type="search" v-model="searchtext" placeholder="search teacher"/>
+                            <input style="width:100%;" type="search" v-model="searchtext" placeholder="search student"/>
                         </th>
-                        <th style="width:10%;">
+                        <th>
                                 <a>COL</a>
                                 <select
                                     style="width:10%;"
@@ -55,7 +55,7 @@
                                 >
                                     <option
                                         class="form-control"
-                                        :value="'First_name'"
+                                        :value="'First_Name'"
                                         >First_Name</option
                                     >
                                     <option
@@ -73,25 +73,25 @@
                     </tr>
                      </thead>
                     <tbody>
-                        <tr v-for="teacher in teachers" v-bind:key="teacher.id">
-                            <td>
+                        <tr v-for="student in students" v-bind:key="student.id"> 
+                            <td >
                                 <div style="word-wrap: break-word;">
-                                    <a @click="gotoclasses(teacher.id)"> {{ teacher.id }}</a>
+                                      {{ student.id }}
                                 </div>
                             </td>
                             <td>
                                  <div style="word-wrap: break-word;">
-                                    <a @click="gotoclasses(teacher.id)"> {{ teacher.First_name }}</a>
+                                     {{ student.First_Name }}
                                 </div>
                             </td>
                             <td>
                                 <div style="word-wrap: break-word;">
-                                   {{teacher.Last_Name}}
+                                   {{student.Last_Name}}
                                 </div>
                             </td>
                             <td>
                                 <div style="word-wrap: break-word;">
-                                   {{teacher.Mobile}}
+                                   {{student.Mobile}}
                                 </div>
                             </td>
                             <td></td>
@@ -104,50 +104,47 @@
         </div>
     </div>
 
-            </CCardBody>
+     </CCardBody>
         </CCard>
       </transition>
     </CCol>
   </CRow>
-
 </template>
-
 <script>
 import axios from 'axios'
-export default {
-    data: function() {
+    export default {
+     data: function() {
         return {
-            teachers: [],
-            Institution:{},
-            institution_subjects: [],
-            institution_calsses: [],
+            students: [],
+            tempstud: [],
+            student_classes: [],
+            subject:{},
+            fields: {},
+            add: false,
             searchtext: "",
-            column: "First_name",
+            column: "First_Name",
             errors: [],
             sort_field: "id",
             sort_direction: "desc",
-            passwordshow: false,
+            myId: {},
         };
     },
      mounted() {
-        this.loadInstitutions();
-        this.loadInstitutionsSubjects();
-        this.loadInstitutionClass();
-        this.loadteachers();
+       this.myId = this.$route.params.id;
+        this.loadStudentClasses();
+        this.loadStudents();
+        this.loadSubjects();
     },
      watch: {
         searchtext() {
-            this.loadteachers();
+            this.loadStudents();
         },
         column() {
-            this.loadteachers();
+            this.loadStudents();
         }
     },
     methods:{
-      gotoclasses(id){
-            this.$router.push({path: `coordinator-teachers/${id.toString()}/teacherclasses`});
-        },
-         change_sort(field) {
+        change_sort(field) {
             if (this.sort_field === field) {
                 this.sort_direction =
                     this.sort_direction === "asc" ? "desc" : "asc";
@@ -155,83 +152,61 @@ export default {
                 this.sort_field = field;
                 this.sort_direction = "asc";
             }
-            this.loadteachers();
+            this.loadStudents();
         },
-        loadInstitutionsSubjects:function(){
+        loadSubjects: function() {
             axios
-                .get(this.$apiAdress +'/api/Coordintors/getNoPageInstitutionSubject?token='+ localStorage.getItem("api_token"))
+                .get(this.$apiAdress +'/api/SubjectCoordinators/'+this.myId+'/getMyClassSubject?token='+ localStorage.getItem("api_token"))
                 .then(response => {
-                    this.institution_subjects = response.data;
+                    this.subject = response.data;
+                    //this.subject = this.filterSubject(response.data.data)[0];
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
-        loadInstitutionClass:function(){
-            axios
-                .get(this.$apiAdress +'/api/Coordintors/getNoPageClasses?token='+ localStorage.getItem("api_token"))
-                .then(response => {
-                    //this.institution_calsses = response.data;
-                    this.institution_calsses = this.filterinstitutionClasses(response.data);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-         filterinstitutionClasses(institutioncalsses){
-                return institutioncalsses.filter((institutioncalss)=>{
-                   for (var i in this.institution_subjects) {
-                       if(institutioncalss.institution_subject_id==this.institution_subjects[i].id)
-                       {
-                           return (institutioncalss.institution_subject_id==this.institution_subjects[i].id);
-                       }
-                    }
-              });
-         },
-            loadteachers: function(){
-                    axios.get(this.$apiAdress +'/api/Coordintors/getSortTeachers?search=' +
+        loadStudents: function(){
+                    axios.get(this.$apiAdress +'/api/SubjectCoordinators/getStudents?search=' +
                         this.searchtext +
                         "&sort_field=" +
                         this.sort_field +
                         "&sort_direction=" +
                         this.sort_direction +
                         "&column=" +
-                        this.column +
-                        "&token=" +
-                        localStorage.getItem("api_token"))
+                        this.column+
+                        "&token="+ localStorage.getItem("api_token"))
                     .then((response) => {
-                      //this.teachers = response.data;
-                      this.teachers = this.filterteachers(response.data);
+                        //this.students = response.data;
+                        this.students = this.filterStudent(response.data);
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-            },   
-               filterteachers(teachers){
-                 return teachers.filter((teacher)=>{
-                   for (var i in this.institution_calsses) {
-                       if(teacher.id==this.institution_calsses[i].teacher_id)
+            },
+            filterStudent(students){
+               return students.filter((student)=>{
+                   for (var i in this.student_classes) {
+                       if(student.id==this.student_classes[i].student_id)
                        {
-                           return (teacher.id==this.institution_calsses[i].teacher_id);
+                           return (student.id==this.student_classes[i].student_id);
                        }
                     }
               });
-         },
-    loadInstitutions(){
+            },   
+        loadStudentClasses: function(){
             axios
-                .get(this.$apiAdress +'/api/Coordintors/getInstitution?token='+ localStorage.getItem("api_token"))
+                .get(this.$apiAdress +'/api/SubjectCoordinators/'+this.myId+'/getStudentClasses?token='+ localStorage.getItem("api_token"))
                 .then(response => {
-                    this.Institution = response.data;
+                    this.student_classes = response.data;
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
+   
     }
-
-};
+}
 </script>
-
 <style scoped>
 table {
   width: 100%;
