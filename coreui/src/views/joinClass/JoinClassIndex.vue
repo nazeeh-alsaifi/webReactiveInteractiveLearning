@@ -65,7 +65,10 @@ export default {
           self.message =
             "You activation code is valid. You will be redirected shortly...";
           console.log("role", self.role);
-          if (self.role == "coordinator") {
+          if (
+            self.role == "coordinator" ||
+            self.role == "subject_coordinator"
+          ) {
             self.$router.push({
               path: `join-to-class/${self.id.toString()}/join-edit-coordinator-profile`,
             });
