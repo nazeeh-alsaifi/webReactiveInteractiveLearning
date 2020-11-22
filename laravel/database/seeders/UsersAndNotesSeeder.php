@@ -276,13 +276,13 @@ class UsersAndNotesSeeder extends Seeder
         // /**   PERMISSIONS */
         // Permission::create(['name' => 'view dashboard']);
         // Permission::create(['name' => 'view Setting']);
-        Permission::create(['name' => 'Add Setting']);
-        Permission::create(['name' => 'Edit Setting']);
-        Permission::create(['name' => 'Delete Setting']);
+        Permission::create(['name' => 'add Settings']);
+        Permission::create(['name' => 'edit Settings']);
+        Permission::create(['name' => 'delete Settings']);
         // Permission::create(['name' => 'view institution']);
-        Permission::create(['name' => 'Add institution']);
-        Permission::create(['name' => 'Edit institution']);
-        Permission::create(['name' => 'Delete institution']);
+        Permission::create(['name' => 'add Institution']);
+        Permission::create(['name' => 'edit Institution']);
+        Permission::create(['name' => 'delete Institution']);
         // Permission::create(['name' => 'view permissions']);
         // Permission::create(['name' => 'Add permissions']);
         // Permission::create(['name' => 'Delete permissions']);
@@ -290,25 +290,25 @@ class UsersAndNotesSeeder extends Seeder
         // //== admin
         //  $adminRole->givePermissionTo('view dashboard');
         //  $adminRole->givePermissionTo('view Setting');
-         $adminRole->givePermissionTo('Add Setting');
-         $adminRole->givePermissionTo('Edit Setting');
-         $adminRole->givePermissionTo('Delete Setting');
+         $adminRole->givePermissionTo('add Settings');
+         $adminRole->givePermissionTo('edit Settings');
+         $adminRole->givePermissionTo('delete Settings');
         //  $adminRole->givePermissionTo('view institution');
-         $adminRole->givePermissionTo('Add institution');
-         $adminRole->givePermissionTo('Edit institution');
-         $adminRole->givePermissionTo('Delete institution');
+         $adminRole->givePermissionTo('add Institution');
+         $adminRole->givePermissionTo('edit Institution');
+         $adminRole->givePermissionTo('delete Institution');
         //  $adminRole->givePermissionTo('view permissions');
         //  $adminRole->givePermissionTo('Add permissions');
         //  $adminRole->givePermissionTo('Delete permissions');
 
         //========= editor
-        $editorRole->givePermissionTo('Add Setting');
-        $editorRole->givePermissionTo('Edit Setting');
-        $editorRole->givePermissionTo('Delete Setting');
+        $editorRole->givePermissionTo('add Settings');
+        $editorRole->givePermissionTo('edit Settings');
+        $editorRole->givePermissionTo('delete Settings');
 
-        $editorRole->givePermissionTo('Add institution');
-        $editorRole->givePermissionTo('Edit institution');
-        $editorRole->givePermissionTo('Delete institution');
+        $editorRole->givePermissionTo('add Institution');
+        $editorRole->givePermissionTo('edit Institution');
+        $editorRole->givePermissionTo('delete Institution');
     }   
 
     
