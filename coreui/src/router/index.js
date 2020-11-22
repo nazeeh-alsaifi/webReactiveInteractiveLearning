@@ -136,6 +136,9 @@ const InistitutionsDashboard = () => import("@/views/institutions/Dashboard");
 const EditAdmin = () => import("@/views/editProfile/Admin");
 const EditStudent = () => import("@/views/editProfile/Student");
 const EditTeacher = () => import("@/views/editProfile/Teacher");
+const EditCoordinator = () => import("@/views/editProfile/Coordinator");
+const EditSubjectCoordinator = () =>
+  import("@/views/editProfile/SubjectCoordinator");
 
 // activity
 const ActivityIndex = () => import("@/views/activity/ActivityIndex");
@@ -404,7 +407,7 @@ function configRoutes() {
             },
             {
               path: ":id/join-edit-coordinator-profile",
-              meta: { label: "edit profile" },
+              meta: { label: "edit coordinator profile" },
               component: {
                 render(c) {
                   return c("router-view");
@@ -421,9 +424,10 @@ function configRoutes() {
                   component: AddTeacher,
                 },
               ],
-
+            },
+            {
               path: ":id/join-edit-teacher-profile",
-              meta: { label: "edit profile" },
+              meta: { label: "edit teacher profile" },
               component: {
                 render(c) {
                   return c("router-view");
@@ -670,6 +674,22 @@ function configRoutes() {
           },
         },
         {
+          path: "edit-coordinator-profile",
+          name: "EditCoordinator",
+          component: EditCoordinator,
+          meta: {
+            requiresCoordinator: true,
+          },
+        },
+        {
+          path: "edit-subject-coordinator-profile",
+          name: "EditSubjectCoordinator",
+          component: EditSubjectCoordinator,
+          meta: {
+            requiresSubjectCoordinator: true,
+          },
+        },
+        {
           path: "edit-student-profile",
           name: "EditStudent",
           component: EditStudent,
@@ -682,7 +702,7 @@ function configRoutes() {
           name: "EditTeacher",
           component: EditTeacher,
           meta: {
-            requiresTeacher_Coordinator_SubjectCoordinator: true,
+            requiresTeacher: true,
           },
         },
         /* activity */

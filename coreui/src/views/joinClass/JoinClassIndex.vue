@@ -67,11 +67,11 @@ export default {
           console.log("role", self.role);
           if (self.role == "coordinator") {
             self.$router.push({
-              path: `join-to-class/${self.id.toString()}/join-edit-coordinator-profile/`,
+              path: `join-to-class/${self.id.toString()}/join-edit-coordinator-profile`,
             });
           } else if (self.role == "teacher") {
             self.$router.push({
-              path: `join-to-class/${self.id.toString()}/join-edit-teacher-profile/`,
+              path: `join-to-class/${self.id.toString()}/join-edit-teacher-profile`,
             });
           }
         })

@@ -198,7 +198,7 @@ export default {
             self.showAlert();
           } else {
             console.log(error);
-            self.$router.push({ path: "dashboard" });
+            self.$router.push({ path: "/" });
           }
         });
     },
