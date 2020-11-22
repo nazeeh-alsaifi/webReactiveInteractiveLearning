@@ -371,7 +371,7 @@ export default {
       axios
         .get(
           this.$apiAdress +
-            "/api/Coordintors/getUsers?token=" +
+            "/api/Teachers/getUsers?token=" +
             localStorage.getItem("api_token")
         )
         .then((response) => {
@@ -388,7 +388,7 @@ export default {
       axios
         .get(
           this.$apiAdress +
-            "/api/Coordintors/getNationalities?token=" +
+            "/api/Teachers/getNationalities?token=" +
             localStorage.getItem("api_token")
         )
         .then((response) => {
@@ -407,7 +407,7 @@ export default {
       axios
         .get(
           this.$apiAdress +
-            "/api/Coordintors/getTeachers?token=" +
+            "/api/Teachers/getTeachers?token=" +
             localStorage.getItem("api_token")
         )
         .then((response) => {
@@ -439,7 +439,7 @@ export default {
       axios
         .post(
           this.$apiAdress +
-            "/api/coordintors/storeuserprofile?token=" +
+            "/api/Teachers/storeuserprofile?token=" +
             localStorage.getItem("api_token"),
           this.fields
         )
@@ -457,7 +457,7 @@ export default {
       axios
         .post(
           this.$apiAdress +
-            "/api/coordintors/storeteacherprofile?token=" +
+            "/api/Teachers/storeteacherprofile?token=" +
             localStorage.getItem("api_token"),
           formData
         )
