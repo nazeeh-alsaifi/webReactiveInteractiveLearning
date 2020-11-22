@@ -52,6 +52,51 @@
                     </div>
                   </div>
                 </CCol>
+
+                <CCol sm="12" md="6" xl="6" l="6" style="margin-bottom: 1rem">
+                  <label for="nationality_id">Nationality</label>
+                  <select
+                    class="form-control"
+                    id="nationality_id"
+                    name="nationality_id"
+                    v-model="fields.nationality_id"
+                    required
+                    autofocus
+                  >
+                    <option
+                      v-for="nationality in nationalities"
+                      v-bind:key="nationality.id"
+                      :value="nationality.id"
+                    >
+                      {{ nationality.Nationality_name }}
+                    </option>
+                  </select>
+                  <div
+                    class="alert alert-danger"
+                    v-if="errors && errors.nationality_id"
+                  >
+                    {{ errors.nationality_id[0] }}
+                  </div>
+                </CCol>
+                <CCol sm="12" md="6" xl="6" l="6" style="margin-bottom: 1rem">
+                  <label for="mobile">Mobile:</label>
+                  <input
+                    id="mobile"
+                    type="tel"
+                    class="form-control"
+                    pattern="[0]{1}[0-9]{9,12}"
+                    name="mobile"
+                    v-model="fields.mobile"
+                    required
+                    autofocus
+                  />
+                  <div
+                    class="alert alert-danger"
+                    v-if="errors && errors.mobile"
+                  >
+                    {{ errors.mobile[0] }}
+                  </div>
+                </CCol>
                 <CCol sm="12" md="6" xl="6" l="6" style="margin-bottom: 1rem">
                   <label htmlFor="email">Email:</label>
                   <div>
@@ -165,7 +210,7 @@ export default {
     return {
       fields: {},
       teacher: {},
-
+      nationalities: [],
       freshuser: {},
       success: false,
       addgeneratepass: false,
@@ -176,6 +221,7 @@ export default {
   mounted() {
     // this.loadteacher();
     this.id = this.$route.params.id;
+    this.loadnationalities();
     console.log("router1:", this.$route);
   },
   methods: {
@@ -204,6 +250,8 @@ export default {
       formData.set("new_password", this.fields.password);
       formData.set("firstName", this.fields.firstName);
       formData.set("lastName", this.fields.lastName);
+      formData.set("nationalityId", this.fields.nationality_id);
+      formData.set("mobile", this.fields.mobile);
 
       /*
       if (!this.fields.password) {
@@ -218,7 +266,7 @@ export default {
           self.errors = {};
           console.log("update teacher response", self.response);
           self.$router.push({
-            path: `join-edit-teacher-profile/addClasses`,
+            path: `join-edit-teacher-profile/addStudentsNum`,
           });
         })
         .catch((error) => {
@@ -233,11 +281,20 @@ export default {
             self.showAlert();
           } else {
             console.log(error);
-            self.$router.push({ path: "dashboard" });
+            self.$router.push({ path: "/" });
           }
         });
     },
-
+    loadnationalities: function () {
+      axios
+        .get(this.$apiAdress + "/api/joinClass/getNationalities")
+        .then((response) => {
+          this.nationalities = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     genratePassAdd() {
       var generator = require("generate-password");
       this.fields.password = generator.generate({

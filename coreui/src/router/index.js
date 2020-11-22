@@ -172,7 +172,7 @@ const JoinEditCoordinator = () =>
 const AddTeacher = () => import("@/views/joinClass/addTeacher");
 
 const JoinEditTeacher = () => import("@/views/joinClass/joinEditTeacher");
-const AddClass = () => import("@/views/joinClass/addClass");
+const addStudentsNum = () => import("@/views/joinClass/addStudentsNum");
 
 /*
  AcademicLevels 
@@ -439,9 +439,9 @@ function configRoutes() {
                   component: JoinEditTeacher,
                 },
                 {
-                  path: "addClasses",
-                  name: "Add Classes",
-                  component: AddClass,
+                  path: "addStudentsNum",
+                  name: "Students Number",
+                  component: addStudentsNum,
                 },
               ],
             },

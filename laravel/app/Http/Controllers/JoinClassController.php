@@ -17,9 +17,10 @@ use App\Models\users\ActivationCodes;
 use App\Models\institutions\Institution;
 use App\Models\institutions\InstitutionSubject;
 use App\Models\institutions\InstitutionClass;
+use App\Models\institutions\StudentClass;
 use App\Models\users\SubjectCoordinator;
 use App\Models\users\Teacher;
-use App\Models\Settings\Nationality;//
+use App\Models\settings\Nationality;
 use App\Models\users\Student;
 use App\Models\settings\City;
 use App\Models\settings\Country;
@@ -75,6 +76,8 @@ class JoinClassController extends Controller
             $user->save();
             return response()->json(array('success' => true));
         }
+        return response()->json(array('success' => false));
+
       
     }
 
@@ -104,6 +107,7 @@ class JoinClassController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            $user->assignRole("teacher");
             $user->save();
             // $users[] = $user;
 
@@ -184,7 +188,9 @@ class JoinClassController extends Controller
             "email" => "required|email",
             "new_password" => "required", 
             "firstName" => "required",
-            "lastName" => "required"
+            "lastName" => "required",
+            "nationalityId" => "required",
+            "mobile" => 'required',
         ]);
         
         $user = User::find($validatedRequest["id"]);
@@ -196,10 +202,104 @@ class JoinClassController extends Controller
             $teacher = Teacher::where("user_id",'=',$validatedRequest["id"])->first();
             $teacher->First_name = $validatedRequest["firstName"];
             $teacher->Last_Name = $validatedRequest["lastName"];
+            $teacher->nationality_id = $validatedRequest["nationalityId"]; 
+            $teacher->Mobile = $validatedRequest["mobile"];
             $teacher->save();
 
             return response()->json(array('success' => true));
         }
+        return response()->json(array('success' => false));
+
+    }
+
+    public function getNationalities()
+    {
+        return Nationality::all();
+    }
+
+    public function getRemainingSeats(Request $request){
+        $validatedRequest = $request->validate([
+            "id" => "required",
+        ]);
+        
+        $teacher_id = Teacher::where('user_id','=',$validatedRequest["id"])->first()->id;
+        $institution_subject_id = InstitutionClass::where("teacher_id",'=',$teacher_id)->first()->institution_subject_id ;
+        $total_seats = InstitutionSubject::find($institution_subject_id)->Student_count;
+
+        $occupied_seats_num = 0;
+
+        foreach( InstitutionSubject::find($institution_subject_id)->institutionClasses()->get() as $institutionClass ){
+            $occupied_seats_num += $institutionClass->studentClasses()->count();
+
+        }
+        $remaining_seats = $total_seats - $occupied_seats_num;
+
+        $New_class_key =Keygen::alphanum(8)->generate();
+
+        return response()->json(array('success' => true,'remaining'=> $remaining_seats,'newKeyClass'=>$New_class_key));
+    }
+
+    public function createStudents(Request $request){
+        $validatedRequest = $request->validate([
+            "id" => "required",
+            "numberOfStudents" => "required",
+            "newKeyClass" => "required",
+        ]);
+
+        $teacher_id = Teacher::where('user_id','=',$validatedRequest["id"])->first()->id;
+        $institution_class_id = InstitutionClass::where("teacher_id",'=',$teacher_id)->first()->id;
+        $students=array();
+
+        for($i=0 ; $i<$validatedRequest["numberOfStudents"] ; $i++){
+
+            $user =User::create([
+                "name" => 'default',
+                "password" => Hash::make('First_Name'),
+                "email" => Keygen::alphanum(12)->generate(),
+                "menuroles" => "student",
+                "status" => 'inactive',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $user->assignRole("student");
+            $user->save();
+
+            $student=Student::create([
+                'First_Name' =>'default',
+                'Last_Name' => 'default',
+                'nationality_id'=> 1,
+                'Mobile' => 0,
+                'Gender' => 'default',
+                'birth_date' => now(),
+                'user_id' => $user->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $student->save();
+
+            $student_class = StudentClass::create([
+                "institution_class_id" => $institution_class_id,
+                "student_id" => $student->id,
+                "New_class_key"=> $validatedRequest["newKeyClass"],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $student_class->save();
+
+            $activeCode = ActivationCodes::create([
+                "Activate_code" => $validatedRequest["newKeyClass"],
+                "user_id" => $user->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $activeCode->save();
+            
+
+        }
+        
+        // ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
+        return response()->json(array('success' => true));
+
     }
 }
 
