@@ -119,7 +119,7 @@ export default {
         };
     },
          mounted() {
-            this.myId = this.$route.params.id;
+            this.myId = this.$route.params.subjectid;
             this.loadmySubjects();
             this.loadSubjects();
             this.loadkeyclasses();

@@ -516,7 +516,7 @@ function configRoutes() {
               },
             },
             {
-              path: ":id/classes",
+              path: ":subjectid/classes",
               meta: { label: "classes" },
               //component: CoordinatorSubjectsClasses,
               //meta: {
@@ -536,8 +536,8 @@ function configRoutes() {
                   },
                 },
                 {
-                  path: ":id/myclass",
-                  name: "class",
+                  path: ":classid/myclass",
+                  name: "myclass",
                   component: SubjectClass,
                   meta: {
                     requiresCoordinator: true,
@@ -565,7 +565,7 @@ function configRoutes() {
               },
             },
             {
-              path: ":id/teacherclasses",
+              path: ":teacherid/teacherclasses",
               meta: { label: "Teacher_Classes" },
               component: {
                 render(b) {
@@ -581,7 +581,7 @@ function configRoutes() {
                   },
                 },
                 {
-                  path: ":id/myclass",
+                  path: ":classid/myclass",
                   name: "class",
                   component: SubjectClass,
                   meta: {
@@ -610,7 +610,7 @@ function configRoutes() {
               },
             },
             {
-              path: ":id/teacherclasses",
+              path: ":teacherid/teacherclasses",
               meta: { label: "Teacher_Classes" },
               component: {
                 render(b) {
@@ -626,8 +626,8 @@ function configRoutes() {
                   },
                 },
                 {
-                  path: ":id/myclass",
-                  name: "class",
+                  path: ":classid/myclass",
+                  name: "Teacher-Class",
                   component: SubjectCoordinatorClass,
                   meta: {
                     requiresSubjectCoordinator: true,
@@ -656,7 +656,7 @@ function configRoutes() {
             },
             {
               path: ":id/myclass",
-              name: "class",
+              name: "TeacherClass",
               component: MyTeacherClass,
               meta: {
                 requiresTeacher: true,

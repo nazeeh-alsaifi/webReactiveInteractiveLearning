@@ -130,7 +130,7 @@ import axios from 'axios'
         };
     },
      mounted() {
-       this.myId = this.$route.params.id;
+       this.myId = this.$route.params.classid;
         this.loadStudentClasses();
         this.loadStudents();
         this.loadSubjects();

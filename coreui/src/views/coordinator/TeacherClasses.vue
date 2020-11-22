@@ -125,7 +125,7 @@ export default {
         };
     },
          mounted() {
-            this.myId = this.$route.params.id;
+            this.myId = this.$route.params.teacherid;
             this.loadmyTeacher();
             this.loadSubjects();
             this.loadkeyclasses();
