@@ -218,7 +218,7 @@ export default {
           self.errors = {};
           console.log("update teacher response", self.response);
           self.$router.push({
-            path: `addClasses`,
+            path: `join-edit-teacher-profile/addClasses`,
           });
         })
         .catch((error) => {
