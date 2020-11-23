@@ -46,7 +46,58 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label
+                            for="Description"
+                            class="col-md-4 col-form-label text-md-right"
+                            >Description</label
+                        >
 
+                        <div class="col-md-6">
+                            <input
+                                id="Description"
+                                type="text"
+                                class="form-control"
+                                name="Description"
+                                minlength="3"
+                                v-model="fields.Description"
+                                required
+                                autofocus
+                            />
+                            <div
+                                class="alert alert-danger"
+                                v-if="errors && errors.Description"
+                            >
+                                {{ errors.Description[0] }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label
+                            for="src_link"
+                            class="col-md-4 col-form-label text-md-right"
+                            >Source_link</label
+                        >
+
+                        <div class="col-md-6">
+                            <input
+                                id="src_link"
+                                type="text"
+                                class="form-control"
+                                name="src_link"
+                                minlength="3"
+                                v-model="fields.src_link"
+                                required
+                                autofocus
+                            />
+                            <div
+                                class="alert alert-danger"
+                                v-if="errors && errors.src_link"
+                            >
+                                {{ errors.src_link[0] }}
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-4">
                             <button type="submit" class="btn btn-info">
@@ -87,17 +138,54 @@
                             <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
                             </div>
                         </th>
-                        <th style="text-align:left;width:25%;">
+                        <th style="text-align:left;width:20%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('measureTool_name')">Name</a>
                             <span v-if="this.sort_field=='measureTool_name' && this.sort_direction=='asc'" @click.prevent="change_sort('measureTool_name')"><i class="fa-fw select-all fas"></i></span>
                             <span v-if="this.sort_field=='measureTool_name' && this.sort_direction=='desc'" @click.prevent="change_sort('measureTool_name')"><i class="fa-fw select-all fas"></i></span>
                             </div>
                         </th>
+                        <th style="text-align:left;width:20%;">
+                           <div style="text-align:left;">
+                            <a style="text-align:left;" @click.prevent="change_sort('Description')">Description</a>
+                            <span v-if="this.sort_field=='Description' && this.sort_direction=='asc'" @click.prevent="change_sort('Description')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='Description' && this.sort_direction=='desc'" @click.prevent="change_sort('Description')"><i class="fa-fw select-all fas"></i></span>
+                            </div>
+                        </th>
+                        <th style="text-align:left;width:20%;">
+                           <div style="text-align:left;">
+                            <a style="text-align:left;" @click.prevent="change_sort('src_link')">Source_Link</a>
+                            <span v-if="this.sort_field=='src_link' && this.sort_direction=='asc'" @click.prevent="change_sort('src_link')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='src_link' && this.sort_direction=='desc'" @click.prevent="change_sort('src_link')"><i class="fa-fw select-all fas"></i></span>
+                            </div>
+                        </th>
                         <th style="width:30%;">
                             <input style="width:100%;" type="search" v-model="searchtext" placeholder="search measure tool"/>
                         </th>
-                        <th style="width:10%;"></th>
+                        <th style="width:10%;">
+                            <a>COL</a>
+                                <select
+                                    style="width:10%;"
+                                    class="btn btn-info"
+                                    v-model="column"
+                                >
+                                    <option
+                                        class="form-control"
+                                        :value="'measureTool_name'"
+                                        >Name</option
+                                    >
+                                    <option
+                                        class="form-control"
+                                        :value="'Description'"
+                                        >Description</option
+                                    >
+                                    <option
+                                        class="form-control"
+                                        :value="'src_link'"
+                                        >Source_Link</option
+                                    >
+                                </select>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -110,6 +198,16 @@
                             <td>
                                 <div style="word-wrap: break-word;">
                                    {{ measuretool.measureTool_name }}
+                                </div>
+                            </td>
+                            <td>
+                                <div style="word-wrap: break-word;">
+                                   {{ measuretool.Description }}
+                                </div>
+                            </td>
+                            <td>
+                                <div style="word-wrap: break-word;">
+                                   {{ measuretool.src_link }}
                                 </div>
                             </td>
                             <td>
@@ -178,6 +276,78 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group row">
+                                            <label
+                                                for="Description"
+                                                class="col-md-4 col-form-label text-md-right"
+                                                >Description</label
+                                            >
+                                            <hr />
+
+                                            <div class="col-md-6">
+                                                <input
+                                                    id="Description"
+                                                    type="text"
+                                                    class="form-control"
+                                                    minlength="3"
+                                                    name="Description"
+                                                    v-model="
+                                                        editfields.Description
+                                                    "
+                                                    required
+                                                    autofocus
+                                                />
+                                                <div
+                                                    class="alert alert-danger"
+                                                    v-if="
+                                                        errors &&
+                                                            errors.Description
+                                                    "
+                                                >
+                                                    {{
+                                                        errors
+                                                            .Description[0]
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label
+                                                for="src_link"
+                                                class="col-md-4 col-form-label text-md-right"
+                                                >Source_Link</label
+                                            >
+                                            <hr />
+
+                                            <div class="col-md-6">
+                                                <input
+                                                    id="src_link"
+                                                    type="text"
+                                                    class="form-control"
+                                                    minlength="3"
+                                                    name="src_link"
+                                                    v-model="
+                                                        editfields.src_link
+                                                    "
+                                                    required
+                                                    autofocus
+                                                />
+                                                <div
+                                                    class="alert alert-danger"
+                                                    v-if="
+                                                        errors &&
+                                                            errors.src_link
+                                                    "
+                                                >
+                                                    {{
+                                                        errors
+                                                            .src_link[0]
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="form-group row mb-0">
                                             <div class="col-md-8 offset-md-4">
                                                 <button
@@ -193,7 +363,6 @@
                             </td>
                             <td>
                                 <div
-                                    style="display:inline-block"
                                     v-for="permission in permissions" v-bind:key="permission.id"
                                 >
                                 <div v-if="permission.permission =='delete Settings'">
@@ -242,6 +411,7 @@ export default {
             errors: [],
             sort_field: 'id',
             sort_direction: 'desc',
+            column: "measureTool_name",
         };
     },
     mounted() {
@@ -251,6 +421,9 @@ export default {
     watch:{
         searchtext(){
              this.loadMeasureTools();
+        },
+        column() {
+            this.loadMeasureTools();
         }
     },
     methods: {
@@ -280,6 +453,7 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
+                +"&column=" + this.column
                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
@@ -295,6 +469,7 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
+                +"&column=" + this.column
                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
@@ -312,6 +487,7 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
+                +"&column=" + this.column
                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
@@ -329,6 +505,7 @@ export default {
                  + '&search=' + this.searchtext
                 + '&sort_field=' + this.sort_field
                 + '&sort_direction=' + this.sort_direction
+                +"&column=" + this.column
                 +'&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.measuretools = response.data;
