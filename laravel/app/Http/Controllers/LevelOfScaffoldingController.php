@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\MeasureTool;
+use App\Models\settings\LevelOfScaffolding;
 
-class MeasureToolsController extends Controller
+
+class LevelOfScaffoldingController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -24,10 +25,10 @@ class MeasureToolsController extends Controller
      */
     public function index()
     {
-        return MeasureTool::all();
+        //
     }
 
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -35,22 +36,19 @@ class MeasureToolsController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','measureTool_name','Description','src_link'])){
+        if(!in_array($sortField,['id','Level_Name'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $column= request('column','measureTool_name');
-        if(!in_array($column,['measureTool_name','Description','src_link'])){
-            $column = 'measureTool_name';
-        }
-        $MeasureTools = MeasureTool::when(request('search','') != '', function($query){
-            $query->where(request('column',''),'LIKE','%'.request('search').'%');
+        $LevelsOfScaffolding = LevelOfScaffolding::when(request('search','') != '', function($query){
+            $query->where('Level_Name','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $MeasureTools;
+        return $LevelsOfScaffolding;
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -70,19 +68,15 @@ class MeasureToolsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'measureTools_name' => 'required',
-            'Description' => 'required',
-            'src_link' => 'required',
+            'Level_Name' => 'required'
      ]);
-         $MeasureTool = new MeasureTool;
-         $MeasureTool->measureTool_name = $request->input('measureTools_name');
-         $MeasureTool->Description = $request->input('Description');
-         $MeasureTool->src_link = $request->input('src_link');
-         $MeasureTool->save();
-         return $MeasureTool;
+         $LevelOfScaffolding = new LevelOfScaffolding;
+         $LevelOfScaffolding->Level_Name = $request->input('Level_Name');
+         $LevelOfScaffolding->save();
+         return $LevelOfScaffolding;
     }
 
-        /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -91,16 +85,13 @@ class MeasureToolsController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'measureTool_name' => 'required',
-            'Description' => 'required',
-            'src_link' => 'required',
+            'Level_Name' => 'required'
      ]);
          $id = $request->input('id');
-         $MeasureTool = MeasureTool::find($id);
-         $MeasureTool->Description = $request->input('Description');
-         $MeasureTool->src_link = $request->input('src_link');
-         $MeasureTool->save();
-         return $MeasureTool;
+         $LevelOfScaffolding = LevelOfScaffolding::find($id);
+         $LevelOfScaffolding->Level_Name = $request->input('Level_Name');
+         $LevelOfScaffolding->save();
+         return $LevelOfScaffolding;
     }
 
     /**
@@ -112,10 +103,11 @@ class MeasureToolsController extends Controller
     public function delete(Request $request)
     {
         $id = $request->input('id');
-        $MeasureTool = MeasureTool::find($id);
-        $MeasureTool->delete();
+        $LevelOfScaffolding = LevelOfScaffolding::find($id);
+        $LevelOfScaffolding->delete();
         return true;
     }
+
     /**
      * Display the specified resource.
      *
@@ -158,6 +150,6 @@ class MeasureToolsController extends Controller
      */
     public function destroy($id)
     {
-
+        //
     }
 }

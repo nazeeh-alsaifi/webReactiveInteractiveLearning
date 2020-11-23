@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\MeasureTool;
+use App\Models\settings\InstructionalPurpose;
 
-class MeasureToolsController extends Controller
+class InstructionalPurposeController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -24,7 +24,7 @@ class MeasureToolsController extends Controller
      */
     public function index()
     {
-        return MeasureTool::all();
+        //
     }
 
      /**
@@ -35,22 +35,19 @@ class MeasureToolsController extends Controller
     public function getpage()
     {
         $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','measureTool_name','Description','src_link'])){
+        if(!in_array($sortField,['id','Instructional_Purpose'])){
             $sortField = 'id';
         }
         $sortDirection = request('sort_direction','desc');
         if(!in_array($sortDirection,['asc','dec'])){
             $sortDirection = 'desc';
         }
-        $column= request('column','measureTool_name');
-        if(!in_array($column,['measureTool_name','Description','src_link'])){
-            $column = 'measureTool_name';
-        }
-        $MeasureTools = MeasureTool::when(request('search','') != '', function($query){
-            $query->where(request('column',''),'LIKE','%'.request('search').'%');
+        $Instructional_Purposes = InstructionalPurpose::when(request('search','') != '', function($query){
+            $query->where('Instructional_Purpose','LIKE','%'.request('search').'%');
         })->orderBy($sortField,$sortDirection)->paginate(5);
-        return $MeasureTools;
+        return $Instructional_Purposes;
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -70,19 +67,15 @@ class MeasureToolsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'measureTools_name' => 'required',
-            'Description' => 'required',
-            'src_link' => 'required',
+            'Instructional_Purpose' => 'required'
      ]);
-         $MeasureTool = new MeasureTool;
-         $MeasureTool->measureTool_name = $request->input('measureTools_name');
-         $MeasureTool->Description = $request->input('Description');
-         $MeasureTool->src_link = $request->input('src_link');
-         $MeasureTool->save();
-         return $MeasureTool;
+         $Instructional_Purpose = new InstructionalPurpose;
+         $Instructional_Purpose->Instructional_Purpose = $request->input('Instructional_Purpose');
+         $Instructional_Purpose->save();
+         return $Instructional_Purpose;
     }
 
-        /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -91,17 +84,15 @@ class MeasureToolsController extends Controller
     public function store1(Request $request)
     {
         $this->validate($request, [
-            'measureTool_name' => 'required',
-            'Description' => 'required',
-            'src_link' => 'required',
+            'Instructional_Purpose' => 'required'
      ]);
          $id = $request->input('id');
-         $MeasureTool = MeasureTool::find($id);
-         $MeasureTool->Description = $request->input('Description');
-         $MeasureTool->src_link = $request->input('src_link');
-         $MeasureTool->save();
-         return $MeasureTool;
+         $Instructional_Purpose = InstructionalPurpose::find($id);
+         $Instructional_Purpose->Instructional_Purpose = $request->input('Instructional_Purpose');
+         $Instructional_Purpose->save();
+         return $Instructional_Purpose;
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -112,10 +103,11 @@ class MeasureToolsController extends Controller
     public function delete(Request $request)
     {
         $id = $request->input('id');
-        $MeasureTool = MeasureTool::find($id);
-        $MeasureTool->delete();
+        $Instructional_Purpose = InstructionalPurpose::find($id);
+        $Instructional_Purpose->delete();
         return true;
     }
+
     /**
      * Display the specified resource.
      *
@@ -158,6 +150,6 @@ class MeasureToolsController extends Controller
      */
     public function destroy($id)
     {
-
+        //
     }
 }
