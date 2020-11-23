@@ -183,7 +183,7 @@ export default {
           self.errors = {};
           console.log("update teacher response", self.response);
           self.$router.push({
-            path: `addTeachers`,
+            path: `join-edit-coordinator-profile/addTeachers`,
           });
         })
         .catch((error) => {

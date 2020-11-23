@@ -24,6 +24,12 @@ Route::post('joinClass/createTeachers','JoinClassController@createTeachers');
 Route::post('joinClass/updateTeachers','JoinClassController@updateTeachers');
 
 Route::post('joinClass/updateTeacherProfile','JoinClassController@updateTeacherProfile');
+Route::get('joinClass/getNationalities','JoinClassController@getNationalities');
+Route::post('joinClass/getRemainingSeats','JoinClassController@getRemainingSeats');
+Route::post('joinClass/createStudents','JoinClassController@createStudents');
+
+Route::post('joinClass/updateStudentProfile','JoinClassController@updateStudentProfile');
+
 
 // Route::get('joinClass/getTeacher','JoinClassController@getTeacher');
 

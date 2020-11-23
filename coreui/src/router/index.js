@@ -172,8 +172,14 @@ const JoinEditCoordinator = () =>
 const AddTeacher = () => import("@/views/joinClass/addTeacher");
 
 const JoinEditTeacher = () => import("@/views/joinClass/joinEditTeacher");
-const AddClass = () => import("@/views/joinClass/addClass");
+const addStudentsNum = () => import("@/views/joinClass/addStudentsNum");
 
+const joinEditStudent = () => import("@/views/joinClass/joinEditStudent");
+const LevelOfScaffolding = () => import("@/views/settings/LevelOfScaffolding");
+const LocationInstructionalCycle = () =>
+  import("@/views/settings/LocationInstructionalCycle");
+const InstructionalPurpose = () =>
+  import("@/views/settings/InstructionalPurpose");
 /*
  AcademicLevels 
  Categories 
@@ -439,9 +445,24 @@ function configRoutes() {
                   component: JoinEditTeacher,
                 },
                 {
-                  path: "addClasses",
-                  name: "Add Classes",
-                  component: AddClass,
+                  path: "addStudentsNum",
+                  name: "Students Number",
+                  component: addStudentsNum,
+                },
+              ],
+            },
+            {
+              path: ":id/join-edit-student-profile",
+              meta: { label: "edit student profile" },
+              component: {
+                render(c) {
+                  return c("router-view");
+                },
+              },
+              children: [
+                {
+                  path: "",
+                  component: joinEditStudent,
                 },
               ],
             },
@@ -844,6 +865,31 @@ function configRoutes() {
             requiresAdmin_Editor: true,
           },
         },
+        {
+          path: "level-of-scaffolding",
+          name: "Level Of Scaffolding",
+          component: LevelOfScaffolding,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
+        {
+          path: "location-instructional-cycle",
+          name: "Location Instructional Cycle",
+          component: LocationInstructionalCycle,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
+        {
+          path: "instructional-purpose",
+          name: "Instructional Purpose",
+          component: InstructionalPurpose,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
+
         /* End of Admin - editor Routes*/
         {
           path: "menu",

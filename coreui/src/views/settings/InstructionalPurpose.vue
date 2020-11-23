@@ -4,7 +4,7 @@
       <transition name="slide">
         <CCard>
           <CCardHeader>
-            <strong>Please edit your information:</strong>
+            <strong>Please insert the number of students in your class:</strong>
           </CCardHeader>
         </CCard>
       </transition>

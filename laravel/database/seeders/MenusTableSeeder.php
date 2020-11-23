@@ -198,6 +198,10 @@ class MenusTableSeeder extends Seeder
             $this->insertLink('admin,editor', 'Permissions',    '/permissions');
             $this->insertLink('admin,editor', 'Academic Levels','/academic-levels'); 
             $this->insertLink('admin,editor', 'Categories','/categories'); 
+            $this->insertLink('admin,editor', 'Level Of Scaffolding','/level-of-scaffolding'); 
+            $this->insertLink('admin,editor', 'Location Instructional Cycle','/location-instructional-cycle'); 
+            $this->insertLink('admin,editor', 'Instructional Purpose','/instructional-purpose'); 
+
             $this->insertLink('admin,editor', 'Cities','/cities'); 
             $this->insertLink('admin,editor', 'Components','/components'); 
             $this->insertLink('admin,editor', 'Countries','/countries'); 

@@ -205,13 +205,12 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
       fields: {},
-      teacher: {},
       nationalities: [],
-      freshuser: {},
       success: false,
       addgeneratepass: false,
       passwordshow: false,
@@ -222,26 +221,8 @@ export default {
     // this.loadteacher();
     this.id = this.$route.params.id;
     this.loadnationalities();
-    console.log("router1:", this.$route);
   },
   methods: {
-    /* 
-    loadteacher: function () {
-      axios
-        .get(
-          this.$apiAdress +
-            "/api/joinClass/getTeacher?id=" +
-            this.$route.params.id
-        )
-        .then((response) => {
-          this.teacher = response.data;
-          console.log("teacher=", this.teacher);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-     */
     submit() {
       let self = this;
       const formData = new FormData();
@@ -260,14 +241,14 @@ export default {
       */
 
       axios
-        .post(this.$apiAdress + "/api/joinClass/updateTeacherProfile", formData)
+        .post(this.$apiAdress + "/api/joinClass/updateStudentProfile", formData)
         .then((response) => {
           self.success = true;
           self.errors = {};
           console.log("update teacher response", self.response);
-          self.$router.push({
-            path: `join-edit-teacher-profile/addStudentsNum`,
-          });
+          // self.$router.push({
+          //   path: `/`,
+          // });
         })
         .catch((error) => {
           console.log(error);
@@ -281,7 +262,7 @@ export default {
             self.showAlert();
           } else {
             console.log(error);
-            self.$router.push({ path: "/" });
+            // self.$router.push({ path: "/" });
           }
         });
     },
