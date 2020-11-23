@@ -301,5 +301,79 @@ class JoinClassController extends Controller
         return response()->json(array('success' => true));
 
     }
+
+    public function updateStudentProfile(Request $request){
+        $validatedRequest = $request->validate([
+            "id" => "required",
+            "email" => "required|email",
+            "new_password" => "required", 
+            "firstName" => "required",
+            "lastName" => "required",
+            "nationalityId" => "required",
+            "mobile" => 'required',
+        ]);
+        
+        $already_user = User::where("email","=",$validatedRequest["email"])->get();
+        
+        if($already_user->count() != 0 ){
+            $old_user = $already_user->first();
+
+            $old_user->password = Hash::make($validatedRequest["new_password"]);
+            $old_user->name = $validatedRequest["firstName"] . " " . $validatedRequest["lastName"];
+            $old_user->email =$validatedRequest["email"];
+            $old_user->save();
+
+            $student = Student::where("user_id",'=',$old_user->id)->first();
+            $student->First_name = $validatedRequest["firstName"];
+            $student->Last_Name = $validatedRequest["lastName"];
+            $student->nationality_id = $validatedRequest["nationalityId"]; 
+            $student->Mobile = $validatedRequest["mobile"];
+            $student->save();
+
+
+            
+            // getting the key class before deleteing
+            $new_user = User::find($validatedRequest["id"]);
+            $old_student = Student::where("user_id",'=',$old_user->id)->first();
+            $old_student_class = StudentClass::where("student_id","=",$old_student->id)->first();
+
+            // creating a new student class for old user
+            $student_class = StudentClass::create([
+                "institution_class_id" => $old_student_class->institution_class_id,
+                "student_id" => $student->id,
+                "New_class_key"=> $old_student_class->New_class_key,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $student_class->save();
+
+            // then deleting newly created student and user and student class
+            $new_user->delete(); //not deleting because of soft delete
+            $new_student = Student::where("user_id","=",$new_user->id)->first();
+            $new_student_class = StudentClass::where("student_id","=",$new_student->id)->first();
+            $new_student->delete();
+            $new_student_class->delete();
+
+        }
+        else{
+
+            $user = User::find($validatedRequest["id"]);
+            $user->password = Hash::make($validatedRequest["new_password"]);
+            $user->name = $validatedRequest["firstName"] . " " . $validatedRequest["lastName"];
+            $user->email =$validatedRequest["email"];
+            $user->save();
+
+            $student = Student::where("user_id",'=',$validatedRequest["id"])->first();
+            $student->First_name = $validatedRequest["firstName"];
+            $student->Last_Name = $validatedRequest["lastName"];
+            $student->nationality_id = $validatedRequest["nationalityId"]; 
+            $student->Mobile = $validatedRequest["mobile"];
+            $student->save();
+        }
+
+            // ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
+            return response()->json(array('success' => true));
+
+    }
 }
 

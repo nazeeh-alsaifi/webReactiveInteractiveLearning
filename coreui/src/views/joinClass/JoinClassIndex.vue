@@ -76,6 +76,10 @@ export default {
             self.$router.push({
               path: `join-to-class/${self.id.toString()}/join-edit-teacher-profile`,
             });
+          } else if (self.role == "student") {
+            self.$router.push({
+              path: `join-to-class/${self.id.toString()}/join-edit-student-profile`,
+            });
           }
         })
         .catch(function (error) {

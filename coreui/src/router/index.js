@@ -174,6 +174,7 @@ const AddTeacher = () => import("@/views/joinClass/addTeacher");
 const JoinEditTeacher = () => import("@/views/joinClass/joinEditTeacher");
 const addStudentsNum = () => import("@/views/joinClass/addStudentsNum");
 
+const joinEditStudent = () => import("@/views/joinClass/joinEditStudent");
 /*
  AcademicLevels 
  Categories 
@@ -442,6 +443,21 @@ function configRoutes() {
                   path: "addStudentsNum",
                   name: "Students Number",
                   component: addStudentsNum,
+                },
+              ],
+            },
+            {
+              path: ":id/join-edit-student-profile",
+              meta: { label: "edit student profile" },
+              component: {
+                render(c) {
+                  return c("router-view");
+                },
+              },
+              children: [
+                {
+                  path: "",
+                  component: joinEditStudent,
                 },
               ],
             },
