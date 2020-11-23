@@ -89,6 +89,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('SubjectCoordinators/{id}/getMyClassSubject','SubjectCoordinatorController@getMyClassSubject');
         Route::get('SubjectCoordinators/getStudents','SubjectCoordinatorController@getStudents');
         Route::get('SubjectCoordinators/{id}/getStudentClasses','SubjectCoordinatorController@getStudentClasses');
+        Route::get('SubjectCoordinators/getUsers','SubjectCoordinatorController@getUsers');
+        Route::get('SubjectCoordinators/getNationalities','SubjectCoordinatorController@getNationalities');
+        Route::post('SubjectCoordinators/storeuserprofile','SubjectCoordinatorController@storeuserprofile');
+        Route::post('SubjectCoordinators/storeteacherprofile','SubjectCoordinatorController@storeteacherprofile');
     });
     
     //
@@ -103,6 +107,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('Teachers/{id}/getMyClassSubject','TeacherController@getMyClassSubject');
         Route::get('Teachers/getStudents','TeacherController@getStudents');
         Route::get('Teachers/{id}/getStudentClasses','TeacherController@getStudentClasses');
+        Route::get('Teachers/getUsers','TeacherController@getUsers');
+        Route::get('Teachers/getNationalities','TeacherController@getNationalities');
+        Route::post('Teachers/storeuserprofile','TeacherController@storeuserprofile');
+      Route::post('Teachers/storeteacherprofile','TeacherController@storeteacherprofile');
     });
     //
     Route::group(['middleware' => 'admin'], function ($router) {

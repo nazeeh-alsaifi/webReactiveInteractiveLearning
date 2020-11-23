@@ -17,7 +17,7 @@ class Coordinator
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if(empty($user) || (!$user->hasRole('coordinator')&& !$user->hasRole('teacher')&& !$user->hasRole('subject_coordinator'))){
+        if(empty($user) || (!$user->hasRole('coordinator'))){
             return response()->json(['message' => 'Unauthenticated. Coordinator role required'], 401);
         }
         return $next($request);
