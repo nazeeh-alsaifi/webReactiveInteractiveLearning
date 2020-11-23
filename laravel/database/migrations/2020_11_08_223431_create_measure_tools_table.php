@@ -16,6 +16,8 @@ class CreateMeasureToolsTable extends Migration
         Schema::create('measure_tools', function (Blueprint $table) {
             $table->id();
             $table->string('measureTool_name');
+            $table->text('Description')->nullable();
+            $table->string('src_link')->nullable();
             $table->timestamps();
         });
     }

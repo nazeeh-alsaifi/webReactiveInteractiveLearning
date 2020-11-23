@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComponentsTable extends Migration
+class CreateInstructionalPurposesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateComponentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('components', function (Blueprint $table) {
+        Schema::create('instructional_purposes', function (Blueprint $table) {
             $table->id();
-            $table->string('Component_name');
-            $table->text('Description');
-            $table->integer('is_related')->nullable();
+            $table->string('Instructional_Purpose');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateComponentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('components');
+        Schema::dropIfExists('instructional_purposes');
     }
 }

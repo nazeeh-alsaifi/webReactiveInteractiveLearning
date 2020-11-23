@@ -136,6 +136,9 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::resource('Institution','InstitiutionController');
     Route::resource('Employee','EmployeeController');
     Route::resource('Permissions','PermissionsController');
+    Route::resource('InstructionalPurpose','InstructionalPurposeController');
+    Route::resource('LevelOfScaffolding','LevelOfScaffoldingController');
+    Route::resource('LocationInstructional','LocationInstructionalController');
    
     ////
     Route::get('academiclevel/getpage','AcademiclevelController@getpage');
@@ -152,6 +155,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::get('unitMeasure/getpage','UnitsMeasureController@getpage');
     Route::get('institution/getpage','InstitiutionController@getpage');
     Route::get('employee/getpage','EmployeeController@getpage');
+    Route::get('instructionalPurpose/getpage','InstructionalPurposeController@getpage');
+    Route::get('levelOfScaffolding/getpage','LevelOfScaffoldingController@getpage');
+    Route::get('locationInstructional/getpage','LocationInstructionalController@getpage');
+    
 
     //
     Route::post('academiclevels/store1','AcademiclevelController@store1');
@@ -182,6 +189,12 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::post('institutions/delete','InstitiutionController@delete');
     Route::post('employees/store1','EmployeeController@store1');
     Route::post('employees/delete','EmployeeController@delete');
+    Route::post('instructionalPurpose/store1','InstructionalPurposeController@store1');
+    Route::post('instructionalPurpose/delete','InstructionalPurposeController@delete');
+    Route::post('levelOfScaffolding/store1','LevelOfScaffoldingController@store1');
+    Route::post('levelOfScaffolding/delete','LevelOfScaffoldingController@delete');
+    Route::post('locationInstructional/store1','LocationInstructionalController@store1');
+    Route::post('locationInstructional/delete','LocationInstructionalController@delete');
     //
     Route::get('employee/myusers','EmployeeController@myusers');
     Route::post('employees/store_user_profile','EmployeeController@storeuserprofile');
