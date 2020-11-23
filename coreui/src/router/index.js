@@ -175,6 +175,11 @@ const JoinEditTeacher = () => import("@/views/joinClass/joinEditTeacher");
 const addStudentsNum = () => import("@/views/joinClass/addStudentsNum");
 
 const joinEditStudent = () => import("@/views/joinClass/joinEditStudent");
+const LevelOfScaffolding = () => import("@/views/settings/LevelOfScaffolding");
+const LocationInstructionalCycle = () =>
+  import("@/views/settings/LocationInstructionalCycle");
+const InstructionalPurpose = () =>
+  import("@/views/settings/InstructionalPurpose");
 /*
  AcademicLevels 
  Categories 
@@ -860,6 +865,31 @@ function configRoutes() {
             requiresAdmin_Editor: true,
           },
         },
+        {
+          path: "level-of-scaffolding",
+          name: "Level Of Scaffolding",
+          component: LevelOfScaffolding,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
+        {
+          path: "location-instructional-cycle",
+          name: "Location Instructional Cycle",
+          component: LocationInstructionalCycle,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
+        {
+          path: "instructional-purpose",
+          name: "Instructional Purpose",
+          component: InstructionalPurpose,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
+
         /* End of Admin - editor Routes*/
         {
           path: "menu",
