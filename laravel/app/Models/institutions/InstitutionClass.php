@@ -25,4 +25,9 @@ class InstitutionClass extends Model
     {
         return $this->hasMany('App\Models\institutions\StudentClass','institution_class_id');
     }
+
+    public function activities(){
+        return $this->belongsToMany("App\Models\Activity","activities_institution_classes","institution_class_id","activity_id");
+
+    }
 }
