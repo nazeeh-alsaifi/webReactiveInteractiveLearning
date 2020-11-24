@@ -23,4 +23,7 @@ class Activity extends Model
         return $this->hasMany('App\Models\ActivitySection',"activity_id");
 
     }
+    public function users(){
+        return $this->belongsToMany("App\Models\Users","activity_id","user_id");
+    }
 }
