@@ -153,7 +153,7 @@ class JoinClassController extends Controller
             
 
         }
-        // ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
+        ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
         return response()->json(array("success" => true,"users" =>$users));
 
     }
@@ -297,7 +297,7 @@ class JoinClassController extends Controller
 
         }
         
-        // ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
+        ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
         return response()->json(array('success' => true));
 
     }
@@ -371,7 +371,7 @@ class JoinClassController extends Controller
             $student->save();
         }
 
-            // ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
+            ActivationCodes::where('user_id','=',$validatedRequest["id"])->delete();
             return response()->json(array('success' => true));
 
     }
