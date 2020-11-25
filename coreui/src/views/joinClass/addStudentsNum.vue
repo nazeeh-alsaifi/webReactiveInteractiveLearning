@@ -6,7 +6,7 @@
           <CCardHeader>
             <strong>Please insert the number of students in your class:</strong>
           </CCardHeader>
-          <CAlert :show.sync="alert" color="primary" fade>
+          <CAlert :show.sync="alert" color="danger">
             {{ message }}
           </CAlert>
           <CCardBody>
@@ -17,6 +17,7 @@
                   label="Number of Students:"
                   placeholder="Enter number of students"
                   v-model="numberOfStudents"
+                  :is-valid="validator"
                 />
               </CCol>
               <CCol sm="12" md="2" l="2" xl="2">
@@ -59,25 +60,40 @@ export default {
   },
   methods: {
     submit() {
-      const formData = new FormData();
-      formData.set("id", this.$route.params.id);
-      formData.set("numberOfStudents", this.numberOfStudents);
-      formData.set("newKeyClass", this.newKeyClass);
+      if (
+        this.numberOfStudents <= this.numberOfSeats &&
+        this.numberOfStudents > 0
+      ) {
+        const formData = new FormData();
+        formData.set("id", this.$route.params.id);
+        formData.set("numberOfStudents", this.numberOfStudents);
+        formData.set("newKeyClass", this.newKeyClass);
 
-      axios
-        .post(this.$apiAdress + "/api/joinClass/createStudents", formData)
-        .then((response) => {
-          console.log("this response:", response);
-          this.numberOfSeats = response.data.remaining;
-          this.showAlert("created students");
-          this.$router.push({ path: "/" });
-        })
-        .catch(function (error) {
-          this.showAlert(
-            "error while trying to get the number of remaining seats!"
-          );
-          console.log(error);
-        });
+        axios
+          .post(this.$apiAdress + "/api/joinClass/createStudents", formData)
+          .then((response) => {
+            console.log("this response:", response);
+            this.numberOfSeats = response.data.remaining;
+            this.showAlert("created students");
+            this.$router.push({ path: "/" });
+          })
+          .catch(function (error) {
+            this.showAlert(
+              "error while trying to get the number of remaining seats!"
+            );
+            console.log(error);
+          });
+      } else if (this.numberOfStudents <= 0) {
+        this.showAlert("please choose a number greater than 0 !!");
+      } else if (this.numberOfSeats == 0) {
+        this.showAlert(
+          "You have ran out of seats. You can always purchase more. Please refer to you institution coordinator"
+        );
+      } else {
+        this.showAlert(
+          "please choose a number below the remaining number of seats !!"
+        );
+      }
     },
     getRemainingSeats() {
       const formData = new FormData();
@@ -100,7 +116,9 @@ export default {
       this.message = message;
       this.alert = true;
     },
-    beforeDestroy() {},
+    validator(val) {
+      return val ? val <= this.numberOfSeats && val > 0 : false;
+    },
   },
 };
 </script>
