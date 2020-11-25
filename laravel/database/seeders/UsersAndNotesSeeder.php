@@ -7,17 +7,33 @@ use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
-use App\Models\User;
-use App\Models\RoleHierarchy;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+
+use App\Models\User;
+use App\Models\RoleHierarchy;
+
 use App\Models\settings\Subject;
 use App\Models\settings\Country;
 use App\Models\settings\City;
 use App\Models\settings\Nationality;
+use App\Models\settings\AcademicLevel;
+use App\Models\settings\Category;
+use App\Models\settings\SubCategory;
+
 use App\Models\users\Teacher;
 use App\Models\users\Employee;
 use App\Models\users\Student;
+use App\Models\users\SubjectCoordinator;
+use App\Models\users\ActivationCodes;
+
+use App\Models\institutions\Institution;
+use App\Models\institutions\InstitutionClass;
+use App\Models\institutions\InstitutionSubject;
+
+
+use App\Models\durations\DurationCourse;
+
 
 
 class UsersAndNotesSeeder extends Seeder
@@ -165,6 +181,7 @@ class UsersAndNotesSeeder extends Seeder
                     'updated_at' => now(),
                 ]);
             }
+
             if($usersRoles[$i]->name == 'teacher'){
                 $subject =Subject::create([
                     "Subject_name" =>"Math",
@@ -190,6 +207,7 @@ class UsersAndNotesSeeder extends Seeder
                     'updated_at' => now(),
                 ]);
             }
+
             if($usersRoles[$i]->name == 'coordinator'){
                 $subject =Subject::where("Subject_name" ,'=','Physics')->first();
                 $natio =Nationality::create([
@@ -197,12 +215,12 @@ class UsersAndNotesSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-                Teacher::create([
-                    'First_name' =>$faker->name(),
-                    'Last_Name' => $faker->name(),
+                $coordinator =Teacher::create([
+                    'First_name' =>"coordinator_" . $i,
+                    'Last_Name' => "coordinator_" . $i,
                     'subject_id' => $subject->id,
                     'nationality_id'=> $natio->id,
-                    'Mobile' => Str::random(10),
+                    'Mobile' => "093333333333",
                     'Gender' => 'male',
                     'birth_date' => now(),
                     'user_id' => $user->id,
@@ -210,7 +228,114 @@ class UsersAndNotesSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+                  // Country
+                $country=Country::create([
+                    // 'id'=>1,
+                    'country_name' => "Syria",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            
+
+                // City
+                $city=City::create([
+                    // "id"=>1,
+                    "Country_id" => $country->id,
+                    "city_name" => "Damscuss",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                City::create([
+                    // "id"=>2,
+                    "Country_id" => $country->id,
+                    "city_name" => "Aleppo",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                $acadLevel= AcademicLevel::create([
+                    // "id"=>2,
+                    "AcademicLevel" => "Primary",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $institution =  Institution::create([
+                    "Institu_name" => "syrian virtual university",
+                    "coordinator_id" =>$coordinator->id,
+                    "academicLevels_id" =>$acadLevel->id,
+                    "country_id" => $country->id,
+                    "city_id" => $city->id,
+                    "Mobile" => "093333333",
+                    "Email" => "svu@svu.com",
+                    "Address" =>"damascus",
+                    "Address1" =>"aleppo",
+                ]);
+                $institution->save();
+
+                //
+                $institution_subject =  InstitutionSubject::create([
+                    "institution_id" => $institution->id,
+                    "subject_id" => $subject->id,
+                    "Student_count" => 20,
+                    "Teacher_count" => 5,
+                    "buyment_method_id" => 1,
+                ]);
+                $institution_subject->save();
+
+                $institution_subject_coordinator =  SubjectCoordinator::create([
+                    "user_id" => $user->id,
+                    "institution_subject_id" => $institution_subject->id,
+                ]);
+                $institution_subject_coordinator->save();   
+               
+                for($i=0; $i < $institution_subject->Teacher_count; $i++){
+
+                    $user =User::create([
+                        "name" => 'default',
+                        "password" => Hash::make('First_Name'),
+                        "email" => "teacher_" . $i . "@teacher.com",
+                        "menuroles" => "teacher",
+                        "status" => 'inactive',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    $user->assignRole("teacher");
+                    $user->save();
+
+                    $teacher = Teacher::create([
+                        'First_name' =>"teacher_" . $i,
+                        'Last_Name' => "teacher_" . $i,
+                        'subject_id' => $institution_subject->subject_id,
+                        'nationality_id'=> 1,
+                        'Mobile' => 0,
+                        'Gender' => 'default',
+                        'birth_date' => now(),
+                        'user_id' => $user->id,
+                        'Is_Coordinator' => 0,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    
+                    $activeCode = ActivationCodes::create([
+                        "Activate_code" => "testTeacher" . $i,
+                        "user_id" => $user->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+        
+
+                    $institutionClass = InstitutionClass::create([
+                        "teacher_id" => $teacher->id,
+                        "institution_subject_id" =>$institution_subject->id  ,
+                        "keyclass" => "helloworld" ,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    
+                }
+ 
             }
+
             if($usersRoles[$i]->name == 'editor'){
                 $country=Country::create([
                     // 'id'=>2,
@@ -268,7 +393,7 @@ class UsersAndNotesSeeder extends Seeder
                 'status_id'     => $statusIds[random_int(0,count($statusIds) - 1)],
                 'note_type'     => $noteType,
                 'applies_to_date' => $faker->date(),
-                'users_id'      => $usersIds[random_int(0,$numberOfUsers-1)]
+                'users_id'      => $usersIds[array_rand($usersIds)]
             ]);
         }
 
