@@ -51,11 +51,7 @@ class SettingsSeeder extends Seeder
 
         // Subject
        
-        $subject = Subject::create([
-            "Subject_name" =>"Physics",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        
 
         // Categories
         $cat1 =Category::create([

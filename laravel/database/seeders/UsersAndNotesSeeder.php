@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\RoleHierarchy;
 
 use App\Models\settings\Subject;
+use App\Models\settings\SubSubject;
 use App\Models\settings\Country;
 use App\Models\settings\City;
 use App\Models\settings\Nationality;
@@ -195,6 +196,16 @@ class UsersAndNotesSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+                $subject->subSubjects()->saveMany([new SubSubject([
+                    "sub_subject_name" => "math sub 1",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]),new SubSubject([
+                    "sub_subject_name" => "math sub 2",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ])]);
+
                 $natio =Nationality::create([
                     "Nationality_name" => "lebanese",
                     'created_at' => now(),
@@ -215,10 +226,25 @@ class UsersAndNotesSeeder extends Seeder
                 ]);
             }
 
-            if($usersRoles[$i]->name == 'coordinator'){
+            if($usersRoles[$i]->name == 'coordinatory'){
                 $this->command->info("IF STATEMENT: COORDINATOR");
 
-                $subject =Subject::where("Subject_name" ,'=','Physics')->first();
+                $subject = Subject::create([
+                    "Subject_name" =>"Physics",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                              
+                $subject->subSubjects()->saveMany([new SubSubject([
+                    "sub_subject_name" => "physics sub 1",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]),new SubSubject([
+                    "sub_subject_name" => "physics sub 2",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ])]);
+
                 $natio =Nationality::create([
                     "Nationality_name" => "German",
                     'created_at' => now(),
