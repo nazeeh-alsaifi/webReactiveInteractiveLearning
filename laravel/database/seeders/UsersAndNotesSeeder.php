@@ -150,7 +150,11 @@ class UsersAndNotesSeeder extends Seeder
         $usersRoles = [$userRole,$editorRole,$coordinatorRole,$teacherRole,$studentRole,$freeStudentRole,$subjectCoordinator];
         $user->assignRole($roleAdmin);
         for($i = 0; $i<$numberOfUsers; $i++){
+            $this->command->comment("new round i=" . $i);
+
             $userName = $usersRoles[$i]->name;
+            $this->command->comment("userName=" . $userName);
+
             $user = User::create([
                 'name' => $faker->name(),
                 'email' => $userName . "@" . $userName .".com",
@@ -160,10 +164,11 @@ class UsersAndNotesSeeder extends Seeder
                 'menuroles' => $userName,
                 'status' => $userStatus[ random_int(0,count($userStatus) - 1) ]
             ]);
-            $user->assignRole($usersRoles[$i]);
+            $user->assignRole($usersRoles[$i]->name);
             array_push($usersIds, $user->id);
 
             if($usersRoles[$i]->name == 'student'){
+                $this->command->comment("IF STATEMENT: STUDENT");
                 $natio =Nationality::create([
                     "Nationality_name" => "britsh",
                     'created_at' => now(),
@@ -183,6 +188,8 @@ class UsersAndNotesSeeder extends Seeder
             }
 
             if($usersRoles[$i]->name == 'teacher'){
+                $this->command->comment("IF STATEMENT: TEACHER");
+
                 $subject =Subject::create([
                     "Subject_name" =>"Math",
                     'created_at' => now(),
@@ -209,6 +216,8 @@ class UsersAndNotesSeeder extends Seeder
             }
 
             if($usersRoles[$i]->name == 'coordinator'){
+                $this->command->info("IF STATEMENT: COORDINATOR");
+
                 $subject =Subject::where("Subject_name" ,'=','Physics')->first();
                 $natio =Nationality::create([
                     "Nationality_name" => "German",
@@ -270,7 +279,7 @@ class UsersAndNotesSeeder extends Seeder
                     "Address" =>"damascus",
                     "Address1" =>"aleppo",
                 ]);
-                $institution->save();
+                // $institution->save();
 
                 //
                 $institution_subject =  InstitutionSubject::create([
@@ -280,31 +289,31 @@ class UsersAndNotesSeeder extends Seeder
                     "Teacher_count" => 5,
                     "buyment_method_id" => 1,
                 ]);
-                $institution_subject->save();
+                // $institution_subject->save();
 
                 $institution_subject_coordinator =  SubjectCoordinator::create([
                     "user_id" => $user->id,
                     "institution_subject_id" => $institution_subject->id,
                 ]);
-                $institution_subject_coordinator->save();   
+                // $institution_subject_coordinator->save();   
                
-                for($i=0; $i < $institution_subject->Teacher_count; $i++){
+                for($n=0; $n < $institution_subject->Teacher_count; $n++){
 
                     $user =User::create([
                         "name" => 'default',
                         "password" => Hash::make('First_Name'),
-                        "email" => "teacher_" . $i . "@teacher.com",
+                        "email" => "teacher_" . $n . "@teacher.com",
                         "menuroles" => "teacher",
                         "status" => 'inactive',
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
                     $user->assignRole("teacher");
-                    $user->save();
+                    // $user->save();
 
                     $teacher = Teacher::create([
-                        'First_name' =>"teacher_" . $i,
-                        'Last_Name' => "teacher_" . $i,
+                        'First_name' =>"teacher_" . $n,
+                        'Last_Name' => "teacher_" . $n,
                         'subject_id' => $institution_subject->subject_id,
                         'nationality_id'=> 1,
                         'Mobile' => 0,
@@ -317,7 +326,7 @@ class UsersAndNotesSeeder extends Seeder
                     ]);
                     
                     $activeCode = ActivationCodes::create([
-                        "Activate_code" => "testTeacher" . $i,
+                        "Activate_code" => "testTeacher" . $n,
                         "user_id" => $user->id,
                         'created_at' => now(),
                         'updated_at' => now(),
@@ -333,10 +342,13 @@ class UsersAndNotesSeeder extends Seeder
                     ]);
                     
                 }
- 
+                $this->command->info("END IF STATEMENT: COORDINATOR");
+
             }
 
             if($usersRoles[$i]->name == 'editor'){
+                $this->command->comment("IF STATEMENT: EDITOR");
+
                 $country=Country::create([
                     // 'id'=>2,
                     'country_name' => "Egypt",
