@@ -358,10 +358,10 @@ export default {
   },
   methods: {
     getphoto() {
-      return $$apiAdress + "/storage/image/" + this.freshuser.image;
+      return this.$apiAdress + "/storage/image/" + this.freshuser.image;
     },
     getempty() {
-      return $$apiAdress + "/storage/image/no-image.jpg";
+      return this.$apiAdress + "/storage/image/no-image.jpg";
     },
     handleOnchange(e) {
       this.image = e.target.files[0];

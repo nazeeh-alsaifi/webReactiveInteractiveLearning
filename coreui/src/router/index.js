@@ -161,6 +161,7 @@ const SubjectCoordinatorClass = () =>
 //teacher
 const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
 const MyTeacherClass = () => import("@/views/teacher/Class");
+const TeacherClassActivities = () => import("@/views/teacher/Activity");
 
 // permissions
 const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
@@ -677,11 +678,29 @@ function configRoutes() {
             },
             {
               path: ":id/myclass",
-              name: "TeacherClass",
-              component: MyTeacherClass,
-              meta: {
-                requiresTeacher: true,
+              meta: { label: "TeacherClass" },
+              component: {
+                render(c) {
+                  return c("router-view");
+                },
               },
+              children: [
+                {
+                  path: "",
+                  component: MyTeacherClass,
+                  meta: {
+                    requiresTeacher: true,
+                  },
+                },
+                {
+                  path: ":myactivities",
+                  name: "Activities",
+                  component: TeacherClassActivities,
+                  meta: {
+                    requiresTeacher: true,
+                  },
+                }
+              ]
             },
           ],
         },

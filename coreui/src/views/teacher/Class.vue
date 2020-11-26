@@ -9,7 +9,14 @@
             <div class="panel-heading"><h1>Subject:  {{subject.Subject_name}}</h1></div>
             <div class="panel-body">
                 <div style="text-align:left">
-                  
+                    <div
+                        style="display:inline-block"
+                    >
+                        <a v-on:click="classActivity(myId)" class="btn btn-info"
+                            >Class Activities</a
+                        >
+                    </div>
+                <hr>
                 </div>
                 <hr>
                 <table style="table-layout:fixed" class="table table-striped">
@@ -140,6 +147,9 @@ import axios from 'axios'
         }
     },
     methods:{
+        classActivity(id){
+           this.$router.push({path: `/teacher-classes/${id.toString()}/myclass/myactivities`});
+        },
         change_sort(field) {
             if (this.sort_field === field) {
                 this.sort_direction =

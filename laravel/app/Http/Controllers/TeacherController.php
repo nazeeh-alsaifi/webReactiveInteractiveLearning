@@ -15,6 +15,7 @@ use App\Models\users\Teacher;
 use App\Models\users\Student;
 use App\Models\users\SubjectCoordinator;
 use App\Models\User;
+use App\Models\Activity;
 
 class TeacherController extends Controller
 {
@@ -177,7 +178,37 @@ class TeacherController extends Controller
        $StudentClass = StudentClass::where('institution_class_id',$id)->get();
        return $StudentClass;
     }
-    
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getAvailableActivities($id)
+    {
+       $myClass = InstitutionClass::find($id);
+       $myInstitutionSubject = InstitutionSubject::find($myClass->institution_subject_id);
+       $Activities = Activity::where('subject_id',$myInstitutionSubject->subject_id)->get();
+       return $Activities;
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivities($id)
+    {
+       $Activities = InstitutionClass::find($id)->activities()->paginate(5);
+     //    $items = DB::table('activities')
+     //    ->join('activities_institution_calsses', 'activities.id', 'activities_institution_calsses.institution_class_id')
+     //    ->where('activities.id','0')->where('Item__langs.lang_id','6')
+     //    ->pluck('Item__langs.title', 'Item__langs.item_id');
+       return $Activities;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
