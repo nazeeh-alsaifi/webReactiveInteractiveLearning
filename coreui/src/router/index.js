@@ -180,6 +180,9 @@ const LocationInstructionalCycle = () =>
   import("@/views/settings/LocationInstructionalCycle");
 const InstructionalPurpose = () =>
   import("@/views/settings/InstructionalPurpose");
+
+//activity
+const CreateActivity = () => import("@/views/activity/CreateActivity");
 /*
  AcademicLevels 
  Categories 
@@ -727,6 +730,14 @@ function configRoutes() {
           },
         },
         /* activity */
+        {
+          path: "my-activities-ae",
+          name: "my Activities",
+          component: CreateActivity,
+          meta: {
+            requiresAdmin_Editor: true,
+          },
+        },
         {
           path: "activity-student",
           name: "Activity",
@@ -1278,7 +1289,7 @@ function configRoutes() {
               name: "Cards",
               component: Cards,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1286,7 +1297,7 @@ function configRoutes() {
               name: "Forms",
               component: Forms,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1294,7 +1305,7 @@ function configRoutes() {
               name: "Switches",
               component: Switches,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1302,7 +1313,7 @@ function configRoutes() {
               name: "Tables",
               component: Tables,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1310,7 +1321,7 @@ function configRoutes() {
               name: "Tabs",
               component: Tabs,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1318,7 +1329,7 @@ function configRoutes() {
               name: "Breadcrumb",
               component: Breadcrumbs,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1326,7 +1337,7 @@ function configRoutes() {
               name: "Carousel",
               component: Carousels,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1334,7 +1345,7 @@ function configRoutes() {
               name: "Collapse",
               component: Collapses,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1342,7 +1353,7 @@ function configRoutes() {
               name: "Jumbotron",
               component: Jumbotrons,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1350,7 +1361,7 @@ function configRoutes() {
               name: "List Group",
               component: ListGroups,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1358,7 +1369,7 @@ function configRoutes() {
               name: "Navs",
               component: Navs,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1366,7 +1377,7 @@ function configRoutes() {
               name: "Navbars",
               component: Navbars,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1374,7 +1385,7 @@ function configRoutes() {
               name: "Pagination",
               component: Paginations,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1382,7 +1393,7 @@ function configRoutes() {
               name: "Popovers",
               component: Popovers,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1390,7 +1401,7 @@ function configRoutes() {
               name: "Progress",
               component: ProgressBars,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1398,7 +1409,7 @@ function configRoutes() {
               name: "Tooltips",
               component: Tooltips,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
           ],
@@ -1418,7 +1429,7 @@ function configRoutes() {
               name: "Standard Buttons",
               component: StandardButtons,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1426,7 +1437,7 @@ function configRoutes() {
               name: "Button Group",
               component: ButtonGroups,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1434,7 +1445,7 @@ function configRoutes() {
               name: "Dropdowns",
               component: Dropdowns,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1442,7 +1453,7 @@ function configRoutes() {
               name: "Brand Buttons",
               component: BrandButtons,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
           ],
@@ -1462,7 +1473,7 @@ function configRoutes() {
               name: "Icons library",
               component: CoreUIIcons,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1470,7 +1481,7 @@ function configRoutes() {
               name: "Brands",
               component: Brands,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1478,7 +1489,7 @@ function configRoutes() {
               name: "Flags",
               component: Flags,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
           ],
@@ -1498,7 +1509,7 @@ function configRoutes() {
               name: "Alerts",
               component: Alerts,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1506,7 +1517,7 @@ function configRoutes() {
               name: "Badge",
               component: Badges,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
             {
@@ -1514,7 +1525,7 @@ function configRoutes() {
               name: "Modals",
               component: Modals,
               meta: {
-                requiresUser: true,
+                requiresAdmin: true,
               },
             },
           ],
