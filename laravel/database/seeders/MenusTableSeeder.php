@@ -152,7 +152,7 @@ class MenusTableSeeder extends Seeder
         /* Edit Profile */
 
         $this->insertLink('student,free_student', 'Edit Profile', '/edit-student-profile', 'cil-speedometer');
-        $this->insertLink('student,free_student', 'Activity', '/activity', 'cil-speedometer');
+        $this->insertLink('student,free_student', 'Classes', '/student-classes', 'cil-speedometer');
 
         $this->insertLink('teacher', 'Edit Profile', '/edit-teacher-profile', 'cil-speedometer');
         $this->insertLink('coordinator', 'Edit Profile', '/edit-coordinator-profile', 'cil-speedometer');

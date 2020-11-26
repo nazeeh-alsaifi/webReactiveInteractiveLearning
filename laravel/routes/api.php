@@ -57,6 +57,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('student/getStudent','StudentController@getStudent');
       Route::post('Students/storeuserprofile','StudentController@storeuserprofile');
       Route::post('Students/storestudentprofile','StudentController@storestudentprofile');
+      Route::get('student/getStudentClasses','StudentController@getStudentClasses');
+      Route::get('student/getSubjects','StudentController@getSubjects');
+      Route::get('student/getInstitutionSubject','StudentController@getInstitutionSubject');
+      Route::get('student/getTeachers','StudentController@getTeachers');
     });
     Route::group(['middleware' => 'coordinator'], function ($router) {
       Route::resource('Coordintor','CoordinatorController');

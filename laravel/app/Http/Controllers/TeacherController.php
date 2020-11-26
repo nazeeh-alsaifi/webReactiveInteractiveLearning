@@ -73,7 +73,7 @@ class TeacherController extends Controller
         return response()->json( compact('users', 'you') );
     }
 
-      /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

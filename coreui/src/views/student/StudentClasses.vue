@@ -1,12 +1,12 @@
 <template>
-    <CRow>
+     <CRow>
     <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
           <CCardBody>
-  <div class="container">
+ <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading"><h1>{{myteacher.First_name}}'s Classes</h1></div>
+            <div class="panel-heading"><h1>{{mystudent.First_Name}}'s Classes</h1></div>
             <div class="panel-body">
                 <hr>
                 <table style="table-layout:fixed" class="table table-striped">
@@ -100,12 +100,14 @@
             </div>
         </div>
     </div>
-      </CCardBody>
+
+          </CCardBody>
         </CCard>
       </transition>
     </CCol>
   </CRow>
 </template>
+
 <script>
 import axios from 'axios'
 export default {
@@ -115,7 +117,7 @@ export default {
           institution_subjects: [],
             subjects:[],
             teachers:[],
-            myteacher:{},
+            mystudent:{},
             searchtext: "",
             column: "id",
             errors: [],
@@ -124,9 +126,8 @@ export default {
         };
     },
          mounted() {
-            this.loadmyTeacher();
-            this.loadSubjects();
             this.loadkeyclasses();
+            this.loadSubjects();
             this.loadInstitutionSubject();
             this.loadTeachers();
 
@@ -138,7 +139,7 @@ export default {
         },
         methods:{
         gotoclass(id){
-            this.$router.push({path: `/teacher-classes/${id.toString()}/myclass`});
+            this.$router.push({path: `/student-classes/${id.toString()}/myclass`});
         },    
         change_sort(field) {
             if (this.sort_field === field) {
@@ -150,28 +151,8 @@ export default {
             }
             this.loadkeyclasses();
         },
-        loadmyTeacher: function() {
-            axios
-                .get(this.$apiAdress +'/api/Teachers/getMyTeacher?token='+ localStorage.getItem("api_token"))
-                .then(response => {
-                    this.myteacher = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-        loadSubjects: function() {
-            axios
-                .get(this.$apiAdress +'/api/Teachers/getSubjects?token='+ localStorage.getItem("api_token"))
-                .then(response => {
-                    this.subjects = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
         loadkeyclasses: function(page = 1){
-            axios.get(this.$apiAdress +'/api/Teachers/getTeacherClasses?page='+page+
+            axios.get(this.$apiAdress +'/api/student/getStudentClasses?page='+page+
                         "&search=" +
                         this.searchtext +
                         "&sort_field=" +
@@ -182,25 +163,35 @@ export default {
                         this.column+
                         "&token="+ localStorage.getItem("api_token"))
                     .then((response) => {
-                        this.institutions_key_classes = response.data;
+                        this.institutions_key_classes = response.data.Institution_keyClasses;
+                        this.mystudent = response.data.Student;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
         },
+        loadSubjects: function() {
+            axios
+                .get(this.$apiAdress +'/api/student/getSubjects?token='+ localStorage.getItem("api_token"))
+                .then(response => {
+                    this.subjects = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
         loadInstitutionSubject: function(){
             axios
-                .get(this.$apiAdress +'/api/Teachers/getAllInstitutionSubject?token='+ localStorage.getItem("api_token"))
+                .get(this.$apiAdress +'/api/student/getInstitutionSubject?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.institution_subjects = response.data;
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
-        },
-        
+        },        
         loadTeachers: function(){
-                    axios.get(this.$apiAdress +'/api/Teachers/getTeachers?token='+ localStorage.getItem("api_token"))
+                    axios.get(this.$apiAdress +'/api/student/getTeachers?token='+ localStorage.getItem("api_token"))
                     .then((response) => {
                         this.teachers = response.data;
                     })
@@ -208,38 +199,10 @@ export default {
                         console.log(error);
                     });
             },
-    }            
+    }                
 }
 </script>
+
 <style scoped>
-table {
-  width: 100%;
-  border-collapse: separate; /* Don't collapse */
-  border-spacing: 0;
-}
 
-table th {
-  /* Apply both top and bottom borders to the <th> */
-  border-top: 2px solid rgba(99,99,99,0.5);;
-  border-bottom: 2px solid rgba(99,99,99,0.5);;
-}
-
-table th:first-child{
-  /* Apply a left border on the first <td> or <th> in a row */
-  border-left: 2px solid rgba(99,99,99,0.5);;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-table th:last-child{
-  /* Apply a left border on the first <td> or <th> in a row */
-  border-right: 2px solid rgba(99,99,99,0.5);;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-table thead th {
-  top: 0;
-}
-input:invalid {
-  border: red solid 1px;
-}
 </style>

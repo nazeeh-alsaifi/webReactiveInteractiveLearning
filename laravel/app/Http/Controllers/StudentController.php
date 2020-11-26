@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\DB;
 use App\Models\settings\Nationality;
 use App\Models\users\Student;
 use App\Models\User;
+use App\Models\settings\Subject;
+use App\Models\institutions\Institution;
+use App\Models\Institutions\InstitutionSubject;
+use App\Models\Institutions\InstitutionClass;
+use App\Models\Institutions\StudentClass;
+use App\Models\users\Teacher;
+use App\Models\users\SubjectCoordinator;
+use App\Models\Activity;
 
 class StudentController extends Controller
 {
@@ -30,7 +38,7 @@ class StudentController extends Controller
     {
         //
     }
-/**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -62,7 +70,67 @@ class StudentController extends Controller
         return response()->json( compact('users', 'you') );
     }
 
-        /**
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSubjects()
+    {
+        return Subject::all();
+    }
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getStudentClasses()
+    {
+        $you = auth()->user();
+        $Student = Student::where('user_id',$you->id)->first();
+        $sortField = request('sort_field','id');
+        if(!in_array($sortField,['id','institution_subject_id','teacher_id','keyclass'])){
+             $sortField = 'id';
+         }
+         $sortDirection = request('sort_direction','desc');
+         if(!in_array($sortDirection,['asc','dec'])){
+             $sortDirection = 'desc';
+         }
+        //get classes that belong to our student
+        $Institution_keyClasses = DB::table('institution_classes')
+         ->join('student_classes', 'student_classes.institution_class_id', 'institution_classes.id')
+         ->join('students', 'student_classes.student_id', 'students.id')
+         ->where('students.id',$Student->id)
+         ->select('institution_classes.id as id','institution_classes.teacher_id as teacher_id',
+        'institution_classes.keyclass as keyclass','institution_classes.institution_subject_id as institution_subject_id')
+        ->when(request('search','') != '', function($query){
+            $query->where('keyclass','LIKE','%'.request('search').'%');
+        })->orderBy($sortField,$sortDirection)->paginate(5);
+        return response()->json( compact('Institution_keyClasses', 'Student') );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getInstitutionSubject()
+    {
+        return InstitutionSubject::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTeachers()
+    {
+        return Teacher::all();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

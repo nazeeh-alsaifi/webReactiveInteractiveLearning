@@ -163,6 +163,10 @@ const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
 const MyTeacherClass = () => import("@/views/teacher/Class");
 const TeacherClassActivities = () => import("@/views/teacher/Activity");
 
+//student
+const MyStudentClasses = () => import("@/views/student/StudentClasses");
+const ClassActivities = () => import("@/views/student/ClassActivities");
+
 // permissions
 const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
 
@@ -704,6 +708,33 @@ function configRoutes() {
             },
           ],
         },
+        /*student*/
+         {
+           path: "student-classes",
+           meta: { label: "StudentClasses" },
+           component: {
+             render(c) {
+               return c("router-view");
+             },
+           },
+           children: [
+             {
+               path: "",
+               component: MyStudentClasses,
+               meta: {
+                 requiresStudent_FreeStudent: true,
+               },
+             },
+             {
+              path: ":id/myclass",
+              name: "Class_Activities",
+              component: ClassActivities,
+              meta: {
+                requiresStudent_FreeStudent: true,
+              },
+             }
+           ]
+         },
         /* Edit Profile */
         {
           path: "edit-admin-profile",
