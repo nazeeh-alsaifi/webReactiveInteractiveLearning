@@ -120,6 +120,9 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     });
     //
     Route::group(['middleware' => 'admin'], function ($router) {
+    /*  Activity Routes */
+
+
     ////////my routes
     Route::resource('AcademicLevels','AcademiclevelController');
     Route::resource('Subjects','SubjectsController');
@@ -130,7 +133,7 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::resource('Measuretool','MeasureToolsController');
     Route::resource('Nationality','NationalityController');
     Route::resource('SubCategory','SubCategoryController');
-    Route::resource('SuSubject','SubSubjectController');
+    Route::resource('SubSubject','SubSubjectController');
     Route::resource('Unit','UnitController');
     Route::resource('UnitMeasure','UnitsMeasureController');
     Route::resource('Institution','InstitiutionController');
