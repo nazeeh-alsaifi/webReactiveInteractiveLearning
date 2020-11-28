@@ -51,7 +51,7 @@ class SettingsSeeder extends Seeder
 
         // Subject
        
-        
+        $subject = Subject::find(1);
 
         // Categories
         $cat1 =Category::create([

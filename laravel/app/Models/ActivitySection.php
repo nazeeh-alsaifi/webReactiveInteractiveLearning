@@ -11,6 +11,7 @@ class ActivitySection extends Model
 
     protected $guarded = ['id'];  
 
+    protected $table ="activities_sections";
     public function activities(){
         return $this->belongsTo('App\Models\Activity',"activity_id");
 

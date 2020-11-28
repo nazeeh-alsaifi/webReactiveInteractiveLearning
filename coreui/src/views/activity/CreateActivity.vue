@@ -281,39 +281,52 @@ export default {
       this.sections.splice(index, 1);
     },
     submit() {
-      if (!this.valid(this.activity, this.sections)) {
+      if (this.valid(this.activity, this.sections)) {
+        const formData = new FormData();
+        formData.set("title", this.activity.title);
+        formData.set("image", this.activity.image);
+        formData.set("objective", this.activity.objective);
+        formData.set("subject_id", this.activity.subject_id);
+        formData.set("subSubject_id", this.activity.subSubject_id);
+        formData.set("category_id", this.activity.category_id);
+        formData.set("subCategory_id", this.activity.subCategory_id);
+        formData.set("level", this.activity.level);
+        formData.set(
+          "sections",
+          JSON.stringify(this.sections.filter((obj) => obj.title.length != 0))
+        );
+        // const formObj = {
+        //   title: this.activity.title,
+        //   image: this.activity.image,
+        //   objective: this.activity.objective,
+        //   subject_id: this.activity.subject_id,
+        //   subSubject_id: this.activity.subSubject_id,
+        //   category_id: this.activity.category_id,
+        //   subCategory_id: this.activity.subCategory_id,
+        //   level: this.activity.level,
+        //   sections: this.sections.filter((obj) => obj.title.length != 0),
+        // };
+        // console.log("form data:", formData);
+        console.log("activity:", this.activity);
+        console.log("sections:", this.sections);
+        // console.log("formObj", formObj);
+        // for (var key of formData.keys())
+        //   console.log(key, ":", formData.get(key));
+        // this.part = 2;
+        axios
+          .post(
+            this.$apiAdress +
+              "/api/activity/store?token=" +
+              localStorage.getItem("api_token"),
+            formData
+          )
+          .then((response) => {
+            console.log("store activity response", self.response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-      const formData = new FormData();
-      formData.set("title", this.activity.title);
-      formData.set("image", this.activity.image);
-      formData.set("objective", this.activity.objective);
-      formData.set("subject_id", this.activity.subject_id);
-      formData.set("subSubject_id", this.activity.subSubject_id);
-      formData.set("category_id", this.activity.category_id);
-      formData.set("subCategory", this.activity.subCategory_id);
-      formData.set("level", this.activity.level);
-      formData.set(
-        "sections",
-        this.sections.filter((obj) => obj.title.length != 0)
-      );
-      console.log("form data:", formData);
-      console.log("activity:", this.activity);
-      console.log("sections:", this.sections);
-      for (var key of formData.keys()) console.log(key, ":", formData.get(key));
-      // this.part = 2;
-      axios
-        .post(
-          this.$apiAdress +
-            "/api/activity/store?token=" +
-            localStorage.getItem("api_token"),
-          this.activity
-        )
-        .then((response) => {
-          console.log("store activity response", self.response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
     getempty() {
       return this.$apiAdress + "/storage/image/no_image.png";
@@ -358,7 +371,7 @@ export default {
       console.log("debugging image:", e.target.files[0]);
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
-      this.activity.image = files[0];
+      this.activity.image = e.target.files[0];
       this.createImage(files[0]);
     },
     createImage(file) {
