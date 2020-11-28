@@ -254,7 +254,7 @@
                         <hr />
                     </tbody>
                 </table>
-                <pagination :data="institution_subjects" @pagination-change-page="institution_subjects"></pagination>
+                <pagination :data="institution_subjects" @pagination-change-page="loadInstitutionsSubjects"></pagination>
             </div>
         </div>
     </div>

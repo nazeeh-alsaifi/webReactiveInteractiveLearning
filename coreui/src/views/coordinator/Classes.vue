@@ -91,7 +91,7 @@
                         <hr />
                     </tbody>
                 </table>
-                <pagination :data="institutions_key_classes" @pagination-change-page="institutions_key_classes"></pagination>
+                <pagination :data="institutions_key_classes" @pagination-change-page="loadkeyclasses"></pagination>
             </div>
         </div>
     </div>
