@@ -15,6 +15,7 @@ use App\Models\users\Teacher;
 use App\Models\users\Student;
 use App\Models\users\SubjectCoordinator;
 use App\Models\User;
+use App\Models\Activity;
 
 class TeacherController extends Controller
 {
@@ -72,7 +73,7 @@ class TeacherController extends Controller
         return response()->json( compact('users', 'you') );
     }
 
-      /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -177,7 +178,33 @@ class TeacherController extends Controller
        $StudentClass = StudentClass::where('institution_class_id',$id)->get();
        return $StudentClass;
     }
-    
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getAvailableActivities($id)
+    {
+       $myClass = InstitutionClass::find($id);
+       $myInstitutionSubject = InstitutionSubject::find($myClass->institution_subject_id);
+       $Activities = Activity::where('subject_id',$myInstitutionSubject->subject_id)->paginate(5);
+       return $Activities;
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivities($id)
+    {
+       $Activities = InstitutionClass::find($id)->activities()->paginate(5);
+       return $Activities;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
