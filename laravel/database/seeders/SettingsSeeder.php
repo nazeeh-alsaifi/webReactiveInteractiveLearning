@@ -29,37 +29,9 @@ class SettingsSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        AcademicLevel::create([
-            // "id"=>2,
-            "AcademicLevel" => "Primary",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        
 
-        // Country
-        $country=Country::create([
-            // 'id'=>1,
-            'country_name' => "Syria",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
        
-
-        // City
-        City::create([
-            // "id"=>1,
-            "Country_id" => $country->id,
-            "city_name" => "Damscuss",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        City::create([
-            // "id"=>2,
-            "Country_id" => $country->id,
-            "city_name" => "Aleppo",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
        
        
 
@@ -79,11 +51,7 @@ class SettingsSeeder extends Seeder
 
         // Subject
        
-        $subject = Subject::create([
-            "Subject_name" =>"Physics",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $subject = Subject::find(1);
 
         // Categories
         $cat1 =Category::create([

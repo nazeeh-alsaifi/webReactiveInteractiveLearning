@@ -107,10 +107,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::post('SubjectCoordinators/storeteacherprofile','SubjectCoordinatorController@storeteacherprofile');
     });
     
-    //
+    
     //
     Route::group(['middleware' => 'teacher'], function ($router) {
-        Route::resource('Teacher','TeacherController');
+        Route::resource('Teacher','TeacherController');                                   
         Route::get('Teachers/getMyTeacher','TeacherController@getMyTeacher');
         Route::get('Teachers/getSubjects','TeacherController@getSubjects');
         Route::get('Teachers/getTeacherClasses','TeacherController@getTeacherClasses');
@@ -127,7 +127,11 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::post('Teachers/storeteacherprofile','TeacherController@storeteacherprofile');
     });
     //
+// /*  Activity Routes */
+Route::post("activity/store",'ActivityController@store');
+
     Route::group(['middleware' => 'admin'], function ($router) {
+
     ////////my routes
     Route::resource('AcademicLevels','AcademiclevelController');
     Route::resource('Subjects','SubjectsController');
@@ -138,7 +142,7 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     Route::resource('Measuretool','MeasureToolsController');
     Route::resource('Nationality','NationalityController');
     Route::resource('SubCategory','SubCategoryController');
-    Route::resource('SuSubject','SubSubjectController');
+    Route::resource('SubSubject','SubSubjectController');
     Route::resource('Unit','UnitController');
     Route::resource('UnitMeasure','UnitsMeasureController');
     Route::resource('Institution','InstitiutionController');

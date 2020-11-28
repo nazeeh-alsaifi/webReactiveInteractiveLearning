@@ -189,6 +189,8 @@ class MenusTableSeeder extends Seeder
         $this->insertLink('admin,editor', 'Edit Profile', '/edit-admin-profile', 'cil-speedometer');
         $this->insertLink('admin,editor', 'Institutions', '/institutions', 'cil-speedometer');
 
+        $this->insertLink('admin,editor', 'My Activities', '/my-activities-ae', 'cil-speedometer');
+
         $this->beginDropdown('admin,editor', 'Settings', '/settings', 'cil-puzzle');
             $this->insertLink('admin,editor', 'Media',    '/media');
             $this->insertLink('admin,editor', 'Users',    '/users');

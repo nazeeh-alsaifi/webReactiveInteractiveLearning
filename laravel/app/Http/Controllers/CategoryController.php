@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\settings\category;
+use App\Models\settings\Category;
 use App\Models\settings\Subject;
 use App\Models\settings\SubCategory;
 use DB;
@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return category::all();
+        return Category::all();
     }
 
     /**
@@ -72,7 +72,7 @@ class CategoryController extends Controller
             'Subj_id' => 'required',
             'Cat_name' => 'required'
      ]);
-         $category = new category;
+         $category = new Category;
          $category->subject_id = $request->input('Subj_id');
          $category->Cat_name = $request->input('Cat_name');
          $category->save();
@@ -92,7 +92,7 @@ class CategoryController extends Controller
             'Cat_name' => 'required'
      ]);
          $id = $request->input('id');
-         $category = category::find($id);
+         $category = Category::find($id);
          $category->subject_id = $request->input('subject_id');
          $category->Cat_name = $request->input('Cat_name');
          $category->save();
@@ -108,7 +108,7 @@ class CategoryController extends Controller
     public function delete(Request $request)
     {
         $id = $request->input('id');
-        $Category = category::find($id);
+        $Category = Category::find($id);
         $sub_categories = SubCategory::get();
         foreach($sub_categories as $sub_category)
         {

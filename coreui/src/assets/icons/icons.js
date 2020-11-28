@@ -75,10 +75,15 @@ import {
   cilXCircle,
   cilCart,
   cilAccountLogout,
+  cilArrowLeft,
+  cilArrowThickFromLeft,
+  cilLibraryAdd,
+  cilX,
+  cilPlus,
 } from "@coreui/icons";
 import { logo } from "./logo";
 export const iconsSet = Object.assign(
-  {},
+  { cilArrowThickFromLeft, cilArrowLeft, cilLibraryAdd, cilX, cilPlus },
   { logo },
   {
     cilArrowTop,

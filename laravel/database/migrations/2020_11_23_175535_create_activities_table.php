@@ -17,7 +17,7 @@ class CreateActivitiesTable extends Migration
             $table->id();
             $table->string("title");
             $table->mediumText("objectives");
-            $table->string("image");
+            $table->string("image")->default("no-image.jpg");
             $table->unsignedBigInteger("subject_id");
             // $table->unsignedBigInteger("user_id");
             $table->boolean("is_free");
