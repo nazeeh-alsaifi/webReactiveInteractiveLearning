@@ -8,8 +8,8 @@
             >Please add the sections and fill their titles:</strong
           >
         </CCardHeader>
-        <CAlert :show.sync="alert" closeButton color="danger">
-          <CIcon name="cil-ban" />
+        <CAlert :show.sync="alert" closeButton v-bind:color="alertColor">
+          <CIcon v-bind:name="alertIcon" />
           {{ message }}
         </CAlert>
         <transition name="slide">
@@ -48,7 +48,7 @@
               <CCol>
                 <!-- <CImg v-if="!activity.image" :src="getempty()" fluid> </CImg> -->
                 <CImg
-                  :src="activity.image"
+                  :src="viewImage"
                   style="
                     margin-left: auto;
                     margin-right: auto;
@@ -151,7 +151,7 @@
                     style="display: flex; justify-content: space-between"
                   >
                     <div>Section Number {{ index + 1 }}:</div>
-                    <div @click="deleteSection" style="cursor: pointer">
+                    <div @click="deleteSection(index)" style="cursor: pointer">
                       <CIcon style="" name="cil-x" />
                     </div>
                   </CCardHeader>
@@ -222,9 +222,8 @@ export default {
   data() {
     return {
       // form
-      activity: {
-        image: this.getempty(),
-      },
+      viewImage: this.getempty(),
+      activity: {},
       subjects: [],
       subSubjects: [],
       categories: [],
@@ -240,8 +239,10 @@ export default {
       part: 1,
 
       // alert
-      alert: true,
+      alert: false,
+      alertColor: "",
       message: "Empty Message!",
+      alertIcon: "",
     };
   },
   mounted() {
@@ -280,6 +281,8 @@ export default {
       this.sections.splice(index, 1);
     },
     submit() {
+      if (!this.valid(this.activity, this.sections)) {
+      }
       const formData = new FormData();
       formData.set("title", this.activity.title);
       formData.set("image", this.activity.image);
@@ -289,11 +292,28 @@ export default {
       formData.set("category_id", this.activity.category_id);
       formData.set("subCategory", this.activity.subCategory_id);
       formData.set("level", this.activity.level);
-      formData.set("sections", this.sections);
-
+      formData.set(
+        "sections",
+        this.sections.filter((obj) => obj.title.length != 0)
+      );
+      console.log("form data:", formData);
+      console.log("activity:", this.activity);
+      console.log("sections:", this.sections);
       for (var key of formData.keys()) console.log(key, ":", formData.get(key));
-
       // this.part = 2;
+      axios
+        .post(
+          this.$apiAdress +
+            "/api/activity/store?token=" +
+            localStorage.getItem("api_token"),
+          this.activity
+        )
+        .then((response) => {
+          console.log("store activity response", self.response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     getempty() {
       return this.$apiAdress + "/storage/image/no_image.png";
@@ -302,11 +322,43 @@ export default {
     // getphoto() {
     //   return this.$apiAdress + "/storage/image/" + this.freshuser.image; //"'/"
     // },
+    showAlert(message, color = "danger", icon = "cil-ban") {
+      if (this.alert == true) {
+        this.alert = false;
+      }
+      this.alertIcon = icon;
+      this.alertColor = color;
+      this.message = message;
+      this.alert = true;
+    },
+    valid(activity, sections) {
+      var activity_keys_num = 8;
+      var filteredSections = this.sections.filter(
+        (obj) => obj.title.length != 0
+      );
 
+      if (Object.keys(activity).length != activity_keys_num) {
+        this.part = 1;
+        this.showAlert(
+          "Please make sure that you have filled all the forms and choosen an image!"
+        );
+      } else if (filteredSections.length == 0) {
+        this.showAlert("You need to fill at least one title!");
+      } else {
+        this.showAlert("Completed!", "success", "cil-check");
+        return true;
+      }
+      return false;
+      // var emptyTitles =false;
+      // this.sections.forEach((obj) => {
+
+      // });
+    },
     onFileChange(e) {
       console.log("debugging image:", e.target.files[0]);
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
+      this.activity.image = files[0];
       this.createImage(files[0]);
     },
     createImage(file) {
@@ -315,7 +367,7 @@ export default {
       var vm = this;
 
       reader.onload = (e) => {
-        vm.activity.image = e.target.result;
+        vm.viewImage = e.target.result;
       };
       reader.readAsDataURL(file);
     },
