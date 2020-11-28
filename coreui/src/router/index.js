@@ -161,7 +161,7 @@ const SubjectCoordinatorClass = () =>
 //teacher
 const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
 const MyTeacherClass = () => import("@/views/teacher/Class");
-const TeacherClassActivities = () => import("@/views/teacher/Activity");
+const TeacherClassActivities = () => import("@/views/teacher/Activities");
 
 //student
 const MyStudentClasses = () => import("@/views/student/StudentClasses");

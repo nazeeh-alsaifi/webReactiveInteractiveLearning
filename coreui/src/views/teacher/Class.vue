@@ -12,9 +12,8 @@
                 <div class="panel-body">
                   <div style="text-align:left">
                     <div style="display:inline-block">
-                      <a v-on:click="classActivity(myId)" class="btn btn-info"
-                        >Class Activities</a
-                      >
+                      <a v-on:click="classActivity(myId)"  class="btn btn-primary" style="color:#ffffff;"
+                        >Class Activities</a>
                     </div>
                     <hr />
                   </div>
@@ -35,7 +34,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -43,7 +42,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -60,7 +59,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('First_Name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -68,7 +67,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('First_Name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -85,7 +84,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('Last_Name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -93,7 +92,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('Last_Name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -110,7 +109,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('Mobile')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -118,7 +117,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('Mobile')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -133,8 +132,8 @@
                         <th>
                           <a>COL</a>
                           <select
-                            style="width:10%;"
-                            class="btn btn-info"
+                            style="width:10%; color:#ffffff;"
+                            class="btn btn-primary"
                             v-model="column"
                           >
                             <option class="form-control" :value="'First_Name'"

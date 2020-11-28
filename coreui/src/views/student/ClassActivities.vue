@@ -23,7 +23,7 @@
                                 </div>
                                 <div style="word-wrap: break-word;" @click="gotoactivity(myActivity.id)">
                                      {{ myActivity.objectives }}
-                                </div>
+                                </div><hr>
                                 </div>
               <hr>
               <pagination :data="myActivities" @pagination-change-page="loadMyActivities"></pagination>
