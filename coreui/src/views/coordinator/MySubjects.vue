@@ -187,29 +187,29 @@
                        <th style="text-align:left;width:10%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('id')">Id</a>
-                            <span v-if="this.sort_field=='id' && this.sort_direction=='asc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='id' && this.sort_direction=='asc'" @click.prevent="change_sort('id')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                          <th style="text-align:left;width:20%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('subject_id')">Subject_Name</a>
-                            <span v-if="this.sort_field=='subject_id' && this.sort_direction=='asc'" @click.prevent="change_sort('subject_id')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='subject_id' && this.sort_direction=='desc'" @click.prevent="change_sort('subject_id')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='subject_id' && this.sort_direction=='asc'" @click.prevent="change_sort('subject_id')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='subject_id' && this.sort_direction=='desc'" @click.prevent="change_sort('subject_id')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:20%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('Teacher_count')">Teacher_Count</a>
-                            <span v-if="this.sort_field=='Teacher_count' && this.sort_direction=='asc'" @click.prevent="change_sort('Teacher_count')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='Teacher_count' && this.sort_direction=='desc'" @click.prevent="change_sort('Teacher_count')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='Teacher_count' && this.sort_direction=='asc'" @click.prevent="change_sort('Teacher_count')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='Teacher_count' && this.sort_direction=='desc'" @click.prevent="change_sort('Teacher_count')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:20%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('Student_count')">Student_Count</a>
-                            <span v-if="this.sort_field=='Student_count' && this.sort_direction=='asc'" @click.prevent="change_sort('Student_count')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='Student_count' && this.sort_direction=='desc'" @click.prevent="change_sort('Student_count')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='Student_count' && this.sort_direction=='asc'" @click.prevent="change_sort('Student_count')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='Student_count' && this.sort_direction=='desc'" @click.prevent="change_sort('Student_count')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="width:30%;">   
