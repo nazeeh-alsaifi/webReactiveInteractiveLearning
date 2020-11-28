@@ -61,6 +61,7 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('student/getSubjects','StudentController@getSubjects');
       Route::get('student/getInstitutionSubject','StudentController@getInstitutionSubject');
       Route::get('student/getTeachers','StudentController@getTeachers');
+      Route::get('student/{id}/getMyActivities','StudentController@getMyActivities');
     });
     Route::group(['middleware' => 'coordinator'], function ($router) {
       Route::resource('Coordintor','CoordinatorController');

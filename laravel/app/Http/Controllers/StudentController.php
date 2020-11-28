@@ -131,6 +131,22 @@ class StudentController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivities($id)
+    {
+       $Activities = InstitutionClass::find($id)->activities()->paginate(5);
+     //    $items = DB::table('activities')
+     //    ->join('activities_institution_calsses', 'activities.id', 'activities_institution_calsses.institution_class_id')
+     //    ->where('activities.id','0')->where('Item__langs.lang_id','6')
+     //    ->pluck('Item__langs.title', 'Item__langs.item_id');
+       return $Activities;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
