@@ -166,6 +166,7 @@ const TeacherClassActivities = () => import("@/views/teacher/Activity");
 //student
 const MyStudentClasses = () => import("@/views/student/StudentClasses");
 const ClassActivities = () => import("@/views/student/ClassActivities");
+const studentActivity = () => import("@/views/student/Activity");
 
 // permissions
 const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
@@ -727,11 +728,29 @@ function configRoutes() {
              },
              {
               path: ":id/myclass",
-              name: "Class_Activities",
-              component: ClassActivities,
-              meta: {
-                requiresStudent_FreeStudent: true,
+              meta: { label: "Class_Activities" },
+              component: {
+                render(c) {
+                  return c("router-view");
+                },
               },
+              children: [
+                {
+                  path: "",
+                  component: ClassActivities,
+                  meta: {
+                    requiresStudent_FreeStudent: true,
+                  },
+                },
+                {
+                  path: ":activityid/activity",
+                  name: "Student_Activity",
+                  component: studentActivity,
+                  meta: {
+                    requiresStudent_FreeStudent: true,
+                  },
+                }
+              ]
              }
            ]
          },

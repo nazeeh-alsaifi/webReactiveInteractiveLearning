@@ -138,12 +138,28 @@ class StudentController extends Controller
      */
     public function getMyActivities($id)
     {
-       $Activities = InstitutionClass::find($id)->activities()->paginate(5);
-     //    $items = DB::table('activities')
-     //    ->join('activities_institution_calsses', 'activities.id', 'activities_institution_calsses.institution_class_id')
-     //    ->where('activities.id','0')->where('Item__langs.lang_id','6')
-     //    ->pluck('Item__langs.title', 'Item__langs.item_id');
+       $Activities = InstitutionClass::find($id)->activities()->paginate(10);
+        //  $Activities = DB::table('activities')
+        //   ->join('activities_institution_calsses', 'activities.id', 'activities_institution_calsses.activity_id')
+        //   ->join('institution_classes', 'institution_classes.id', 'activities_institution_calsses.institution_class_id')
+        //   ->where('institution_classes.id',$id)
+        //   ->select('activities.id as id','activities.title as title',
+        //   'activities.objectives as objectives','activities.image as image',
+        //   'activities.subject_id as subject_id','activities.is_free as is_free', 'activities.is_active as is_active')
+        //   ->paginate(5);
        return $Activities;
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivity($id)
+    {
+       $Activity = Activity::find($id);
+       return $Activity;
     }
 
     /**
