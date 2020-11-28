@@ -198,7 +198,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -206,7 +206,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -223,7 +223,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('sub_cat_name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -231,7 +231,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('sub_cat_name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -248,7 +248,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('category_id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -256,7 +256,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('category_id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>

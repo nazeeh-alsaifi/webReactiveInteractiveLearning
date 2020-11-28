@@ -607,43 +607,43 @@
                        <th style="text-align:left;width:5%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('id')">Id</a>
-                            <span v-if="this.sort_field=='id' && this.sort_direction=='asc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='id' && this.sort_direction=='asc'" @click.prevent="change_sort('id')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                          <th style="text-align:left;width:10%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('First_Name')">First_Name</a>
-                            <span v-if="this.sort_field=='First_Name' && this.sort_direction=='asc'" @click.prevent="change_sort('First_Name')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='First_Name' && this.sort_direction=='desc'" @click.prevent="change_sort('First_Name')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='First_Name' && this.sort_direction=='asc'" @click.prevent="change_sort('First_Name')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='First_Name' && this.sort_direction=='desc'" @click.prevent="change_sort('First_Name')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:10%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('Last_Name')">Last_Name</a>
-                            <span v-if="this.sort_field=='Last_Name' && this.sort_direction=='asc'" @click.prevent="change_sort('Last_Name')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='Last_Name' && this.sort_direction=='desc'" @click.prevent="change_sort('Last_Name')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='Last_Name' && this.sort_direction=='asc'" @click.prevent="change_sort('Last_Name')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='Last_Name' && this.sort_direction=='desc'" @click.prevent="change_sort('Last_Name')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:15%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('Mobile')">Mobile</a>
-                            <span v-if="this.sort_field=='Mobile' && this.sort_direction=='asc'" @click.prevent="change_sort('Mobile')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='Mobile' && this.sort_direction=='desc'" @click.prevent="change_sort('Mobile')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='Mobile' && this.sort_direction=='asc'" @click.prevent="change_sort('Mobile')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='Mobile' && this.sort_direction=='desc'" @click.prevent="change_sort('Mobile')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:15%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('Address')">Address1</a>
-                            <span v-if="this.sort_field=='Address' && this.sort_direction=='asc'" @click.prevent="change_sort('Address')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='Address' && this.sort_direction=='desc'" @click.prevent="change_sort('Address')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='Address' && this.sort_direction=='asc'" @click.prevent="change_sort('Address')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='Address' && this.sort_direction=='desc'" @click.prevent="change_sort('Address')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:15%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('Address1')">Address2</a>
-                            <span v-if="this.sort_field=='Address1' && this.sort_direction=='asc'" @click.prevent="change_sort('Address1')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='Address1' && this.sort_direction=='desc'" @click.prevent="change_sort('Address1')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='Address1' && this.sort_direction=='asc'" @click.prevent="change_sort('Address1')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='Address1' && this.sort_direction=='desc'" @click.prevent="change_sort('Address1')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="width:20%;">   

@@ -131,7 +131,8 @@
                             <a
                               style="text-align:left;"
                               @click.prevent="change_sort('id')"
-                              >Id</a
+                              >
+                              Id</a
                             >
                             <span
                               v-if="
@@ -139,16 +140,14 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="cil-arrow-top"></i
-                            ></span>
+                              ><CIcon name="cil-arrow-top" /></span>
                             <span
                               v-if="
                                 this.sort_field == 'id' &&
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="cil-arrow-bottom"></i
-                            ></span>
+                              ><CIcon name="cil-arrow-bottom" /></span>
                           </div>
                         </th>
                         <th style="text-align:left;width:30%;">
@@ -164,7 +163,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('AcademicLevel')"
-                              ><i class="cil-arrow-top"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -172,7 +171,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('AcademicLevel')"
-                              ><i class="cil-arrow-bottom"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>

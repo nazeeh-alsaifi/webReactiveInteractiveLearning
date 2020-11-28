@@ -203,7 +203,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -211,7 +211,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -228,7 +228,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('city_name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -236,7 +236,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('city_name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -253,7 +253,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('country_id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -261,7 +261,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('country_id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>

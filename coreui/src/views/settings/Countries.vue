@@ -142,7 +142,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -150,7 +150,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </th>
                           <th style="text-align:left; width:25%;">
@@ -165,7 +165,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('country_name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -173,7 +173,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('country_name')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </th>
                           <th style="width:35%;">

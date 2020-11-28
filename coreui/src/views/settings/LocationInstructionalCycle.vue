@@ -140,7 +140,7 @@
                                   this.sort_direction == 'asc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -148,7 +148,7 @@
                                   this.sort_direction == 'desc'
                               "
                               @click.prevent="change_sort('id')"
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>
@@ -170,7 +170,7 @@
                               @click.prevent="
                                 change_sort('Location_Instructional_Cycle')
                               "
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-top" /></span
                             >
                             <span
                               v-if="
@@ -181,7 +181,7 @@
                               @click.prevent="
                                 change_sort('Location_Instructional_Cycle')
                               "
-                              ><i class="fa-fw select-all fas"></i></span
+                              ><CIcon name="cil-arrow-bottom" /></span
                             >
                           </div>
                         </th>

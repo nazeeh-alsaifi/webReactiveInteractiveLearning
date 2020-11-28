@@ -15,29 +15,29 @@
                        <th style="text-align:left;width:10%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('id')">Id</a>
-                            <span v-if="this.sort_field=='id' && this.sort_direction=='asc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='id' && this.sort_direction=='asc'" @click.prevent="change_sort('id')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='id' && this.sort_direction=='desc'" @click.prevent="change_sort('id')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                          <th style="text-align:left;width:20%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('institution_subject_id')">Subject</a>
-                            <span v-if="this.sort_field=='institution_subject_id' && this.sort_direction=='asc'" @click.prevent="change_sort('institution_subject_id')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='institution_subject_id' && this.sort_direction=='desc'" @click.prevent="change_sort('institution_subject_id')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='institution_subject_id' && this.sort_direction=='asc'" @click.prevent="change_sort('institution_subject_id')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='institution_subject_id' && this.sort_direction=='desc'" @click.prevent="change_sort('institution_subject_id')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:20%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('teacher_id')">Teacher</a>
-                            <span v-if="this.sort_field=='teacher_id' && this.sort_direction=='asc'" @click.prevent="change_sort('teacher_id')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='teacher_id' && this.sort_direction=='desc'" @click.prevent="change_sort('teacher_id')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='teacher_id' && this.sort_direction=='asc'" @click.prevent="change_sort('teacher_id')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='teacher_id' && this.sort_direction=='desc'" @click.prevent="change_sort('teacher_id')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="text-align:left;width:20%;">
                             <div style="text-align:left;">
                             <a style="text-align:left;" @click.prevent="change_sort('keyclass')">Keyclass</a>
-                            <span v-if="this.sort_field=='keyclass' && this.sort_direction=='asc'" @click.prevent="change_sort('keyclass')"><i class="fa-fw select-all fas"></i></span>
-                            <span v-if="this.sort_field=='keyclass' && this.sort_direction=='desc'" @click.prevent="change_sort('keyclass')"><i class="fa-fw select-all fas"></i></span>
+                            <span v-if="this.sort_field=='keyclass' && this.sort_direction=='asc'" @click.prevent="change_sort('keyclass')"><CIcon name="cil-arrow-top" /></span>
+                            <span v-if="this.sort_field=='keyclass' && this.sort_direction=='desc'" @click.prevent="change_sort('keyclass')"><CIcon name="cil-arrow-bottom" /></span>
                             </div>
                         </th>
                         <th style="width:25%;">   
