@@ -495,7 +495,7 @@ function configRoutes() {
           name: "Colors",
           component: Colors,
           meta: {
-            requiresUser: true,
+            requiresAdmin: true,
           },
         },
         {
@@ -503,7 +503,7 @@ function configRoutes() {
           name: "Typography",
           component: Typography,
           meta: {
-            requiresUser: true,
+            requiresAdmin: true,
           },
         },
         {
@@ -511,7 +511,7 @@ function configRoutes() {
           name: "Charts",
           component: Charts,
           meta: {
-            requiresUser: true,
+            requiresAdmin: true,
           },
         },
         {
@@ -519,7 +519,7 @@ function configRoutes() {
           name: "Widgets",
           component: Widgets,
           meta: {
-            requiresUser: true,
+            requiresAdmin: true,
           },
         },
         /* coordinator */

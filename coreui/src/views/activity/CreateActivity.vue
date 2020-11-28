@@ -3,8 +3,15 @@
     <CCol col="12" xl="12">
       <CCard>
         <CCardHeader>
-          <strong>Please fill your activity:</strong>
+          <strong v-if="part == 1">Please fill your activity:</strong>
+          <strong v-if="part == 2"
+            >Please add the sections and fill their titles:</strong
+          >
         </CCardHeader>
+        <CAlert :show.sync="alert" closeButton color="danger">
+          <CIcon name="cil-ban" />
+          {{ message }}
+        </CAlert>
         <transition name="slide">
           <CCardBody v-if="part == 1">
             <CRow>
@@ -127,20 +134,74 @@
             </CRow>
           </CCardBody>
         </transition>
+        <!-- --------------------------------------------- Part2 -->
         <transition name="slide">
-          <CCardBody v-if="part == 2"> </CCardBody>
+          <CCardBody v-if="part == 2">
+            <CRow style="margin-bottom: 1rem">
+              <CCol sm="12" md="6" l="6" xl="6">
+                <CButton size="sm" color="info" @click="addSection"
+                  >Add Section <CIcon name="cil-plus"
+                /></CButton>
+              </CCol>
+            </CRow>
+            <CRow v-for="(section, index) in sections" :key="index">
+              <CCol>
+                <CCard>
+                  <CCardHeader
+                    style="display: flex; justify-content: space-between"
+                  >
+                    <div>Section Number {{ index + 1 }}:</div>
+                    <div @click="deleteSection" style="cursor: pointer">
+                      <CIcon style="" name="cil-x" />
+                    </div>
+                  </CCardHeader>
+                  <CCardBody>
+                    <CInput
+                      label="Title:"
+                      placeholder="Enter the title of the section"
+                      v-model="section.title"
+                    />
+                  </CCardBody>
+                </CCard>
+              </CCol>
+              <!-- <CCol sm="12" md="6" l="6" xl="6">
+                <CInput
+                  :label="'Section Number ' + (index + 1) + ':'"
+                  placeholder="Enter the title of the section"
+                  v-model="section.title"
+                />
+              </CCol> -->
+            </CRow>
+          </CCardBody>
         </transition>
         <CCardFooter>
           <CButton
-            size="sm"
+            size=""
             color="danger"
+            style="margin-right: 1rem"
             v-if="part > 1"
             v-on:click="part == 1 ? part : part--"
-            ><CIcon name="cil-check-circle" /> Back</CButton
+            ><CIcon name="cil-arrow-left" /> Back</CButton
           >
-          <CButton type="submit" size="sm" color="success" @click="submit"
-            ><CIcon name="cil-check-circle" /> Next</CButton
+          <CButton
+            size=""
+            color="success"
+            v-if="part < 2"
+            v-on:click="part == 2 ? part : part++"
           >
+            Next <CIcon name="cil-arrow-thick-from-left"
+          /></CButton>
+
+          <CButton
+            type="submit"
+            size=""
+            color="outline-warning"
+            v-if="part == 2"
+            @click="submit"
+          >
+            Submit
+            <CIcon name="cil-check"
+          /></CButton>
         </CCardFooter>
       </CCard>
       <!---------------------------------------------------------------PART 2  -->
@@ -160,6 +221,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      // form
       activity: {
         image: this.getempty(),
       },
@@ -168,12 +230,18 @@ export default {
       categories: [],
       subCategories: [],
       levels: ["Advanced", "Hard", "Medium", "Easy"],
-      part: 1,
       sections: [
         {
           title: "",
         },
       ],
+
+      //form wizard
+      part: 1,
+
+      // alert
+      alert: true,
+      message: "Empty Message!",
     };
   },
   mounted() {
@@ -203,6 +271,14 @@ export default {
     },
   },
   methods: {
+    addSection() {
+      this.sections.push({
+        title: "",
+      });
+    },
+    deleteSection(index) {
+      this.sections.splice(index, 1);
+    },
     submit() {
       const formData = new FormData();
       formData.set("title", this.activity.title);
@@ -213,13 +289,11 @@ export default {
       formData.set("category_id", this.activity.category_id);
       formData.set("subCategory", this.activity.subCategory_id);
       formData.set("level", this.activity.level);
+      formData.set("sections", this.sections);
 
-      console.log("subjects:", this.subjects);
-      console.log("subsubjects:", this.subSubjects);
-      console.log(this.filterAndConvertSubSubjects);
       for (var key of formData.keys()) console.log(key, ":", formData.get(key));
 
-      this.part = 2;
+      // this.part = 2;
     },
     getempty() {
       return this.$apiAdress + "/storage/image/no_image.png";
@@ -324,16 +398,4 @@ export default {
 </script>
 
 <style>
-.slide-fade-enter-active {
-  transition: all 0.3s ease;
-}
-.slide-fade-leave-active {
-  position: absolute;
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
-  opacity: 0;
-}
 </style>
