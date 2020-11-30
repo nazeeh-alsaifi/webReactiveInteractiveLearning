@@ -150,7 +150,7 @@ class StudentController extends Controller
        return $Activities;
     }
 
-        /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

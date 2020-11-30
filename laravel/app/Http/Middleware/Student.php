@@ -17,7 +17,7 @@ class Student
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if(empty($user) || (!$user->hasRole('student') && !$user->hasRole('free_student'))){
+        if(empty($user) || (!$user->hasRole('student'))){
             return response()->json(['message' => 'Unauthenticated. Student role required'], 401);
         }
         return $next($request);

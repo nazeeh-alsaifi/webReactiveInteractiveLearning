@@ -64,6 +64,18 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('student/{id}/getMyActivities','StudentController@getMyActivities');
       Route::get('student/{id}/getMyActivity','StudentController@getMyActivity');
     });
+
+    Route::group(['middleware' => 'freestudent'], function ($router) {
+        Route::resource('FreeStudent','FreeStudentController');
+        Route::get('freestudent/getNationalities','FreeStudentController@getNationalities');
+        Route::get('freestudent/getUsers','FreeStudentController@getUsers');
+        Route::get('freestudent/getStudent','FreeStudentController@getStudent');
+        Route::post('freeStudents/storeuserprofile','FreeStudentController@storeuserprofile');
+        Route::post('freeStudents/storestudentprofile','FreeStudentController@storestudentprofile');
+        Route::get('freestudent/getMyActivities','FreeStudentController@getMyActivities');
+        Route::get('freestudent/{id}/getMyActivity','FreeStudentController@getMyActivity');
+    });
+
     Route::group(['middleware' => 'coordinator'], function ($router) {
       Route::resource('Coordintor','CoordinatorController');
       Route::get('Coordintors/getNationalities','CoordinatorController@getNationalities');
