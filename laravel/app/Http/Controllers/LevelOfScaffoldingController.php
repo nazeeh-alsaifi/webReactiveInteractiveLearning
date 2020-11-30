@@ -25,7 +25,7 @@ class LevelOfScaffoldingController extends Controller
      */
     public function index()
     {
-        //
+        return LevelOfScaffolding::all();
     }
 
     /**
