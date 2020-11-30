@@ -197,11 +197,11 @@ class UsersAndNotesSeeder extends Seeder
                     'updated_at' => now(),
                 ]);
                 $subject->subSubjects()->saveMany([new SubSubject([
-                    "sub_subject_name" => "math sub 1",
+                    "sub_subject_name" => "Primary Numbers",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]),new SubSubject([
-                    "sub_subject_name" => "math sub 2",
+                    "sub_subject_name" => "Derivation",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ])]);
@@ -226,7 +226,7 @@ class UsersAndNotesSeeder extends Seeder
                 ]);
             }
 
-            if($usersRoles[$i]->name == 'coordinatory'){
+            if($usersRoles[$i]->name == 'coordinator'){
                 $this->command->info("IF STATEMENT: COORDINATOR");
 
                 $subject = Subject::create([
@@ -236,11 +236,11 @@ class UsersAndNotesSeeder extends Seeder
                 ]);
                               
                 $subject->subSubjects()->saveMany([new SubSubject([
-                    "sub_subject_name" => "physics sub 1",
+                    "sub_subject_name" => "Leser",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]),new SubSubject([
-                    "sub_subject_name" => "physics sub 2",
+                    "sub_subject_name" => "motion",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ])]);
@@ -361,7 +361,7 @@ class UsersAndNotesSeeder extends Seeder
 
                     $institutionClass = InstitutionClass::create([
                         "teacher_id" => $teacher->id,
-                        "institution_subject_id" =>$institution_subject->id  ,
+                        "institution_subject_id" =>$institution_subject->id ,
                         "keyclass" => "helloworld" ,
                         'created_at' => now(),
                         'updated_at' => now(),
