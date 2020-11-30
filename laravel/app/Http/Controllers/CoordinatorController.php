@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Models\durations\DurationCourseInstitution;
 use App\Models\durations\DurationCourse;
 use App\Models\users\ActivationCodes;
+use App\Models\Activity;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -194,6 +195,32 @@ class CoordinatorController extends Controller
         $coordinator = auth()->user();
 
 
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getAvailableActivities($id)
+    {
+       $myClass = InstitutionClass::find($id);
+       $myInstitutionSubject = InstitutionSubject::find($myClass->institution_subject_id);
+       $Activities = Activity::where('subject_id',$myInstitutionSubject->subject_id)->paginate(5);
+       return $Activities;
+    }
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivities($id)
+    {
+       $Activities = InstitutionClass::find($id)->activities()->paginate(5);
+       return $Activities;
     }
 
     /**

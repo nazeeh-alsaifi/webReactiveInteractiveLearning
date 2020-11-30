@@ -96,6 +96,8 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('Coordintors/getUsers','CoordinatorController@getUsers');
       Route::get('Coordintors/getTeachers','CoordinatorController@getTeachers');
       Route::get('Coordintors/getCoordinatorTeachers','CoordinatorController@getCoordinatorTeachers');
+      Route::get('Coordintors/{id}/getAvailableActivities','CoordinatorController@getAvailableActivities');
+      Route::get('Coordintors/{id}/getMyActivities','CoordinatorController@getMyActivities');
       Route::post('coordintors/storeuserprofile','CoordinatorController@storeuserprofile');
       Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');
       Route::post('coordintors/new_subject','CoordinatorController@new_subject');    

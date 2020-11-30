@@ -131,11 +131,11 @@ import axios from 'axios'
             sort_field: "id",
             sort_direction: "desc",
             myId: {},
-            subjectid: {},
+            teacherid: {},
         };
     },
      mounted() {
-        this.subjectid = this.$route.params.subjectid;
+        this.teacherid = this.$route.params.teacherid;
         this.myId = this.$route.params.classid;
         this.loadStudentClasses();
         this.loadStudents();
@@ -152,7 +152,7 @@ import axios from 'axios'
     methods:{
         classActivity(myId) {
           this.$router.push({
-          path: `/coordinator-subjects/${this.subjectid.toString()}/classes/${myId.toString()}/myclass/myactivities`,
+          path: `/coordinator-teachers/${this.teacherid.toString()}/teacherclasses/${myId.toString()}/myclass/myactivities`,
           });
         },        
         change_sort(field) {
