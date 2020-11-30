@@ -9,7 +9,7 @@
                 <div class="panel-heading"><h1>{{myActivity.title}}</h1></div>
                 <hr>
                 <div class="panel-body"></div>
-                <div style="background-color:#3D2C60; color:#ffffff;"><b style="margin-left:20px; font-size:120%;">Objectives:</b><br><h9 style="margin-left:20px;"> {{myActivity.objectives}} </h9></div>
+                <div style="background-color:#3D2C60; color:#ffffff;"><b style="margin-left:20px; font-size:120%;">Objectives:</b><br><h6 style="margin-left:20px;"> {{myActivity.objectives}} </h6></div>
               </div>
             </div>
           </CCardBody>

@@ -222,7 +222,9 @@ Route::post("activity/store",'ActivityController@store');
     //
     Route::get('employee/myusers','EmployeeController@myusers');
     Route::post('employees/store_user_profile','EmployeeController@storeuserprofile');
-    Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile');    
+    Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile'); 
+    Route::get('Employees/getMyActivities','EmployeeController@getMyActivities');
+    Route::get('Employees/{id}/getMyActivity','EmployeeController@getMyActivity');   
     //
     Route::get('permissions/roles_permissions','PermissionsController@rolesPermissions');
     Route::post('permissions/addtorole','PermissionsController@addtorole');

@@ -194,8 +194,11 @@ const LocationInstructionalCycle = () =>
 const InstructionalPurpose = () =>
   import("@/views/settings/InstructionalPurpose");
 
-//activity
+//activity AdminsActivities
 const CreateActivity = () => import("@/views/activity/CreateActivity");
+const AdminsActivities = () => import("@/views/activity/ActivitiesDashboard");
+const AdminsActivity = () => import("@/views/activity/activity");
+
 /*
  AcademicLevels 
  Categories 
@@ -848,6 +851,33 @@ function configRoutes() {
           meta: {
             requiresAdmin_Editor: true,
           },
+        },
+        {
+          path: "admin-activities-dashboard",
+          meta: { label: "my Activities" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: AdminsActivities,
+              meta: {
+                requiresAdmin_Editor: true,
+              },
+            },
+            {
+              path: ":AdminActivity/Activity",
+              name: "My_Activity",
+              component: AdminsActivity,
+              meta: {
+                requiresAdmin_Editor: true,
+              },
+    
+            }
+          ]
         },
         {
           path: "activity-student",
