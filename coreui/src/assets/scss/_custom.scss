@@ -20,11 +20,24 @@
   font-size: 1.2rem;
 }
 
-.click-file{
-  cursor:pointer;
+.click-file {
+  cursor: pointer;
 }
 
-#cropp-img-img{
-  max-width:500px;
-  max-height:500px;
+#cropp-img-img {
+  max-width: 500px;
+  max-height: 500px;
+}
+
+// customizing vue-multiselect
+
+.multiselect__element {
+  font-size: 12px !important;
+}
+
+.multiselect__tags {
+  font-size: 12px !important;
+}
+.multiselect__input {
+  font-size: 13px !important;
 }
