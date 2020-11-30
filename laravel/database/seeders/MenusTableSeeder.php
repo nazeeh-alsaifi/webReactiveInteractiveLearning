@@ -151,10 +151,12 @@ class MenusTableSeeder extends Seeder
         $this->insertLink('guest,user,admin,editor,coordinator,teacher,student,free_student,subject_coordinator', 'Dashboard', '/', 'cil-speedometer');
         /* Edit Profile */
 
-        $this->insertLink('student,free_student', 'Edit Profile', '/edit-student-profile', 'cil-speedometer');
-        $this->insertLink('student,free_student', 'Classes', '/student-classes', 'cil-speedometer');
+        $this->insertLink('student', 'Edit Profile', '/edit-student-profile', 'cil-speedometer');
+        $this->insertLink('student', 'Classes', '/student-classes', 'cil-speedometer');
+        $this->insertLink('free_student', 'Edit Profile', '/edit-free-student-profile', 'cil-speedometer');
+        $this->insertLink('free_student', 'Activities', '/free-student-activities', 'cil-speedometer');
 
-        $this->insertLink('teacher', 'Edit Profile', '/edit-teacher-profile', 'cil-speedometer');
+        $this->insertLink('teacher', 'Edit Profile', '/edit-teacher-profile', 'cil-speedometer');        
         $this->insertLink('coordinator', 'Edit Profile', '/edit-coordinator-profile', 'cil-speedometer');
         $this->insertLink('subject_coordinator', 'Edit Profile', '/edit-subject-coordinator-profile', 'cil-speedometer');
 
@@ -189,7 +191,8 @@ class MenusTableSeeder extends Seeder
         $this->insertLink('admin,editor', 'Edit Profile', '/edit-admin-profile', 'cil-speedometer');
         $this->insertLink('admin,editor', 'Institutions', '/institutions', 'cil-speedometer');
 
-        $this->insertLink('admin,editor', 'My Activities', '/my-activities-ae', 'cil-speedometer');
+        $this->insertLink('admin,editor', 'Create Activities', '/my-activities-ae', 'cil-speedometer');
+        $this->insertLink('admin,editor', 'My Activities', '/admin-activities-dashboard', 'cil-speedometer');
 
         $this->beginDropdown('admin,editor', 'Settings', '/settings', 'cil-puzzle');
             $this->insertLink('admin,editor', 'Media',    '/media');
