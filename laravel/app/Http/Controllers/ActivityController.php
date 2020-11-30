@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Activity;
 use App\Models\ActivitySection;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin',['only' => [ 'store']]);
+        $this->middleware('admin',['only' => [ 'store','getUserId']]);
     }
     //
     public function store(Request $request){
+
         // return $request;
         $validatedRequest = $request->validate([
             "title" => 'required|string',
@@ -24,8 +26,10 @@ class ActivityController extends Controller
             "subSubject_id" => 'required',
             "category_id" => 'required',
             "subCategory_id" => 'required',
-            "level" => 'required|string',
+            "level_id" => 'required|string',
             "sections" => 'required',
+            "tags" => 'required',
+
         ]);
        
         if($request->hasFile('image')){
@@ -37,13 +41,14 @@ class ActivityController extends Controller
             //$image = $request->image->store('public/avatar');
         }
 
-        $sections = json_decode($validatedRequest["sections"]);
+        $userId = auth()->user()->id;
         $activity=Activity::create([
             "title" => $validatedRequest["title"],
             "objectives" => $validatedRequest["objective"],
             "subject_id" => $validatedRequest["subject_id"],
            "is_free" => 0,
            "is_active" => 0,
+           "user_id" => $userId,
             // "subSubject_id" => $validatedRequest["subSubject_id"],
             // "category_id" => $validatedRequest["category_id"],
             // "subCategory_id" => $validatedRequest["subCategory_id"],
@@ -53,7 +58,8 @@ class ActivityController extends Controller
             $activity->image =$fileNameToStore;
             $activity->save();
         }
-        
+        // sections handling
+        $sections = json_decode($validatedRequest["sections"]);
         $sections_objects=array();
         foreach($sections as $section){
             $section_obj = new ActivitySection();
@@ -62,9 +68,15 @@ class ActivityController extends Controller
             $section_obj->updated_at = now();
             $sections_objects[] = $section_obj;
         }
+        $activity->sections()->saveMany($sections_objects);
+
+        // tags handling
+        $tags = json_decode($validatedRequest["tags"]);
+        foreach($tags as $tag){
+            $activity->tags()->attach($tag->value);
+        }
         
 
-        $activity->sections()->saveMany($sections_objects);
         
         return response()->json(array('success' => true));
     }
