@@ -314,8 +314,8 @@ class JoinClassController extends Controller
         ]);
         
         $already_user = User::where("email","=",$validatedRequest["email"])->get();
-        
-        if($already_user->count() != 0 ){
+        $my_user = User::find($validatedRequest["id"]);
+        if(($already_user->count() != 0) && ($my_user->menuroles!='free_student')){
             $old_user = $already_user->first();
 
             $old_user->password = Hash::make($validatedRequest["new_password"]);
