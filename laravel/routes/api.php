@@ -116,6 +116,8 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('SubjectCoordinators/getStudents','SubjectCoordinatorController@getStudents');
         Route::get('SubjectCoordinators/{id}/getStudentClasses','SubjectCoordinatorController@getStudentClasses');
         Route::get('SubjectCoordinators/getUsers','SubjectCoordinatorController@getUsers');
+        Route::get('SubjectCoordinators/{id}/getAvailableActivities','SubjectCoordinatorController@getAvailableActivities');
+        Route::get('SubjectCoordinators/{id}/getMyActivities','SubjectCoordinatorController@getMyActivities');
         Route::get('SubjectCoordinators/getNationalities','SubjectCoordinatorController@getNationalities');
         Route::post('SubjectCoordinators/storeuserprofile','SubjectCoordinatorController@storeuserprofile');
         Route::post('SubjectCoordinators/storeteacherprofile','SubjectCoordinatorController@storeteacherprofile');
