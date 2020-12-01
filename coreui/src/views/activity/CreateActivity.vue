@@ -128,8 +128,42 @@
                   label="Level:"
                   :options="levels"
                   placeholder="Please choose a level"
-                  :value.sync="activity.level"
+                  :value.sync="activity.level_id"
                 />
+              </CCol>
+              <CCol sm="12" md="6" l="6" xl="6">
+                <CSelect
+                  label="free:"
+                  :options="free"
+                  placeholder="Please choose a level"
+                  :value.sync="activity.free"
+                />
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol sm="12" md="6" l="6" xl="6">
+                <CSelect
+                  label="active:"
+                  :options="active"
+                  placeholder="Please choose a level"
+                  :value.sync="activity.active"
+                />
+              </CCol>
+
+              <CCol sm="12" md="6" l="6" xl="6">
+                <label>Tags:</label>
+                <Multiselect
+                  v-model="tagsValues"
+                  placeholder="Please Choose Tags"
+                  label="keyword"
+                  track-by="value"
+                  :hideSelected="true"
+                  openDirection="bottom"
+                  :options="tagsOptions"
+                  :multiple="true"
+                >
+                </Multiselect>
+                <pre class="language-json"><code>{{ tagsValues  }}</code></pre>
               </CCol>
             </CRow>
           </CCardBody>
@@ -193,7 +227,6 @@
           /></CButton>
 
           <CButton
-            type="submit"
             size=""
             color="outline-warning"
             v-if="part == 2"
@@ -218,7 +251,13 @@
 
 <script>
 import axios from "axios";
+import Multiselect from "vue-multiselect";
+
 export default {
+  name: "CreateActivity",
+  components: {
+    Multiselect,
+  },
   data() {
     return {
       // form
@@ -228,7 +267,26 @@ export default {
       subSubjects: [],
       categories: [],
       subCategories: [],
-      levels: ["Advanced", "Hard", "Medium", "Easy"],
+      levels: [],
+      active: [
+        { value: 0, label: "No" },
+        { value: 1, label: "Yes" },
+      ],
+      free: [
+        { value: 0, label: "No" },
+        { value: 1, label: "Yes" },
+      ],
+      tagsValues: [],
+      tagsOptions: [
+        // { keyword: "Vue.js", value: 1 },
+        // { keyword: "Javascript", value: 2 },
+        // { keyword: "Open Source", value: 3 },
+        // { keyword: "tes Source", value: 4 },
+        // { keyword: "sf Source", value: 5 },
+        // { keyword: "Open fdh", value: 6 },
+        // { keyword: "sdg Source", value: 7 },
+        // { keyword: "Open dhf", value: 8 },
+      ],
       sections: [
         {
           title: "",
@@ -250,6 +308,8 @@ export default {
     this.loadSubSubjects();
     this.loadCategories();
     this.loadSubCategories();
+    this.loadLevels();
+    this.loadTags();
   },
   computed: {
     // convertSubjects() {
@@ -281,7 +341,11 @@ export default {
       this.sections.splice(index, 1);
     },
     submit() {
-      if (this.valid(this.activity, this.sections)) {
+      console.log("activity:", this.activity);
+      console.log("sections:", this.sections);
+      console.log("tagsValues:", this.tagsValues);
+
+      if (this.valid(this.activity, this.sections, this.tagsValues)) {
         const formData = new FormData();
         formData.set("title", this.activity.title);
         formData.set("image", this.activity.image);
@@ -290,11 +354,14 @@ export default {
         formData.set("subSubject_id", this.activity.subSubject_id);
         formData.set("category_id", this.activity.category_id);
         formData.set("subCategory_id", this.activity.subCategory_id);
-        formData.set("level", this.activity.level);
+        formData.set("level_id", this.activity.level_id);
+        formData.set("active", this.activity.active);
+        formData.set("free", this.activity.free);
         formData.set(
           "sections",
           JSON.stringify(this.sections.filter((obj) => obj.title.length != 0))
         );
+        formData.set("tags", JSON.stringify(this.tagsValues));
         // const formObj = {
         //   title: this.activity.title,
         //   image: this.activity.image,
@@ -310,8 +377,8 @@ export default {
         console.log("activity:", this.activity);
         console.log("sections:", this.sections);
         // console.log("formObj", formObj);
-        // for (var key of formData.keys())
-        //   console.log(key, ":", formData.get(key));
+        for (var key of formData.keys())
+          console.log(key, ":", formData.get(key));
         // this.part = 2;
         axios
           .post(
@@ -344,16 +411,20 @@ export default {
       this.message = message;
       this.alert = true;
     },
-    valid(activity, sections) {
-      var activity_keys_num = 8;
+    valid(activity, sections, tags) {
+      var activity_keys_num = 10;
       var filteredSections = this.sections.filter(
         (obj) => obj.title.length != 0
       );
 
-      if (Object.keys(activity).length != activity_keys_num) {
+      if (
+        Object.keys(activity).length != activity_keys_num &&
+        tags.length != 0
+      ) {
         this.part = 1;
         this.showAlert(
-          "Please make sure that you have filled all the forms and choosen an image!"
+          "Please make sure that you have filled all the forms and choosen an image!" +
+            Object.keys(activity).length
         );
       } else if (filteredSections.length == 0) {
         this.showAlert("You need to fill at least one title!");
@@ -456,8 +527,65 @@ export default {
         });
     },
     loadLevels() {
-      // need implementation after merging with suliman
+      //TODO need implementation after merging with suliman
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/LevelOfScaffolding?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          // console.log(response);
+          if (response.data.length != 0)
+            // this.categories = response.data.map((obj) => obj.Cat_name);
+            this.levels = response.data.map((obj) => ({
+              value: obj.id,
+              label: obj.Level_Name,
+            }));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
+    loadTags() {
+      //TODO need implementation after merging with suliman
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Tag?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          // console.log(response);
+          if (response.data.length != 0)
+            // this.categories = response.data.map((obj) => obj.Cat_name);
+            console.log("tags:", response.data);
+          this.tagsOptions = response.data.map((obj) => ({
+            value: obj.id,
+            keyword: obj.keyword,
+          }));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    /*  getUserId() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/activity/getUserId?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          // console.log(response);
+          if (response.data.length != 0)
+            // this.categories = response.data.map((obj) => obj.Cat_name);
+            this.userId = resonse.data.id;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }, */
   },
 };
 </script>

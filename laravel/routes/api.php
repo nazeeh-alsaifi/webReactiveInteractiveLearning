@@ -145,6 +145,7 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
     //
 // /*  Activity Routes */
 Route::post("activity/store",'ActivityController@store');
+Route::get("activity/getUserId",'ActivityController@getUserId');
 
     Route::group(['middleware' => 'admin'], function ($router) {
 
@@ -167,7 +168,8 @@ Route::post("activity/store",'ActivityController@store');
     Route::resource('InstructionalPurpose','InstructionalPurposeController');
     Route::resource('LevelOfScaffolding','LevelOfScaffoldingController');
     Route::resource('LocationInstructional','LocationInstructionalController');
-   
+    Route::resource('Tag','TagController');
+
     ////
     Route::get('academiclevel/getpage','AcademiclevelController@getpage');
     Route::get('country/getpage','CountryController@getpage');

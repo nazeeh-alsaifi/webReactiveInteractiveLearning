@@ -10,6 +10,9 @@ use App\Models\settings\Subject;
 use App\Models\settings\Nationality;
 use App\Models\settings\Category;
 use App\Models\settings\SubCategory;
+use App\Models\settings\LevelOfScaffolding;
+use App\Models\Tag;
+
 use App\Models\durations\DurationCourse;
 
 
@@ -112,6 +115,46 @@ class SettingsSeeder extends Seeder
         ]);
         DurationCourse::create([
             "Duration" => "Free_student",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
+        /* ========== LevelOfScaffolding ==========*/
+        LevelOfScaffolding::create([
+            "Level_Name" => "Advanced",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        LevelOfScaffolding::create([
+            "Level_Name" => "Hard",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        LevelOfScaffolding::create([
+            "Level_Name" => "Medium",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        LevelOfScaffolding::create([
+            "Level_Name" => "Easy",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        //============Tag
+        Tag::create([
+            "keyword" => "velocity",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        Tag::create([
+            "keyword" => "mass",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        Tag::create([
+            "keyword" => "projectile",
             'created_at' => now(),
             'updated_at' => now(),
         ]);

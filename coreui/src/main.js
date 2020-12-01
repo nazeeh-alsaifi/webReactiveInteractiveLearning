@@ -6,6 +6,7 @@ import CoreuiVue from "@coreui/vue";
 import { iconsSet as icons } from "./assets/icons/icons.js";
 import store from "./store";
 import "video.js/dist/video-js.css";
+import "vue-multiselect/dist/vue-multiselect.min.css";
 Vue.component("pagination", require("laravel-vue-pagination"));
 Vue.prototype.$apiAdress = "http://127.0.0.1:8000";
 Vue.config.performance = true;
