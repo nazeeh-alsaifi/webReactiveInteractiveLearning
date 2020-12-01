@@ -17,8 +17,9 @@ use App\Models\users\Teacher;
 use App\Models\users\SubjectCoordinator;
 use App\Models\Activity;
 
-class StudentController extends Controller
+class FreeStudentController extends Controller
 {
+   
     /**
      * Create a new controller instance.
      *
@@ -27,9 +28,8 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('student');
-    }
-    /**
+        $this->middleware('freestudent');
+    } /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -38,6 +38,7 @@ class StudentController extends Controller
     {
         //
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -46,16 +47,6 @@ class StudentController extends Controller
     public function getNationalities()
     {
         return Nationality::all();
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getStudent()
-    {
-        return Student::all();
     }
 
     /**
@@ -75,78 +66,21 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getSubjects()
+    public function getStudent()
     {
-        return Subject::all();
+        return Student::all();
     }
 
-     /**
+       /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getStudentClasses()
+    public function getMyActivities()
     {
-        $you = auth()->user();
-        $Student = Student::where('user_id',$you->id)->first();
-        $sortField = request('sort_field','id');
-        if(!in_array($sortField,['id','institution_subject_id','teacher_id','keyclass'])){
-             $sortField = 'id';
-         }
-         $sortDirection = request('sort_direction','desc');
-         if(!in_array($sortDirection,['asc','dec'])){
-             $sortDirection = 'desc';
-         }
-        //get classes that belong to our student
-        $Institution_keyClasses = DB::table('institution_classes')
-         ->join('student_classes', 'student_classes.institution_class_id', 'institution_classes.id')
-         ->join('students', 'student_classes.student_id', 'students.id')
-         ->where('students.id',$Student->id)
-         ->select('institution_classes.id as id','institution_classes.teacher_id as teacher_id',
-        'institution_classes.keyclass as keyclass','institution_classes.institution_subject_id as institution_subject_id')
-        ->when(request('search','') != '', function($query){
-            $query->where('keyclass','LIKE','%'.request('search').'%');
-        })->orderBy($sortField,$sortDirection)->paginate(5);
-        return response()->json( compact('Institution_keyClasses', 'Student') );
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getInstitutionSubject()
-    {
-        return InstitutionSubject::all();
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getTeachers()
-    {
-        return Teacher::all();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getMyActivities($id)
-    {
-       $Activities = InstitutionClass::find($id)->activities()->paginate(10);
-        //  $Activities = DB::table('activities')
-        //   ->join('activities_institution_calsses', 'activities.id', 'activities_institution_calsses.activity_id')
-        //   ->join('institution_classes', 'institution_classes.id', 'activities_institution_calsses.institution_class_id')
-        //   ->where('institution_classes.id',$id)
-        //   ->select('activities.id as id','activities.title as title',
-        //   'activities.objectives as objectives','activities.image as image',
-        //   'activities.subject_id as subject_id','activities.is_free as is_free', 'activities.is_active as is_active')
-        //   ->paginate(5);
+       $SubjectCoordinator = SubjectCoordinator::where('user_id',auth()->user()->id)->first();
+       $InstitutionSubject = InstitutionSubject::find($SubjectCoordinator->institution_subject_id);
+       $Activities = Activity::where('subject_id',$InstitutionSubject->subject_id)->paginate(10);
        return $Activities;
     }
 
@@ -161,7 +95,6 @@ class StudentController extends Controller
        $Activity = Activity::find($id);
        return $Activity;
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -228,6 +161,7 @@ class StudentController extends Controller
         $Students->save();
         return $Students;
     }
+
 
     /**
      * Show the form for creating a new resource.

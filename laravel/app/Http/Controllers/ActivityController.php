@@ -36,13 +36,13 @@ class ActivityController extends Controller
             $path = $request->file('image')->storeAs('public/image',$fileNameToStore);
             //$image = $request->image->store('public/avatar');
         }
-
         $sections = json_decode($validatedRequest["sections"]);
         $activity=Activity::create([
             "title" => $validatedRequest["title"],
             "objectives" => $validatedRequest["objective"],
             "subject_id" => $validatedRequest["subject_id"],
-           "is_free" => 0,
+           "user_id"=>auth()->user()->id,
+            "is_free" => 0,
            "is_active" => 0,
             // "subSubject_id" => $validatedRequest["subSubject_id"],
             // "category_id" => $validatedRequest["category_id"],

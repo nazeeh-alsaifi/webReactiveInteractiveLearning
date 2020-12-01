@@ -6,7 +6,7 @@
           <CCardBody>
 <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading"><h1>Class Activities :</h1></div>
+            <div class="panel-heading"><h1>Activities :</h1></div>
             <div class="panel-body">
               <div style="display:inline-block">
                         <div v-for="myActivity in myActivities.data" v-bind:key="myActivity.id">  
@@ -41,24 +41,22 @@ import axios from "axios";
 export default {
      data: function() {
         return {
-            myId: {},
             myActivities: [],
         };
     },
      mounted() {
-       this.myId = this.$route.params.id;
        this.loadMyActivities();
     },
     methods:{
     gotoactivity(activityid){
-            this.$router.push({path: `/student-classes/${this.myId.toString()}/myclass/${activityid.toString()}/activity`});
+            this.$router.push({path: `/free-student-activities/${activityid.toString()}/myactivity`});
         },  
     getimage(image) {
       return this.$apiAdress + '/storage/image/'+image;
     },
         loadMyActivities: function(page = 1) {
             axios
-                .get(this.$apiAdress +'/api/student/'+this.myId+'/getMyActivities?page='+page
+                .get(this.$apiAdress +'/api/freestudent/getMyActivities?page='+page
                      + '&token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.myActivities = response.data;

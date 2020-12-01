@@ -76,7 +76,8 @@ export default {
             self.$router.push({
               path: `join-to-class/${self.id.toString()}/join-edit-teacher-profile`,
             });
-          } else if (self.role == "student") {
+          } else if (self.role == "student"||
+            self.role == "free_student") {
             self.$router.push({
               path: `join-to-class/${self.id.toString()}/join-edit-student-profile`,
             });

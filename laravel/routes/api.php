@@ -64,6 +64,18 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('student/{id}/getMyActivities','StudentController@getMyActivities');
       Route::get('student/{id}/getMyActivity','StudentController@getMyActivity');
     });
+
+    Route::group(['middleware' => 'freestudent'], function ($router) {
+        Route::resource('FreeStudent','FreeStudentController');
+        Route::get('freestudent/getNationalities','FreeStudentController@getNationalities');
+        Route::get('freestudent/getUsers','FreeStudentController@getUsers');
+        Route::get('freestudent/getStudent','FreeStudentController@getStudent');
+        Route::post('freeStudents/storeuserprofile','FreeStudentController@storeuserprofile');
+        Route::post('freeStudents/storestudentprofile','FreeStudentController@storestudentprofile');
+        Route::get('freestudent/getMyActivities','FreeStudentController@getMyActivities');
+        Route::get('freestudent/{id}/getMyActivity','FreeStudentController@getMyActivity');
+    });
+
     Route::group(['middleware' => 'coordinator'], function ($router) {
       Route::resource('Coordintor','CoordinatorController');
       Route::get('Coordintors/getNationalities','CoordinatorController@getNationalities');
@@ -84,6 +96,8 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('Coordintors/getUsers','CoordinatorController@getUsers');
       Route::get('Coordintors/getTeachers','CoordinatorController@getTeachers');
       Route::get('Coordintors/getCoordinatorTeachers','CoordinatorController@getCoordinatorTeachers');
+      Route::get('Coordintors/{id}/getAvailableActivities','CoordinatorController@getAvailableActivities');
+      Route::get('Coordintors/{id}/getMyActivities','CoordinatorController@getMyActivities');
       Route::post('coordintors/storeuserprofile','CoordinatorController@storeuserprofile');
       Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');
       Route::post('coordintors/new_subject','CoordinatorController@new_subject');    
@@ -102,6 +116,8 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('SubjectCoordinators/getStudents','SubjectCoordinatorController@getStudents');
         Route::get('SubjectCoordinators/{id}/getStudentClasses','SubjectCoordinatorController@getStudentClasses');
         Route::get('SubjectCoordinators/getUsers','SubjectCoordinatorController@getUsers');
+        Route::get('SubjectCoordinators/{id}/getAvailableActivities','SubjectCoordinatorController@getAvailableActivities');
+        Route::get('SubjectCoordinators/{id}/getMyActivities','SubjectCoordinatorController@getMyActivities');
         Route::get('SubjectCoordinators/getNationalities','SubjectCoordinatorController@getNationalities');
         Route::post('SubjectCoordinators/storeuserprofile','SubjectCoordinatorController@storeuserprofile');
         Route::post('SubjectCoordinators/storeteacherprofile','SubjectCoordinatorController@storeteacherprofile');
@@ -210,7 +226,9 @@ Route::post("activity/store",'ActivityController@store');
     //
     Route::get('employee/myusers','EmployeeController@myusers');
     Route::post('employees/store_user_profile','EmployeeController@storeuserprofile');
-    Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile');    
+    Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile'); 
+    Route::get('Employees/getMyActivities','EmployeeController@getMyActivities');
+    Route::get('Employees/{id}/getMyActivity','EmployeeController@getMyActivity');   
     //
     Route::get('permissions/roles_permissions','PermissionsController@rolesPermissions');
     Route::post('permissions/addtorole','PermissionsController@addtorole');

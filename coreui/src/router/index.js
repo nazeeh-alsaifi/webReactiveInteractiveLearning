@@ -139,6 +139,8 @@ const EditTeacher = () => import("@/views/editProfile/Teacher");
 const EditCoordinator = () => import("@/views/editProfile/Coordinator");
 const EditSubjectCoordinator = () =>
   import("@/views/editProfile/SubjectCoordinator");
+const EditFreeStudent = () =>
+  import("@/views/editProfile/FreeStudent");
 
 // activity
 const ActivityIndex = () => import("@/views/activity/ActivityIndex");
@@ -149,6 +151,11 @@ const CoordinatorSubjectsClasses = () => import("@/views/coordinator/Classes");
 const SubjectClass = () => import("@/views/coordinator/Class");
 const CoordinatorTeachers = () => import("@/views/coordinator/MyTeachers");
 const TeacherClasses = () => import("@/views/coordinator/TeacherClasses");
+const subjectClassActivities = () => import("@/views/coordinator/SubjectClassActivities");
+const CoordinatorTeacherClass = () => import("@/views/coordinator/TeacherClass");
+const TeachersClassActivities = () => import("@/views/coordinator/TeacherClassActivities");
+
+
 
 // subject coordinator
 const SubjectCoordinatorTeachers = () =>
@@ -157,7 +164,8 @@ const SubjectCoordinatorTeacherClasses = () =>
   import("@/views/subjectCoordinator/Classes");
 const SubjectCoordinatorClass = () =>
   import("@/views/subjectCoordinator/Class");
-
+const SubCoordinatorClassActivities = () =>
+  import("@/views/subjectCoordinator/ClassActivities");
 //teacher
 const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
 const MyTeacherClass = () => import("@/views/teacher/Class");
@@ -167,6 +175,11 @@ const TeacherClassActivities = () => import("@/views/teacher/Activities");
 const MyStudentClasses = () => import("@/views/student/StudentClasses");
 const ClassActivities = () => import("@/views/student/ClassActivities");
 const studentActivity = () => import("@/views/student/Activity");
+
+
+//free_student  
+const StudentActivities = () => import("@/views/freeStudent/Activities");
+const FreeStudentActivity = () => import("@/views/freeStudent/Activity");
 
 // permissions
 const PermissionsIndex = () => import("@/views/permissions/PermissionsIndex");
@@ -187,8 +200,11 @@ const LocationInstructionalCycle = () =>
 const InstructionalPurpose = () =>
   import("@/views/settings/InstructionalPurpose");
 
-//activity
+//activity AdminsActivities
 const CreateActivity = () => import("@/views/activity/CreateActivity");
+const AdminsActivities = () => import("@/views/activity/ActivitiesDashboard");
+const AdminsActivity = () => import("@/views/activity/activity");
+
 /*
  AcademicLevels 
  Categories 
@@ -548,10 +564,6 @@ function configRoutes() {
             {
               path: ":subjectid/classes",
               meta: { label: "classes" },
-              //component: CoordinatorSubjectsClasses,
-              //meta: {
-              //  requiresCoordinator: true,
-              //},
               component: {
                 render(b) {
                   return b("router-view");
@@ -567,11 +579,29 @@ function configRoutes() {
                 },
                 {
                   path: ":classid/myclass",
-                  name: "myclass",
-                  component: SubjectClass,
-                  meta: {
-                    requiresCoordinator: true,
+                  meta: { label: "myclass" },
+                  component: {
+                    render(b) {
+                      return b("router-view");
+                    },
                   },
+                  children: [
+                    {
+                      path: "",
+                      component: SubjectClass,
+                      meta: {
+                        requiresCoordinator: true,
+                      },
+                    },
+                    {
+                      path: "myactivities",
+                      name: "activities",
+                      component: subjectClassActivities,
+                      meta: {
+                        requiresCoordinator: true,
+                      },
+                    }    
+                  ]
                 },
               ],
             },
@@ -611,12 +641,30 @@ function configRoutes() {
                   },
                 },
                 {
-                  path: ":classid/myclass",
-                  name: "class",
-                  component: SubjectClass,
-                  meta: {
-                    requiresCoordinator: true,
-                  },
+                    path: ":classid/myclass",
+                    meta: { label: "myclass" },
+                    component: {
+                      render(b) {
+                        return b("router-view");
+                      },
+                    },
+                    children: [
+                      {
+                        path: "",
+                        component: CoordinatorTeacherClass,
+                        meta: {
+                          requiresCoordinator: true,
+                        },
+                      },
+                      {
+                        path: "myactivities",
+                        name: "class-activities",
+                        component: TeachersClassActivities,
+                        meta: {
+                          requiresCoordinator: true,
+                        },
+                      }    
+                    ]
                 },
               ],
             },
@@ -657,11 +705,35 @@ function configRoutes() {
                 },
                 {
                   path: ":classid/myclass",
-                  name: "Teacher-Class",
-                  component: SubjectCoordinatorClass,
-                  meta: {
-                    requiresSubjectCoordinator: true,
+                  meta: { label: "Teacher-Class" },
+                  component: {
+                    render(b) {
+                      return b("router-view");
+                    },
                   },
+                  children: [
+                    {
+                      path: "",
+                      component: SubjectCoordinatorClass,
+                      meta: {
+                        requiresSubjectCoordinator: true,
+                      },
+                    },
+                    {
+                      path: "myactivities",
+                      name: "myclass-activities",
+                      component: SubCoordinatorClassActivities,
+                      meta: {
+                        requiresSubjectCoordinator: true,
+                      },
+                    }    
+                  ]
+                  // path: ":classid/myclass",
+                  // name: "Teacher-Class",
+                  // component: SubjectCoordinatorClass,
+                  // meta: {
+                  //   requiresSubjectCoordinator: true,
+                  //},
                 },
               ],
             },
@@ -726,7 +798,7 @@ function configRoutes() {
                path: "",
                component: MyStudentClasses,
                meta: {
-                 requiresStudent_FreeStudent: true,
+                requiresStudent: true,
                },
              },
              {
@@ -742,7 +814,7 @@ function configRoutes() {
                   path: "",
                   component: ClassActivities,
                   meta: {
-                    requiresStudent_FreeStudent: true,
+                    requiresStudent: true,
                   },
                 },
                 {
@@ -750,13 +822,40 @@ function configRoutes() {
                   name: "Student_Activity",
                   component: studentActivity,
                   meta: {
-                    requiresStudent_FreeStudent: true,
+                    requiresStudent: true,
                   },
                 }
               ]
              }
            ]
          },
+        /*free-student*/
+        {
+          path: "free-student-activities",
+          meta: { label: "Student_Activities" },
+              component: {
+                render(c) {
+                  return c("router-view");
+                },
+              },
+              children: [
+                {
+                  path: "",
+                  component: StudentActivities,
+                  meta: {
+                    requiresFreeStudent: true,
+                  },
+                },
+                {
+                  path: ":myactivityid/myactivity",
+                  name: "My Activity",
+                  component: FreeStudentActivity,
+                  meta: {
+                    requiresFreeStudent: true,
+                  },
+                }
+              ]
+        },
         /* Edit Profile */
         {
           path: "edit-admin-profile",
@@ -787,7 +886,15 @@ function configRoutes() {
           name: "EditStudent",
           component: EditStudent,
           meta: {
-            requiresStudent_FreeStudent: true,
+            requiresStudent: true,
+          },
+        },
+        {
+          path: "edit-free-student-profile",
+          name: "EditFreeStudent",
+          component: EditFreeStudent,
+          meta: {
+            requiresFreeStudent: true,
           },
         },
         {
@@ -806,6 +913,33 @@ function configRoutes() {
           meta: {
             requiresAdmin_Editor: true,
           },
+        },
+        {
+          path: "admin-activities-dashboard",
+          meta: { label: "my Activities" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: AdminsActivities,
+              meta: {
+                requiresAdmin_Editor: true,
+              },
+            },
+            {
+              path: ":AdminActivity/Activity",
+              name: "My_Activity",
+              component: AdminsActivity,
+              meta: {
+                requiresAdmin_Editor: true,
+              },
+    
+            }
+          ]
         },
         {
           path: "activity-student",

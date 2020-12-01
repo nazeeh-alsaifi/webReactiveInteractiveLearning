@@ -9,7 +9,11 @@
             <div class="panel-heading"><h1>Subject:  {{subject.Subject_name}}</h1></div>
             <div class="panel-body">
                 <div style="text-align:left">
-                  
+                    <div style="display:inline-block">
+                      <a v-on:click="classActivity(myId)"  class="btn btn-primary" style="color:#ffffff;"
+                        >Class Activities</a>
+                    </div>
+                    <hr />
                 </div>
                 <hr>
                 <table style="table-layout:fixed" class="table table-striped">
@@ -50,7 +54,7 @@
                                 <a>COL</a>
                                 <select
                                     style="width:10%;"
-                                    class="btn btn-info"
+                                    class="btn btn-primary"
                                     v-model="column"
                                 >
                                     <option
@@ -76,7 +80,7 @@
                         <tr v-for="student in students" v-bind:key="student.id"> 
                             <td >
                                 <div style="word-wrap: break-word;">
-                                      {{ student.id }}
+                                      {{ student.id }}{{subjectid}}
                                 </div>
                             </td>
                             <td>
@@ -127,10 +131,12 @@ import axios from 'axios'
             sort_field: "id",
             sort_direction: "desc",
             myId: {},
+            subjectid: {},
         };
     },
      mounted() {
-       this.myId = this.$route.params.classid;
+        this.subjectid = this.$route.params.subjectid;
+        this.myId = this.$route.params.classid;
         this.loadStudentClasses();
         this.loadStudents();
         this.loadSubjects();
@@ -144,6 +150,11 @@ import axios from 'axios'
         }
     },
     methods:{
+        classActivity(myId) {
+          this.$router.push({
+          path: `/coordinator-subjects/${this.subjectid.toString()}/classes/${myId.toString()}/myclass/myactivities`,
+          });
+        },        
         change_sort(field) {
             if (this.sort_field === field) {
                 this.sort_direction =

@@ -80,7 +80,7 @@
                         <tr v-for="student in students" v-bind:key="student.id"> 
                             <td >
                                 <div style="word-wrap: break-word;">
-                                      {{ student.id }}
+                                      {{ student.id }}{{subjectid}}
                                 </div>
                             </td>
                             <td>
@@ -152,9 +152,9 @@ import axios from 'axios'
     methods:{
         classActivity(myId) {
           this.$router.push({
-          path: `/subject-coordinator-teachers/${this.teacherid.toString()}/teacherclasses/${myId.toString()}/myclass/myactivities`,
+          path: `/coordinator-teachers/${this.teacherid.toString()}/teacherclasses/${myId.toString()}/myclass/myactivities`,
           });
-        },     
+        },        
         change_sort(field) {
             if (this.sort_field === field) {
                 this.sort_direction =
@@ -167,7 +167,7 @@ import axios from 'axios'
         },
         loadSubjects: function() {
             axios
-                .get(this.$apiAdress +'/api/SubjectCoordinators/'+this.myId+'/getMyClassSubject?token='+ localStorage.getItem("api_token"))
+                .get(this.$apiAdress +'/api/Coordintors/'+this.myId+'/getMyClassSubject?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.subject = response.data;
                     //this.subject = this.filterSubject(response.data.data)[0];
@@ -177,7 +177,7 @@ import axios from 'axios'
                 });
         },
         loadStudents: function(){
-                    axios.get(this.$apiAdress +'/api/SubjectCoordinators/getStudents?search=' +
+                    axios.get(this.$apiAdress +'/api/Coordintors/getStudents?search=' +
                         this.searchtext +
                         "&sort_field=" +
                         this.sort_field +
@@ -206,7 +206,7 @@ import axios from 'axios'
             },   
         loadStudentClasses: function(){
             axios
-                .get(this.$apiAdress +'/api/SubjectCoordinators/'+this.myId+'/getStudentClasses?token='+ localStorage.getItem("api_token"))
+                .get(this.$apiAdress +'/api/Coordintors/'+this.myId+'/getStudentClasses?token='+ localStorage.getItem("api_token"))
                 .then(response => {
                     this.student_classes = response.data;
                 })

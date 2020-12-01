@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\users\Employee;
 use App\Models\User;
+use App\Models\Activity;
 use DB;
 
 class EmployeeController extends Controller
@@ -68,6 +69,31 @@ class EmployeeController extends Controller
         })->orderBy($sortField,$sortDirection)->paginate(5);
         return $employees;
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivities()
+    {
+        $Activities = Activity::where('user_id',auth()->user()->id)->paginate(10);
+        return $Activities;
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivity($id)
+    {
+       $Activity = Activity::find($id);
+       return $Activity;
+    }
+
+    
 
     /**
      * Show the form for creating a new resource.

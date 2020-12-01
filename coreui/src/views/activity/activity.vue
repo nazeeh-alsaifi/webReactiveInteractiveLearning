@@ -28,7 +28,7 @@ export default {
     };
   },
   mounted() {
-    this.myId = this.$route.params.activityid;
+    this.myId = this.$route.params.AdminActivity;
     this.loadMyActivity();
   },
   methods: {
@@ -36,7 +36,7 @@ export default {
       axios
         .get(
           this.$apiAdress +
-            "/api/student/" +
+            "/api/Employees/" +
             this.myId +
             "/getMyActivity?token=" +
             localStorage.getItem("api_token")
