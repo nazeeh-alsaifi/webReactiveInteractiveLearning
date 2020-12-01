@@ -15,4 +15,8 @@ class SubSubject extends Model
     {
         return $this->belongsTo('App\Models\settings\Subject','subject_id');
     }
+
+    public function activities(){
+        return $this->hasMany('App\Models\Activity','subsubject_id');
+    }
 }

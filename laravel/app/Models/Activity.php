@@ -26,4 +26,16 @@ class Activity extends Model
     public function users(){
         return $this->belongsToMany("App\Models\Users","activity_id","user_id");
     }
+    public function subSubject(){
+        return $this->belongsTo("App\Modesl\settings\SubSubject");
+    }
+    public function purpose(){
+        return $this->belongsTo("App\Modesl\settings\InstructionalPurpose");
+    }
+    public function level(){
+        return $this->belongsTo("App\Modesl\settings\LevelOfScaffolding");
+    }
+    public function cycle(){
+        return $this->belongsTo("App\Modesl\settings\LocationInstructionalCycle");
+    }
 }

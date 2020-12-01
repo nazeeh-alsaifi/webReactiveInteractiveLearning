@@ -46,7 +46,7 @@ class ActivityController extends Controller
         $activity=Activity::create([
             "title" => $validatedRequest["title"],
             "objectives" => $validatedRequest["objective"],
-            "subject_id" => $validatedRequest["subject_id"],
+            "subsubject_id" => $validatedRequest["subSubject_id"],
            "user_id"=>auth()->user()->id,
             "is_free" => 0,
            "is_active" => 0,
