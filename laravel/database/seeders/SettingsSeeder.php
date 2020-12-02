@@ -200,10 +200,31 @@ class SettingsSeeder extends Seeder
             "is_free" => 1,
             "is_active" => 1,
         ]);
+        for($noa=2; $noa<=10; $noa++){
+            Activity::create([
+                "title" => "this is the title of the num". $noa ."activity",
+                "objectives" => "this is the objective of the first",
+                "subsubject_id" => $subject->subsubjects[0]->id,
+                "user_id" => 1, // admin
+                "level_id" => $level->id,
+                "location_in_cycle_id" => $location->id,
+                "purpose_id" => $purpose->id,
+                "is_free" => 1,
+                "is_active" => 1,
+            ]);
+        }
+
 
         $activitySection = ActivitySection::create([
             "activity_id" => $activity->id,
             "title" => "first section of first activity",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $activitySection2 = ActivitySection::create([
+            "activity_id" => $activity->id,
+            "title" => "second section of first activity",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -230,6 +251,8 @@ class SettingsSeeder extends Seeder
         ]);
 
         $activitySection->components()->attach([$comp1->id,$comp2->id,$comp3->id]);
+        $activitySection2->components()->attach([$comp1->id]);
+
 
 
        

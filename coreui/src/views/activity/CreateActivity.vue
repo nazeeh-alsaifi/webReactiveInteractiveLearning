@@ -163,7 +163,7 @@
                   :multiple="true"
                 >
                 </Multiselect>
-                <pre class="language-json"><code>{{ tagsValues  }}</code></pre>
+                <!-- <pre class="language-json"><code>{{ tagsValues  }}</code></pre> -->
               </CCol>
             </CRow>
           </CCardBody>

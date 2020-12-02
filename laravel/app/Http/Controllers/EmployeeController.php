@@ -77,7 +77,7 @@ class EmployeeController extends Controller
      */
     public function getMyActivities()
     {
-        $Activities = Activity::where('user_id',auth()->user()->id)->paginate(10);
+        $Activities = Activity::where('user_id',auth()->user()->id)->paginate(9);
         return $Activities;
     }
 
