@@ -230,7 +230,12 @@ Route::get("activity/getUserId",'ActivityController@getUserId');
     Route::post('employees/store_user_profile','EmployeeController@storeuserprofile');
     Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile'); 
     Route::get('Employees/getMyActivities','EmployeeController@getMyActivities');
-    Route::get('Employees/{id}/getMyActivity','EmployeeController@getMyActivity');   
+    Route::get('Employees/{id}/getMyActivity','EmployeeController@getMyActivity');
+    Route::get('Employees/getSubjects','EmployeeController@getSubjects');   
+    Route::get('Employees/getSubSubjects','EmployeeController@getSubSubjects');
+    Route::get('Employees/getLevelsOfScaffolding','EmployeeController@getLevelsOfScaffolding'); 
+    Route::get('Employees/getLocationInstructionalCycle','EmployeeController@getLocationInstructionalCycle');
+    Route::get('Employees/getInstructionalPurpose','EmployeeController@getInstructionalPurpose');       
     //
     Route::get('permissions/roles_permissions','PermissionsController@rolesPermissions');
     Route::post('permissions/addtorole','PermissionsController@addtorole');
