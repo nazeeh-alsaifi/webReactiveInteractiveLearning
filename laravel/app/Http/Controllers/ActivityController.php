@@ -27,6 +27,10 @@ class ActivityController extends Controller
             "category_id" => 'required',
             "subCategory_id" => 'required',
             "level_id" => 'required|string',
+            "instructionalPurpose_id" => 'required|string',
+            "locationCycle_id" => 'required|string',
+            "active" => 'required',
+            "free" => 'required',
             "sections" => 'required',
             "tags" => 'required',
 
@@ -47,14 +51,16 @@ class ActivityController extends Controller
             "title" => $validatedRequest["title"],
             "objectives" => $validatedRequest["objective"],
             "subsubject_id" => $validatedRequest["subSubject_id"],
-           "user_id"=>auth()->user()->id,
-            "is_free" => 0,
-           "is_active" => 0,
+            "is_free" => $validatedRequest["free"],
+           "is_active" => $validatedRequest["active"],
            "user_id" => $userId,
             // "subSubject_id" => $validatedRequest["subSubject_id"],
             // "category_id" => $validatedRequest["category_id"],
             // "subCategory_id" => $validatedRequest["subCategory_id"],
-            // "level" => $validatedRequest["level"],
+            "level_id" => $validatedRequest["level_id"],
+            "purpose_id" => $validatedRequest["instructionalPurpose_id"],
+            "location_in_cycle_id" => $validatedRequest["locationCycle_id"],
+
         ]);
         if(isset($fileNameToStore)){
             $activity->image =$fileNameToStore;

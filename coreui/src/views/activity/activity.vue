@@ -1,38 +1,108 @@
 <template>
-  <CRow>
-    <CCol col="12" xl="12">
-      <transition name="slide">
-        <CCard>
-          <CCardBody>
-            <div class="container">
-              <div class="panel panel-default">
-                <div class="panel-heading"><h1>{{myActivity.title}}</h1></div>
-                <hr>
-                <div class="panel-body"></div>
-                <div style="background-color:#3D2C60; color:#ffffff;"><b style="margin-left:20px; font-size:120%;">Objectives:</b><br><h6 style="margin-left:20px;"> {{myActivity.objectives}} </h6></div>
-              </div>
-            </div>
-          </CCardBody>
-        </CCard>
-      </transition>
-    </CCol>
-  </CRow>
+  <!-- <CRow>
+      
+    </CRow> -->
+  <CContainer>
+    <CJumbotron style="background-color: #3d2c60; color: #ffffff">
+      <h1>{{ myActivity.title }}</h1>
+      <p class="lead">Learning Objective:</p>
+      <p>{{ myActivity.objectives }}</p>
+      <!-- <CButton @click="test" color="primary" class="mb-2"> test</CButton> -->
+    </CJumbotron>
+    <CRow v-for="(section, index) in myActivity.sections" :key="index">
+      <CCol col="12" xl="12">
+        <transition name="slide">
+          <CCard>
+            <CCardHeader @click="collapse = !collapse">
+              <CIcon v-bind:name="getIcon" />
+              {{ section.title }}
+            </CCardHeader>
+            <CCollapse v-show="collapse">
+              <CCardBody>
+                <CRow
+                  v-for="(component, innerIndex) in section.components"
+                  :key="innerIndex"
+                >
+                  <CCol col="12" xl="12">
+                    <CCard>
+                      <CCardBody>
+                        {{ component.Component_name }}
+                        <ActivityComponent
+                          v-bind:name="component.Component_name"
+                        ></ActivityComponent>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+                </CRow>
+                <!-- <div class="container">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h1>{{ myActivity.title }}</h1>
+                    </div>
+                    <hr />
+                    <div class="panel-body"></div>
+                    <div style="background-color: #3d2c60; color: #ffffff">
+                      <b style="margin-left: 20px; font-size: 120%"
+                        >Objectives:</b
+                      ><br />
+                      <h6 style="margin-left: 20px">
+                        {{ myActivity.objectives }}
+                      </h6>
+                    </div>
+                  </div>
+                </div> -->
+              </CCardBody>
+            </CCollapse>
+          </CCard>
+        </transition>
+      </CCol>
+    </CRow>
+  </CContainer>
 </template>
 <script>
 import axios from "axios";
+import ActivityComponent from "@/views/activity/ActivityComponent";
+
 export default {
-  data: function() {
+  components: {
+    ActivityComponent,
+  },
+  data: function () {
     return {
       myId: {},
-      myActivity: [],
+      myActivity: {},
+      collapse: false,
     };
   },
   mounted() {
     this.myId = this.$route.params.AdminActivity;
     this.loadMyActivity();
+    // this.fillCollapse();
+  },
+  computed: {
+    getIcon() {
+      return this.collapse ? "cil-caret-bottom" : "cil-caret-right";
+    },
+    // fillCollapse() {
+    //   for (var i = 0; i < this.myActivity.sections.length; i++) {
+    //     this.collapse.push(false);
+    //   }
+    // },
   },
   methods: {
-    loadMyActivity: function() {
+    test() {
+      console.log("sections:", this.myActivity.sections);
+      console.log("collapse:", this.collapse);
+      console.log("sections length:", this.myActivity.sections.length);
+    },
+    // fillCollapse() {
+    //   if (this.myActivity.sections.length != 0) {
+    //     for (var i = 0; i < this.myActivity.sections.length; i++) {
+    //       this.collapse.push(false);
+    //     }
+    //   }
+    // },
+    loadMyActivity: function () {
       axios
         .get(
           this.$apiAdress +
@@ -42,12 +112,34 @@ export default {
             localStorage.getItem("api_token")
         )
         .then((response) => {
-          this.myActivity = response.data;
+          console.log(response);
+          this.myActivity = response.data.activity;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
+
+    // isExpanded(key) {
+    //   return this.collapse[key] == true;
+    // },
+    // toggleExpansion(key) {
+    //   if (this.isExpanded(key))
+    //     this.expandedGroup.splice(this.expandedGroup.indexOf(key), 1);
+    //   else this.expandedGroup.push(key);
+    // },
   },
 };
 </script>
+<style scoped>
+.jumbotron {
+  margin-bottom: 0;
+}
+.card {
+  margin-bottom: 0;
+}
+.card-header {
+  font-size: 1;
+  font-weight: 900 !important;
+}
+</style>

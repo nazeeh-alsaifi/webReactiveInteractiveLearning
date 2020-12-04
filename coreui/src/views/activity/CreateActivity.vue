@@ -143,6 +143,24 @@
             <CRow>
               <CCol sm="12" md="6" l="6" xl="6">
                 <CSelect
+                  label="Instructional Purpose:"
+                  :options="instructionalPurposes"
+                  placeholder="Please choose an Instructional Purpose"
+                  :value.sync="activity.instructionalPurpose_id"
+                />
+              </CCol>
+              <CCol sm="12" md="6" l="6" xl="6">
+                <CSelect
+                  label="Location Instructional Cycle:"
+                  :options="locationCycles"
+                  placeholder="Please choose a Location Instructional Cycle"
+                  :value.sync="activity.locationCycle_id"
+                />
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol sm="12" md="6" l="6" xl="6">
+                <CSelect
                   label="active:"
                   :options="active"
                   placeholder="Please choose a level"
@@ -163,7 +181,7 @@
                   :multiple="true"
                 >
                 </Multiselect>
-                <pre class="language-json"><code>{{ tagsValues  }}</code></pre>
+                <!-- <pre class="language-json"><code>{{ tagsValues  }}</code></pre> -->
               </CCol>
             </CRow>
           </CCardBody>
@@ -276,17 +294,10 @@ export default {
         { value: 0, label: "No" },
         { value: 1, label: "Yes" },
       ],
+      instructionalPurposes: [],
+      locationCycles: [],
       tagsValues: [],
-      tagsOptions: [
-        // { keyword: "Vue.js", value: 1 },
-        // { keyword: "Javascript", value: 2 },
-        // { keyword: "Open Source", value: 3 },
-        // { keyword: "tes Source", value: 4 },
-        // { keyword: "sf Source", value: 5 },
-        // { keyword: "Open fdh", value: 6 },
-        // { keyword: "sdg Source", value: 7 },
-        // { keyword: "Open dhf", value: 8 },
-      ],
+      tagsOptions: [],
       sections: [
         {
           title: "",
@@ -310,6 +321,8 @@ export default {
     this.loadSubCategories();
     this.loadLevels();
     this.loadTags();
+    this.loadInstructionalPurpose();
+    this.loadLocationCycles();
   },
   computed: {
     // convertSubjects() {
@@ -358,22 +371,18 @@ export default {
         formData.set("active", this.activity.active);
         formData.set("free", this.activity.free);
         formData.set(
+          "instructionalPurpose_id",
+          this.activity.instructionalPurpose_id
+        );
+        // locationCycle_Id
+        formData.set("locationCycle_id", this.activity.locationCycle_id);
+
+        formData.set(
           "sections",
           JSON.stringify(this.sections.filter((obj) => obj.title.length != 0))
         );
         formData.set("tags", JSON.stringify(this.tagsValues));
-        // const formObj = {
-        //   title: this.activity.title,
-        //   image: this.activity.image,
-        //   objective: this.activity.objective,
-        //   subject_id: this.activity.subject_id,
-        //   subSubject_id: this.activity.subSubject_id,
-        //   category_id: this.activity.category_id,
-        //   subCategory_id: this.activity.subCategory_id,
-        //   level: this.activity.level,
-        //   sections: this.sections.filter((obj) => obj.title.length != 0),
-        // };
-        // console.log("form data:", formData);
+
         console.log("activity:", this.activity);
         console.log("sections:", this.sections);
         // console.log("formObj", formObj);
@@ -412,7 +421,7 @@ export default {
       this.alert = true;
     },
     valid(activity, sections, tags) {
-      var activity_keys_num = 10;
+      var activity_keys_num = 12;
       var filteredSections = this.sections.filter(
         (obj) => obj.title.length != 0
       );
@@ -563,6 +572,49 @@ export default {
           this.tagsOptions = response.data.map((obj) => ({
             value: obj.id,
             keyword: obj.keyword,
+          }));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
+    loadInstructionalPurpose() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/InstructionalPurpose?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          // console.log(response);
+          if (response.data.length != 0)
+            // this.categories = response.data.map((obj) => obj.Cat_name);
+            console.log("tags:", response.data);
+          this.instructionalPurposes = response.data.map((obj) => ({
+            value: obj.id,
+            label: obj.Instructional_Purpose,
+          }));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    loadLocationCycles() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/LocationInstructional?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          // console.log(response);
+          if (response.data.length != 0)
+            // this.categories = response.data.map((obj) => obj.Cat_name);
+            console.log("tags:", response.data);
+          this.locationCycles = response.data.map((obj) => ({
+            value: obj.id,
+            label: obj.Location_Instructional_Cycle,
           }));
         })
         .catch(function (error) {

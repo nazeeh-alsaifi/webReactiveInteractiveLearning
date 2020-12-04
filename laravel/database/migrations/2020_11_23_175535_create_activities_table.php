@@ -32,8 +32,6 @@ class CreateActivitiesTable extends Migration
             $table->foreign("level_id")->references("id")->on("level_of_scaffoldings");
             $table->foreign("location_in_cycle_id")->references("id")->on("location_instructional_cycles");
             $table->foreign("purpose_id")->references("id")->on("instructional_purposes");
-
-
         });
     }
 

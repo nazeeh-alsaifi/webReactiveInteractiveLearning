@@ -80,10 +80,20 @@ import {
   cilLibraryAdd,
   cilX,
   cilPlus,
+  cilCaretBottom,
+  cilCaretRight,
 } from "@coreui/icons";
 import { logo } from "./logo";
 export const iconsSet = Object.assign(
-  { cilArrowThickFromLeft, cilArrowLeft, cilLibraryAdd, cilX, cilPlus },
+  {
+    cilArrowThickFromLeft,
+    cilArrowLeft,
+    cilLibraryAdd,
+    cilX,
+    cilPlus,
+    cilCaretBottom,
+    cilCaretRight,
+  },
   { logo },
   {
     cilArrowTop,

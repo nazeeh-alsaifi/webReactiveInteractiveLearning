@@ -24,7 +24,7 @@ class LocationInstructionalController extends Controller
      */
     public function index()
     {
-        //
+        return LocationInstructionalCycle::all();
     }
 
      /**

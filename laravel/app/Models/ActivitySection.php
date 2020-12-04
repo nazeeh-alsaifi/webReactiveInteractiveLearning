@@ -12,8 +12,13 @@ class ActivitySection extends Model
     protected $guarded = ['id'];  
 
     protected $table ="activities_sections";
+
     public function activities(){
         return $this->belongsTo('App\Models\Activity',"activity_id");
 
+    }
+
+    public function components(){
+        return $this->belongsToMany("App\Models\settings\Component","sections_components","section_id","component_id");
     }
 }

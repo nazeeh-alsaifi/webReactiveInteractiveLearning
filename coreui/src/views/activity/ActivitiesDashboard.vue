@@ -3,6 +3,7 @@
     <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
+          <CCardHeader> My Activities: </CCardHeader>
           <CCardBody>
             <div class="container">
               <div class="row">
@@ -16,7 +17,7 @@
                       :checked="is_free"
                     />
                   </div>
-                  <h6 style="color:red;" class="mt-2">Subjects:</h6>
+                  <h6 style="color: red" class="mt-2">Subjects:</h6>
                   <div
                     v-for="(subject, index) in subjects"
                     v-bind:key="subject.id"
@@ -29,7 +30,14 @@
                         <CInputCheckbox
                           v-for="(SubSubject, indexx) in filteredSubSubjects"
                           :key="SubSubject.id"
-                          :label="index + 1 +'.' + (indexx + 1) + '.' + SubSubject.sub_subject_name"
+                          :label="
+                            index +
+                            1 +
+                            '.' +
+                            (indexx + 1) +
+                            '.' +
+                            SubSubject.sub_subject_name
+                          "
                           name="selectSubSubjects"
                           v-on:change="subsubjectchange(SubSubject.id)"
                           :checked="fixedsubsubject[SubSubject.id]"
@@ -37,7 +45,7 @@
                       </div>
                     </div>
                   </div>
-                  <h6 style="color:red;" class="mt-2">
+                  <h6 style="color: red" class="mt-2">
                     InstructionalCycle_Locations:
                   </h6>
                   <div class="form-check">
@@ -50,7 +58,7 @@
                       :checked="fixedlocation[Location.id]"
                     />
                   </div>
-                  <h6 style="color:red;" class="mt-2">
+                  <h6 style="color: red" class="mt-2">
                     Levels Of Scaffolding:
                   </h6>
                   <div class="form-check">
@@ -63,7 +71,7 @@
                       :checked="fixedLevels[LevelOfScaffolding.id]"
                     />
                   </div>
-                  <h6 style="color:red;" class="mt-2">
+                  <h6 style="color: red" class="mt-2">
                     InstructionalPurposes:
                   </h6>
                   <div class="form-check">
@@ -86,7 +94,11 @@
                       v-model="searchtext"
                       placeholder="search activity"
                     />
-                    <button style="margin-left:8px;" v-on:click="ClearSearch()" class="btn btn-primary">
+                    <button
+                      style="margin-left: 8px"
+                      v-on:click="ClearSearch()"
+                      class="btn btn-primary"
+                    >
                       Clear
                     </button>
                   </div>
@@ -97,8 +109,16 @@
                       v-bind:key="myActivity.id"
                     >
                       <div class="card h-100">
-                        <div style="background-color:blue; color:white; font-size:70%; width:15%;" v-if="myActivity.is_free">
-                        free
+                        <div
+                          style="
+                            background-color: blue;
+                            color: white;
+                            font-size: 70%;
+                            width: 15%;
+                          "
+                          v-if="myActivity.is_free"
+                        >
+                          free
                         </div>
                         <a href="#">
                           <img
@@ -111,7 +131,7 @@
                         <div class="card-body">
                           <h4 class="card-title">
                             <a
-                              style="color:blue;"
+                              style="color: blue"
                               @click="gotoactivity(myActivity.id)"
                             >
                               {{ myActivity.title }}
@@ -130,6 +150,11 @@
               </div>
             </div>
           </CCardBody>
+          <CPagination
+            :activePage.sync="page"
+            @update:activePage="loadMyActivities"
+            align="center"
+          />
         </CCard>
       </transition>
     </CCol>
@@ -138,7 +163,7 @@
 <script>
 import axios from "axios";
 export default {
-  data: function() {
+  data: function () {
     return {
       myActivities: [],
       subjects: [],
@@ -179,7 +204,7 @@ export default {
   },
 
   computed: {
-    filteredSubSubjects: function() {
+    filteredSubSubjects: function () {
       return this.SubSubjects.filter((SubSubject) => {
         return SubSubject.subject_id == this.choosenSubject;
       });
@@ -285,7 +310,7 @@ export default {
     getimage(image) {
       return this.$apiAdress + "/storage/image/" + image;
     },
-    loadSubjects: function() {
+    loadSubjects: function () {
       axios
         .get(
           this.$apiAdress +
@@ -296,7 +321,7 @@ export default {
           this.subjects = response.data;
         });
     },
-    loadSubSubjects: function() {
+    loadSubSubjects: function () {
       axios
         .get(
           this.$apiAdress +
@@ -307,7 +332,7 @@ export default {
           this.SubSubjects = response.data;
         });
     },
-    loadLevelsOfScaffolding: function() {
+    loadLevelsOfScaffolding: function () {
       axios
         .get(
           this.$apiAdress +
@@ -318,7 +343,7 @@ export default {
           this.LevelsOfScaffolding = response.data;
         });
     },
-    LoadLocations: function() {
+    LoadLocations: function () {
       axios
         .get(
           this.$apiAdress +
@@ -329,7 +354,7 @@ export default {
           this.Locations = response.data;
         });
     },
-    LoadInstructionalPurposes: function() {
+    LoadInstructionalPurposes: function () {
       axios
         .get(
           this.$apiAdress +
@@ -340,7 +365,7 @@ export default {
           this.InstructionalPurposes = response.data;
         });
     },
-    loadMyActivities: function(page = 1) {
+    loadMyActivities: function (page = 1) {
       axios
         .get(
           this.$apiAdress +
@@ -359,7 +384,7 @@ export default {
         .then((response) => {
           this.myActivities = response.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
