@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\users\Employee;
 use App\Models\User;
 use App\Models\Activity;
+use App\Models\settings\Subject;
+use App\Models\settings\SubSubject;
+use App\Models\settings\LevelOfScaffolding;
+use App\Models\settings\LocationInstructionalCycle;
+use App\Models\settings\InstructionalPurpose;
 use DB;
 
 class EmployeeController extends Controller
@@ -69,7 +74,6 @@ class EmployeeController extends Controller
         })->orderBy($sortField,$sortDirection)->paginate(5);
         return $employees;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -77,11 +81,24 @@ class EmployeeController extends Controller
      */
     public function getMyActivities()
     {
-        $Activities = Activity::where('user_id',auth()->user()->id)->paginate(10);
+        // $sections_objects=array();
+        $Activities = Activity::when(request('search','') != '', function($query){
+        $query->where('title','LIKE','%'.request('search').'%')->orWhere('objectives','LIKE','%'.request('search').'%');
+        })->when(count(request()->input('SubSubjectsFilter',[])), function($query){
+        $query->whereIn('subsubject_id',request()->input('SubSubjectsFilter'));
+                 })->when(count(request()->input('LocationFilter',[])), function($query){
+                 $query->whereIn('location_in_cycle_id',request()->input('LocationFilter'));
+                    })->when(count(request()->input('LevelFilter',[])), function($query){
+                    $query->whereIn('level_id',request()->input('LevelFilter'));
+                         })->when(count(request()->input('InstructionalFilter',[])), function($query){
+                         $query->whereIn('purpose_id',request()->input('InstructionalFilter'));
+                          })->when(request('is_free','') != 'false', function($query){
+                            $query->where('is_free','1');
+                            })->where('user_id',auth()->user()->id)->paginate(9);
         return $Activities;
     }
 
-        /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -93,7 +110,53 @@ class EmployeeController extends Controller
        return $Activity;
     }
 
-    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSubjects()
+    {
+        return Subject::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSubSubjects()
+    {
+        return SubSubject::all();
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLocationInstructionalCycle()
+    {
+        return LocationInstructionalCycle::all();
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getInstructionalPurpose()
+    {
+        return InstructionalPurpose::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLevelsOfScaffolding()
+    {
+        return LevelOfScaffolding::all();
+    }
 
     /**
      * Show the form for creating a new resource.

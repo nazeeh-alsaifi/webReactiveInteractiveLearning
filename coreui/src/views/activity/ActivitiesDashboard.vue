@@ -1,70 +1,368 @@
 <template>
-   <CRow>
+  <CRow>
     <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
           <CCardBody>
-<div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading"><h1>Activities :</h1></div>
-            <div class="panel-body">
-              <div style="display:inline-block">
-                        <div v-for="myActivity in myActivities.data" v-bind:key="myActivity.id">  
-                             <div>
-                              <img
-                                  @click="gotoactivity(myActivity.id)"
-                                  style="width: 25%; high: 25%; border-radius:12%"
-                                  :src="getimage(myActivity.image)"
-                                   alt="Profile Image"
-                              />
-                              </div>
-                                <div style="word-wrap: break-word; font-size:150%;">
-                                    <b @click="gotoactivity(myActivity.id)"> {{ myActivity.title }} </b>
-                                </div>
-                                <div style="word-wrap: break-word;" @click="gotoactivity(myActivity.id)">
-                                     {{ myActivity.objectives }}
-                                </div><hr>
-                                </div>
-              <pagination :data="myActivities" @pagination-change-page="loadMyActivities"></pagination>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-3 mb-4">
+                  <h4 class="mt-4">Activities Filters:</h4>
+                  <div class="form-check">
+                    <CInputCheckbox
+                      label="Is Free"
+                      name="selectIsFree"
+                      v-on:change="IsFree()"
+                      :checked="is_free"
+                    />
+                  </div>
+                  <h6 style="color:red;" class="mt-2">Subjects:</h6>
+                  <div
+                    v-for="(subject, index) in subjects"
+                    v-bind:key="subject.id"
+                  >
+                    <h6 class="mt-2" @click="chooseSubject(subject.id)">
+                      {{ index + 1 }}.{{ subject.Subject_name }}:
+                    </h6>
+                    <div v-if="choosenSubject == subject.id">
+                      <div class="form-check">
+                        <CInputCheckbox
+                          v-for="(SubSubject, indexx) in filteredSubSubjects"
+                          :key="SubSubject.id"
+                          :label="index + 1 +'.' + (indexx + 1) + '.' + SubSubject.sub_subject_name"
+                          name="selectSubSubjects"
+                          v-on:change="subsubjectchange(SubSubject.id)"
+                          :checked="fixedsubsubject[SubSubject.id]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <h6 style="color:red;" class="mt-2">
+                    InstructionalCycle_Locations:
+                  </h6>
+                  <div class="form-check">
+                    <CInputCheckbox
+                      v-for="Location in Locations"
+                      :key="Location.id"
+                      :label="Location.Location_Instructional_Cycle"
+                      name="selectLocations"
+                      v-on:change="locationschange(Location.id)"
+                      :checked="fixedlocation[Location.id]"
+                    />
+                  </div>
+                  <h6 style="color:red;" class="mt-2">
+                    Levels Of Scaffolding:
+                  </h6>
+                  <div class="form-check">
+                    <CInputCheckbox
+                      v-for="LevelOfScaffolding in LevelsOfScaffolding"
+                      :key="LevelOfScaffolding.id"
+                      :label="LevelOfScaffolding.Level_Name"
+                      name="selectLevelsOfScaffolding"
+                      v-on:change="Levelschange(LevelOfScaffolding.id)"
+                      :checked="fixedLevels[LevelOfScaffolding.id]"
+                    />
+                  </div>
+                  <h6 style="color:red;" class="mt-2">
+                    InstructionalPurposes:
+                  </h6>
+                  <div class="form-check">
+                    <CInputCheckbox
+                      v-for="InstructionalPurpose in InstructionalPurposes"
+                      :key="InstructionalPurpose.id"
+                      :label="InstructionalPurpose.Instructional_Purpose"
+                      name="selectInstructionalPurposes"
+                      v-on:change="
+                        InstructionalPurposeschange(InstructionalPurpose.id)
+                      "
+                      :checked="fixedInstructional[InstructionalPurpose.id]"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-9">
+                  <div>
+                    <input
+                      type="search"
+                      v-model="searchtext"
+                      placeholder="search activity"
+                    />
+                    <button style="margin-left:8px;" v-on:click="ClearSearch()" class="btn btn-primary">
+                      Clear
+                    </button>
+                  </div>
+                  <div class="row mt-4">
+                    <div
+                      class="col-lg-4 col-md-6 mb-4"
+                      v-for="myActivity in myActivities.data"
+                      v-bind:key="myActivity.id"
+                    >
+                      <div class="card h-100">
+                        <div style="background-color:blue; color:white; font-size:70%; width:15%;" v-if="myActivity.is_free">
+                        free
+                        </div>
+                        <a href="#">
+                          <img
+                            class="card-img-top"
+                            @click="gotoactivity(myActivity.id)"
+                            :src="getimage(myActivity.image)"
+                            alt="Profile Image"
+                          />
+                        </a>
+                        <div class="card-body">
+                          <h4 class="card-title">
+                            <a
+                              style="color:blue;"
+                              @click="gotoactivity(myActivity.id)"
+                            >
+                              {{ myActivity.title }}
+                            </a>
+                          </h4>
+                          <p class="card-text">{{ myActivity.objectives }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <pagination
+                    :data="myActivities"
+                    @pagination-change-page="loadMyActivities"
+                  ></pagination>
+                </div>
+              </div>
             </div>
-            </div>
-        </div>
-    </div>
           </CCardBody>
         </CCard>
       </transition>
     </CCol>
-  </CRow>   
+  </CRow>
 </template>
 <script>
 import axios from "axios";
 export default {
-     data: function() {
-        return {
-            myActivities: [],
-        };
+  data: function() {
+    return {
+      myActivities: [],
+      subjects: [],
+      SubSubjects: [],
+      LevelsOfScaffolding: [],
+      Locations: [],
+      InstructionalPurposes: [],
+      fixedsubsubject: [],
+      fixedlocation: [],
+      fixedLevels: [],
+      fixedInstructional: [],
+      searchtext: "",
+      choosenSubject: {},
+      is_free: false,
+      selected: {
+        LocationFilter: [],
+        LevelFilter: [],
+        InstructionalFilter: [],
+        SubSubjectsFilter: [],
+      },
+    };
+  },
+  mounted() {
+    this.loadMyActivities();
+    this.loadSubjects();
+    this.loadSubSubjects();
+    this.loadLevelsOfScaffolding();
+    this.LoadLocations();
+    this.LoadInstructionalPurposes();
+  },
+  watch: {
+    searchtext() {
+      this.loadMyActivities();
     },
-     mounted() {
-       this.loadMyActivities();
+    is_free() {
+      this.loadMyActivities();
     },
-    methods:{
-    gotoactivity(activityid){
-            this.$router.push({path: `/admin-activities-dashboard/${activityid.toString()}/Activity`});
-        },  
+  },
+
+  computed: {
+    filteredSubSubjects: function() {
+      return this.SubSubjects.filter((SubSubject) => {
+        return SubSubject.subject_id == this.choosenSubject;
+      });
+    },
+  },
+
+  methods: {
+    ClearSearch() {
+      this.searchtext = "";
+      this.fixedsubsubject = [];
+      this.fixedlocation = [];
+      this.fixedLevels = [];
+      this.fixedInstructional = [];
+      this.is_free = false;
+      this.choosenSubject = {};
+      this.selected = {
+        LocationFilter: [],
+        LevelFilter: [],
+        InstructionalFilter: [],
+        SubSubjectsFilter: [],
+      };
+      this.loadMyActivities();
+    },
+    chooseSubject(id) {
+      this.choosenSubject = id;
+    },
+    IsFree() {
+      if (this.is_free) {
+        this.is_free = false;
+      } else {
+        this.is_free = true;
+      }
+    },
+    subsubjectchange(id) {
+      let exist = false;
+      for (let i = 0; i < this.selected.SubSubjectsFilter.length; i++) {
+        if (this.selected.SubSubjectsFilter[i] == id) {
+          exist = true;
+          this.selected.SubSubjectsFilter.splice(i, 1);
+          this.fixedsubsubject[id] = false;
+          break;
+        }
+      }
+      if (!exist) {
+        this.selected.SubSubjectsFilter.push(id);
+        this.fixedsubsubject[id] = true;
+      }
+      this.loadMyActivities();
+    },
+    locationschange(id) {
+      let exist = false;
+      for (let i = 0; i < this.selected.LocationFilter.length; i++) {
+        if (this.selected.LocationFilter[i] == id) {
+          exist = true;
+          this.selected.LocationFilter.splice(i, 1);
+          this.fixedlocation[id] = false;
+          break;
+        }
+      }
+      if (!exist) {
+        this.selected.LocationFilter.push(id);
+        this.fixedlocation[id] = true;
+      }
+      this.loadMyActivities();
+    },
+    Levelschange(id) {
+      let exist = false;
+      for (let i = 0; i < this.selected.LevelFilter.length; i++) {
+        if (this.selected.LevelFilter[i] == id) {
+          exist = true;
+          this.selected.LevelFilter.splice(i, 1);
+          this.fixedLevels[id] = false;
+          break;
+        }
+      }
+      if (!exist) {
+        this.selected.LevelFilter.push(id);
+        this.fixedLevels[id] = true;
+      }
+      this.loadMyActivities();
+    },
+    InstructionalPurposeschange(id) {
+      let exist = false;
+      for (let i = 0; i < this.selected.InstructionalFilter.length; i++) {
+        if (this.selected.InstructionalFilter[i] == id) {
+          exist = true;
+          this.selected.InstructionalFilter.splice(i, 1);
+          this.fixedInstructional[id] = false;
+          break;
+        }
+      }
+      if (!exist) {
+        this.selected.InstructionalFilter.push(id);
+        this.fixedInstructional[id] = true;
+      }
+      this.loadMyActivities();
+    },
+    gotoactivity(activityid) {
+      this.$router.push({
+        path: `/admin-activities-dashboard/${activityid.toString()}/Activity`,
+      });
+    },
     getimage(image) {
-      return this.$apiAdress + '/storage/image/'+image;
+      return this.$apiAdress + "/storage/image/" + image;
     },
-        loadMyActivities: function(page = 1) {
-            axios
-                .get(this.$apiAdress +'/api/Employees/getMyActivities?page='+page
-                     + '&token='+ localStorage.getItem("api_token"))
-                .then(response => {
-                    this.myActivities = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-    }    
-}
+    loadSubjects: function() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Employees/getSubjects?&token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          this.subjects = response.data;
+        });
+    },
+    loadSubSubjects: function() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Employees/getSubSubjects?&token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          this.SubSubjects = response.data;
+        });
+    },
+    loadLevelsOfScaffolding: function() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Employees/getLevelsOfScaffolding?&token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          this.LevelsOfScaffolding = response.data;
+        });
+    },
+    LoadLocations: function() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Employees/getLocationInstructionalCycle?&token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          this.Locations = response.data;
+        });
+    },
+    LoadInstructionalPurposes: function() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Employees/getInstructionalPurpose?&token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          this.InstructionalPurposes = response.data;
+        });
+    },
+    loadMyActivities: function(page = 1) {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Employees/getMyActivities?page=" +
+            page +
+            "&search=" +
+            this.searchtext +
+            "&is_free=" +
+            this.is_free +
+            "&token=" +
+            localStorage.getItem("api_token"),
+          {
+            params: this.selected,
+          }
+        )
+        .then((response) => {
+          this.myActivities = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
