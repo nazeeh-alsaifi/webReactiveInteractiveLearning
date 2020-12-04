@@ -89,8 +89,8 @@ class EmployeeController extends Controller
      */
     public function getMyActivity($id)
     {
-       $Activity = Activity::find($id);
-       return $Activity;
+       $activity = Activity::with('sections.components')->find($id);
+       return response()->json(["activity"=> $activity,"success"=> true]);
     }
 
     
