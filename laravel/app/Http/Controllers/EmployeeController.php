@@ -83,7 +83,7 @@ class EmployeeController extends Controller
     {
         // $sections_objects=array();
         $Activities = Activity::when(request('search','') != '', function($query){
-        $query->where('title','LIKE','%'.request('search').'%');
+        $query->where('title','LIKE','%'.request('search').'%')->orWhere('objectives','LIKE','%'.request('search').'%');
         })->when(count(request()->input('SubSubjectsFilter',[])), function($query){
         $query->whereIn('subsubject_id',request()->input('SubSubjectsFilter'));
                  })->when(count(request()->input('LocationFilter',[])), function($query){
@@ -98,7 +98,7 @@ class EmployeeController extends Controller
         return $Activities;
     }
 
-        /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
