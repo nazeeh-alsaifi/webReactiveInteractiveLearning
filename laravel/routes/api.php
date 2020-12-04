@@ -100,7 +100,11 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('Coordintors/{id}/getMyActivities','CoordinatorController@getMyActivities');
       Route::post('coordintors/storeuserprofile','CoordinatorController@storeuserprofile');
       Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');
-      Route::post('coordintors/new_subject','CoordinatorController@new_subject');    
+      Route::post('coordintors/new_subject','CoordinatorController@new_subject');
+      Route::get('Coordintors/{id}/getSubSubjects','CoordinatorController@getSubSubjects');
+      Route::get('Coordintors/getLevelsOfScaffolding','CoordinatorController@getLevelsOfScaffolding'); 
+      Route::get('Coordintors/getLocationInstructionalCycle','CoordinatorController@getLocationInstructionalCycle');
+      Route::get('Coordintors/getInstructionalPurpose','CoordinatorController@getInstructionalPurpose');          
     });
     //
     Route::group(['middleware' => 'subjectcoordinator'], function ($router) {

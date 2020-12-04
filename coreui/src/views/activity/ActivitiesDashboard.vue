@@ -150,11 +150,6 @@
               </div>
             </div>
           </CCardBody>
-          <CPagination
-            :activePage.sync="page"
-            @update:activePage="loadMyActivities"
-            align="center"
-          />
         </CCard>
       </transition>
     </CCol>

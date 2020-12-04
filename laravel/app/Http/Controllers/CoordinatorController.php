@@ -11,6 +11,10 @@ use App\Models\Institutions\InstitutionSubject;
 use App\Models\Institutions\InstitutionClass;
 use App\Models\Institutions\StudentClass;
 use App\Models\settings\Subject;
+use App\Models\settings\SubSubject;
+use App\Models\settings\LevelOfScaffolding;
+use App\Models\settings\LocationInstructionalCycle;
+use App\Models\settings\InstructionalPurpose;
 use App\Models\users\Teacher;
 use App\Models\users\Student;
 use App\Models\users\SubjectCoordinator;
@@ -23,6 +27,8 @@ use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Keygen\Keygen;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class CoordinatorController extends Controller
 {
@@ -197,7 +203,52 @@ class CoordinatorController extends Controller
 
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getSubSubjects($id)
+    {
+        $myClass = InstitutionClass::find($id);
+        $myInstitutionSubject = InstitutionSubject::find($myClass->institution_subject_id);
+        // get subsubject belongs to our subject and save there ids in array
+        $SubSubjects = SubSubject::where('subject_id',$myInstitutionSubject->subject_id)->get();
+ 
+        return $SubSubjects;
+    }
+
         /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLocationInstructionalCycle()
+    {
+        return LocationInstructionalCycle::all();
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getInstructionalPurpose()
+    {
+        return InstructionalPurpose::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLevelsOfScaffolding()
+    {
+        return LevelOfScaffolding::all();
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -205,9 +256,40 @@ class CoordinatorController extends Controller
      */
     public function getAvailableActivities($id)
     {
+       // get subject from institution_subject
        $myClass = InstitutionClass::find($id);
        $myInstitutionSubject = InstitutionSubject::find($myClass->institution_subject_id);
-       $Activities = Activity::where('subject_id',$myInstitutionSubject->subject_id)->paginate(5);
+       // get subsubject belongs to our subject and save there ids in an array
+       $SubSubjects = SubSubject::where('subject_id',$myInstitutionSubject->subject_id)->get();
+       $SubSubjects_id = [];
+       foreach($SubSubjects as $SubSubject)
+            {
+                $array = array($SubSubject->id);
+                $SubSubjects_id [] = $array;
+            }
+        //get activities that already exist in our class and save ids in an array    
+        $Class_Activities = InstitutionClass::find($id)->activities()->get();
+        $Class_Activities_id = [];
+        foreach($Class_Activities as $Class_Activity)
+             {
+                 $array = array($Class_Activity->id);
+                 $Class_Activities_id [] = $array;
+             }    
+       //$Activities = Activity::whereIn('subsubject_id',$SubSubjects_id)->paginate(6);
+       $Activities = Activity::when(request('search','') != '', function($query){
+        $query->where('title','LIKE','%'.request('search').'%')->orWhere('objectives','LIKE','%'.request('search').'%');
+        })->when(count(request()->input('SubSubjectsFilter',[])), function($query){
+        $query->whereIn('subsubject_id',request()->input('SubSubjectsFilter'));
+                 })->when(count(request()->input('LocationFilter',[])), function($query){
+                 $query->whereIn('location_in_cycle_id',request()->input('LocationFilter'));
+                    })->when(count(request()->input('LevelFilter',[])), function($query){
+                    $query->whereIn('level_id',request()->input('LevelFilter'));
+                         })->when(count(request()->input('InstructionalFilter',[])), function($query){
+                         $query->whereIn('purpose_id',request()->input('InstructionalFilter'));
+                          })->when(request('is_free','') != 'false', function($query){
+                            $query->where('is_free','1');
+                            })->whereIn('subsubject_id',$SubSubjects_id)
+                            ->whereNotIn('id',$Class_Activities_id)->paginate(6);
        return $Activities;
     }
 
@@ -219,8 +301,20 @@ class CoordinatorController extends Controller
      */
     public function getMyActivities($id)
     {
-       $Activities = InstitutionClass::find($id)->activities()->paginate(5);
-       return $Activities;
+       $Activities = InstitutionClass::find($id)->activities()->when(request('search','') != '', function($query){
+        $query->where('title','LIKE','%'.request('search').'%')->orWhere('objectives','LIKE','%'.request('search').'%');
+          })->when(count(request()->input('SubSubjectsFilter',[])), function($query){
+          $query->whereIn('subsubject_id',request()->input('SubSubjectsFilter'));
+                 })->when(count(request()->input('LocationFilter',[])), function($query){
+                 $query->whereIn('location_in_cycle_id',request()->input('LocationFilter'));
+                    })->when(count(request()->input('LevelFilter',[])), function($query){
+                    $query->whereIn('level_id',request()->input('LevelFilter'));
+                         })->when(count(request()->input('InstructionalFilter',[])), function($query){
+                         $query->whereIn('purpose_id',request()->input('InstructionalFilter'));
+                          })->when(request('is_free','') != 'false', function($query){
+                            $query->where('is_free','1');
+                            })->paginate(6);
+        return $Activities;
     }
 
     /**
