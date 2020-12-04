@@ -24,7 +24,7 @@ class InstructionalPurposeController extends Controller
      */
     public function index()
     {
-        //
+        return InstructionalPurpose::all();
     }
 
      /**
