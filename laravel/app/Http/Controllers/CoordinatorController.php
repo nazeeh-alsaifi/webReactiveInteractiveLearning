@@ -351,7 +351,7 @@ class CoordinatorController extends Controller
         $InstitutionClass->activities()->attach($Activity);
     }
 
-        /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
