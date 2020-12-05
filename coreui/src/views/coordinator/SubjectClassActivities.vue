@@ -74,6 +74,10 @@
                   </div>
                 </div>
                 <div v-if="addActivities" class="col-lg-9">
+                <div class="alert alert-success" v-show="addSuccess">
+                  Activity Added To Class Successfully.
+                </div>
+                <hr />
                   <div>
                     <input
                       type="search"
@@ -131,6 +135,12 @@
                             </a>
                           </h4>
                           <p class="card-text">{{ myActivity.objectives }}</p>
+                         <button
+                          v-on:click="addToClass(myActivity.id)"
+                          class="btn btn-primary"
+                         >
+                          Add To Class
+                         </button>
                         </div>
                       </div>
                     </div>
@@ -142,6 +152,11 @@
                 </div>
 
                 <div v-if="!addActivities" class="col-lg-9">
+                <div class="alert alert-success" v-show="removeSuccess">
+                  Activity Removed From Class Successfully.
+                </div>
+                <hr />
+
                   <div>
                     <input
                       type="search"
@@ -199,6 +214,12 @@
                             </a>
                           </h4>
                           <p class="card-text">{{ myActivity.objectives }}</p>
+                          <button
+                          v-on:click="removeFromClass(myActivity.id)"
+                          class="btn btn-primary"
+                         >
+                          Remove
+                         </button>
                         </div>
                       </div>
                     </div>
@@ -227,6 +248,8 @@ export default {
       edit: false,
       editfield: {},
       addActivities: false,
+      addSuccess: false,
+      removeSuccess: false,
       //
       SubSubjects: [],
       LevelsOfScaffolding: [],
@@ -268,13 +291,15 @@ export default {
     },
   },
   methods: {
-        ClearSearch() {
+      ClearSearch() {
       this.searchtext = "";
       this.fixedsubsubject = [];
       this.fixedlocation = [];
       this.fixedLevels = [];
       this.fixedInstructional = [];
       this.is_free = false;
+      this.addSuccess = false;
+      this.removeSuccess = false;
       this.choosenSubject = {};
       this.selected = {
         LocationFilter: [],
@@ -284,6 +309,52 @@ export default {
       };
       this.loadMyActivities();
       this.loadAllActivities();
+    },
+    addToClass(id){
+      const formData = new FormData();
+      formData.set("activity_id", id);
+      formData.set("class_id", this.myId);
+      axios.post(
+          this.$apiAdress +
+            "/api/coordintors/class_Activities?&token=" +
+            localStorage.getItem("api_token"),formData
+        )
+         .then((response) => {
+          this.ClearSearch();
+          this.loadMyActivities();
+          this.loadAllActivities();
+          this.addSuccess = true;
+          this.removeSuccess = false;
+        })
+        .catch((error) => {
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors;
+          }
+          console.log("Error");
+        });
+    },
+    removeFromClass(id){
+      const formData = new FormData();
+      formData.set("activity_id", id);
+      formData.set("class_id", this.myId);
+      axios.post(
+          this.$apiAdress +
+            "/api/coordintors/remove_class_Activities?&token=" +
+            localStorage.getItem("api_token"),formData
+        )
+         .then((response) => {
+          this.ClearSearch();
+          this.loadMyActivities();
+          this.loadAllActivities();
+          this.addSuccess = false;
+          this.removeSuccess = true;
+        })
+        .catch((error) => {
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors;
+          }
+          console.log("Error");
+        });
     },
     chooseSubject(id) {
       this.choosenSubject = id;

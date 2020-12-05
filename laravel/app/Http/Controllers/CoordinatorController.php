@@ -109,7 +109,7 @@ class CoordinatorController extends Controller
         })->where('institution_id',$Institution->id)->orderBy($sortField,$sortDirection)->paginate(5);
         return $Institution_Subjects;
     }
-//
+    //
     /**
      * Display a listing of the resource.
      *
@@ -336,6 +336,32 @@ class CoordinatorController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function class_Activities(Request $request)
+    {
+        $InstitutionClass = InstitutionClass::find($request->input('class_id'));
+        $Activity = Activity::find($request->input('activity_id'));
+        $InstitutionClass->activities()->attach($Activity);
+    }
+
+        /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function remove_class_Activities(Request $request)
+    {
+        $InstitutionClass = InstitutionClass::find($request->input('class_id'));
+        $Activity = Activity::find($request->input('activity_id'));
+        $InstitutionClass->activities()->detach($Activity);
     }
 
     /**
