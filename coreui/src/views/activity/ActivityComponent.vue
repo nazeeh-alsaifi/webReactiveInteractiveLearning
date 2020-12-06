@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Video1V v-if="name == 'video'" />
-    <ChartAndTable v-if="name == 'datasheet'" />
+    <Video1V v-if="name == 'Video'" />
+    <ChartAndTable v-if="name == 'Sheet and a chart'" />
   </div>
 </template>
 

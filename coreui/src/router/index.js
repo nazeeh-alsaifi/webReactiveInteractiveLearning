@@ -965,6 +965,14 @@ function configRoutes() {
             requiresAdmin: true,
           },
         },
+        {
+          path: "activity",
+          name: "Activity4",
+          component: ActivityIndex,
+          meta: {
+            requiresAdmin: true,
+          },
+        },
         /* Institusions */
         {
           path: "institutions",
