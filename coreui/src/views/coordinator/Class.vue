@@ -80,7 +80,7 @@
                         <tr v-for="student in students" v-bind:key="student.id"> 
                             <td >
                                 <div style="word-wrap: break-word;">
-                                      {{ student.id }}{{subjectid}}
+                                      {{ student.id }}
                                 </div>
                             </td>
                             <td>

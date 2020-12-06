@@ -243,6 +243,7 @@ export default {
   data: function() {
     return {
       myId: {},
+      teacherid: {},
       allActivities: [],
       myActivities: [],
       edit: false,
@@ -272,6 +273,7 @@ export default {
   },
   mounted() {
     this.myId = this.$route.params.classid;
+    this.teacherid = this.$route.params.teacherid;
     this.loadAllActivities();
     this.loadMyActivities();
     //
@@ -309,6 +311,12 @@ export default {
       };
       this.loadMyActivities();
       this.loadAllActivities();
+    },
+    gotoactivity(activityid) {
+      //this.$router.go(-1);
+      this.$router.push({
+        path: `/coordinator-teachers/${this.teacherid.toString()}/teacherclasses/${this.myId.toString()}/myclass/myactivities/${activityid.toString()}/activity`,
+      });
     },
     addToClass(id){
       const formData = new FormData();

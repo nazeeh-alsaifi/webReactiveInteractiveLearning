@@ -152,8 +152,10 @@ const SubjectClass = () => import("@/views/coordinator/Class");
 const CoordinatorTeachers = () => import("@/views/coordinator/MyTeachers");
 const TeacherClasses = () => import("@/views/coordinator/TeacherClasses");
 const subjectClassActivities = () => import("@/views/coordinator/SubjectClassActivities");
+const subjectClassActivity = () => import("@/views/coordinator/SubjectClassActivity");
 const CoordinatorTeacherClass = () => import("@/views/coordinator/TeacherClass");
 const TeachersClassActivities = () => import("@/views/coordinator/TeacherClassActivities");
+const TeacherClassActivity = () => import("@/views/coordinator/TeacherClassActivity");
 
 
 
@@ -595,11 +597,29 @@ function configRoutes() {
                     },
                     {
                       path: "myactivities",
-                      name: "activities",
-                      component: subjectClassActivities,
-                      meta: {
-                        requiresCoordinator: true,
+                      meta: { label: "activities" },
+                      component: {
+                        render(b) {
+                          return b("router-view");
+                        },
                       },
+                      children: [
+                        {
+                          path: "",
+                          component: subjectClassActivities,
+                          meta: {
+                            requiresCoordinator: true,
+                          },
+                        },
+                        {
+                          path: ":activityid/activity",
+                          name: "Class_Activity",
+                          component: subjectClassActivity,
+                          meta: {
+                            requiresCoordinator: true,
+                          },
+                        }
+                      ]
                     }    
                   ]
                 },
@@ -658,11 +678,29 @@ function configRoutes() {
                       },
                       {
                         path: "myactivities",
-                        name: "class-activities",
-                        component: TeachersClassActivities,
-                        meta: {
-                          requiresCoordinator: true,
+                        meta: { label: "class-activities" },
+                        component: {
+                          render(b) {
+                            return b("router-view");
+                          },
                         },
+                        children: [
+                          {
+                            path: "",
+                            component: TeachersClassActivities,
+                            meta: {
+                              requiresCoordinator: true,
+                            },
+                          },
+                          {
+                            path: ":activityid/activity",
+                            name: "class_Activity",
+                            component: TeacherClassActivity,
+                            meta: {
+                              requiresCoordinator: true,
+                            },
+                          }
+                        ]
                       }    
                     ]
                 },
