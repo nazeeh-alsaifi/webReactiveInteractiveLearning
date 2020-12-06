@@ -169,6 +169,7 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('Teachers/getInstructionalPurpose','TeacherController@getInstructionalPurpose');
       Route::post('Teachers/class_Activities','TeacherController@class_Activities');   
       Route::post('Teachers/remove_class_Activities','TeacherController@remove_class_Activities');
+      Route::get('Teachers/{id}/getMyActivity','TeacherController@getMyActivity'); 
     });
     //
 // /*  Activity Routes */

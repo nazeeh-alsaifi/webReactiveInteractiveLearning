@@ -174,6 +174,7 @@ const SubCoordinatorClassActivities = () =>
 const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
 const MyTeacherClass = () => import("@/views/teacher/Class");
 const TeacherClassActivities = () => import("@/views/teacher/Activities");
+const TeacherActivity = () => import("@/views/teacher/activity");
 
 //student
 const MyStudentClasses = () => import("@/views/student/StudentClasses");
@@ -826,11 +827,29 @@ function configRoutes() {
                 },
                 {
                   path: ":myactivities",
-                  name: "Activities",
-                  component: TeacherClassActivities,
-                  meta: {
-                    requiresTeacher: true,
-                  },
+                  meta: { label: "Activities" },
+                        component: {
+                          render(b) {
+                            return b("router-view");
+                          },
+                        },
+                        children: [
+                          {
+                            path: "",
+                            component: TeacherClassActivities,
+                            meta: {
+                              requiresTeacher: true,
+                            },
+                          },
+                          {
+                            path: ":activityid/activity",
+                            name: "my_activity",
+                            component: TeacherActivity,
+                            meta: {
+                              requiresTeacher: true,
+                            },
+                          }
+                        ]
                 }
               ]
             },

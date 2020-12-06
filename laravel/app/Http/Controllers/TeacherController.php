@@ -280,6 +280,18 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function getMyActivity($id)
+    {
+       $Activity = Activity::find($id);
+       return $Activity;
+    }
+    
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function getMyActivities($id)
     {
         $Activities = InstitutionClass::find($id)->activities()->when(request('search','') != '', function($query){

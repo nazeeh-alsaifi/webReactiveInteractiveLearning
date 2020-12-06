@@ -248,6 +248,8 @@ export default {
       edit: false,
       editfield: {},
       addActivities: false,
+      addSuccess: false,
+      removeSuccess: false,
       //
       SubSubjects: [],
       LevelsOfScaffolding: [],
@@ -306,6 +308,11 @@ export default {
       };
       this.loadMyActivities();
       this.loadAllActivities();
+    },
+    gotoactivity(activityid) {
+      this.$router.push({
+        path: `/teacher-classes/${this.myId.toString()}/myclass/myactivities/${activityid.toString()}/activity`,
+      });
     },
     addToClass(id){
       const formData = new FormData();
