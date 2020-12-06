@@ -271,7 +271,7 @@ import axios from 'axios'
 export default {
         data: function() {
         return {
-            institution_subjects: [],
+            institution_subjects: {},
             subjects: [],
             successadd: false,
             successdelete: false,

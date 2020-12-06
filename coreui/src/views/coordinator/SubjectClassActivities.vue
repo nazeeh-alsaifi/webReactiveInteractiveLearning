@@ -244,8 +244,8 @@ export default {
     return {
       myId: {},
       subjectid: {},
-      allActivities: [],
-      myActivities: [],
+      allActivities: {},
+      myActivities: {},
       edit: false,
       editfield: {},
       addActivities: false,
