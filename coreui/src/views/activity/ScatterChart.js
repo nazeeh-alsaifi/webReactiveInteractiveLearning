@@ -1,4 +1,3 @@
-<script>
 import { Scatter, mixins } from "vue-chartjs";
 const { reactiveProp } = mixins;
 
@@ -12,7 +11,5 @@ export default {
     // this.chartData is created in the mixin.
     // If you want to pass options please create a local options object
     this.renderChart(this.chartData, this.options);
-    console.log("the data when rendering the chart:", this.chartData);
   },
 };
-</script>
