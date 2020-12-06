@@ -213,6 +213,49 @@
                       placeholder="Enter the title of the section"
                       v-model="section.title"
                     />
+                    <CButton
+                      shape="pill"
+                      size="sm"
+                      color="outline-dark"
+                      @click="addComponent(index)"
+                      style="margin-bottom: 1rem"
+                      >Add Component <CIcon name="cil-plus"
+                    /></CButton>
+                    <CRow
+                      v-for="(component, innerIndex) in section.components"
+                      :key="innerIndex"
+                    >
+                      <CCol>
+                        <CCard>
+                          <CCardHeader
+                            style="
+                              display: flex;
+                              justify-content: space-between;
+                              background-color: #ced2d8;
+                            "
+                          >
+                            <div>
+                              Component Number {{ innerIndex + 1 }} of section
+                              {{ index + 1 }}:
+                            </div>
+                            <div
+                              @click="deleteComponent(index, innerIndex)"
+                              style="cursor: pointer"
+                            >
+                              <CIcon style="" name="cil-x" />
+                            </div>
+                          </CCardHeader>
+                          <CCardBody style="background-color: #ebedef">
+                            <CSelect
+                              label="name:"
+                              :options="componentsNames"
+                              placeholder="Please choose a component:"
+                              :value.sync="component.name"
+                            />
+                          </CCardBody>
+                        </CCard>
+                      </CCol>
+                    </CRow>
                   </CCardBody>
                 </CCard>
               </CCol>
@@ -301,9 +344,10 @@ export default {
       sections: [
         {
           title: "",
+          components: [],
         },
       ],
-
+      componentsNames: [],
       //form wizard
       part: 1,
 
@@ -323,6 +367,7 @@ export default {
     this.loadTags();
     this.loadInstructionalPurpose();
     this.loadLocationCycles();
+    this.loadComponentsNames();
   },
   computed: {
     // convertSubjects() {
@@ -345,9 +390,21 @@ export default {
     },
   },
   methods: {
+    addComponent(index) {
+      console.log("sections:", this.sections);
+      console.log("index:", index);
+
+      this.sections[index].components.push({
+        name: "",
+      });
+    },
+    deleteComponent(index, innerIndex) {
+      this.sections[index].components.splice(innerIndex, 1);
+    },
     addSection() {
       this.sections.push({
         title: "",
+        components: [],
       });
     },
     deleteSection(index) {
@@ -405,7 +462,7 @@ export default {
       }
     },
     getempty() {
-      return this.$apiAdress + "/storage/image/no_image.png";
+      return this.$apiAdress + "/storage/image/no-image.jpg";
     },
 
     // getphoto() {
@@ -422,10 +479,19 @@ export default {
     },
     valid(activity, sections, tags) {
       var activity_keys_num = 12;
-      var filteredSections = this.sections.filter(
+      var AllSectionsWithoutTitle = this.sections.filter(
         (obj) => obj.title.length != 0
       );
-
+      var SectionsWithComponentsButWithoutTitle = this.sections.filter(
+        (obj) => obj.title.length == 0 && obj.components.length != 0
+      );
+      var ComponentsWithoutSelecting = this.sections.filter((obj) => {
+        var flag = true;
+        obj.components.forEach(
+          (com_obj) => (flag = flag & (com_obj.name.length != 0))
+        );
+        return flag;
+      });
       if (
         Object.keys(activity).length != activity_keys_num &&
         tags.length != 0
@@ -435,8 +501,14 @@ export default {
           "Please make sure that you have filled all the forms and choosen an image!" +
             Object.keys(activity).length
         );
-      } else if (filteredSections.length == 0) {
+      } else if (AllSectionsWithoutTitle.length == 0) {
         this.showAlert("You need to fill at least one title!");
+      } else if (SectionsWithComponentsButWithoutTitle.length != 0) {
+        this.showAlert(
+          "Please make sure that you titled all sections that have components!"
+        );
+      } else if (ComponentsWithoutSelecting.length == 0) {
+        this.showAlert("some components names are missing!");
       } else {
         this.showAlert("Completed!", "success", "cil-check");
         return true;
@@ -615,6 +687,27 @@ export default {
           this.locationCycles = response.data.map((obj) => ({
             value: obj.id,
             label: obj.Location_Instructional_Cycle,
+          }));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    loadComponentsNames() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Component?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          // console.log(response);
+          if (response.data.length != 0)
+            // this.categories = response.data.map((obj) => obj.Cat_name);
+            console.log("tags:", response.data);
+          this.componentsNames = response.data.map((obj) => ({
+            value: obj.id,
+            label: obj.Component_name,
           }));
         })
         .catch(function (error) {

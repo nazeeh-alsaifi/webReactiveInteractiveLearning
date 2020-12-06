@@ -44,7 +44,7 @@ class ActivityController extends Controller
             $path = $request->file('image')->storeAs('public/image',$fileNameToStore);
             //$image = $request->image->store('public/avatar');
         }
-        $sections = json_decode($validatedRequest["sections"]);
+        // $sections = json_decode($validatedRequest["sections"]);
 
         $userId = auth()->user()->id;
         $activity=Activity::create([
@@ -66,9 +66,9 @@ class ActivityController extends Controller
             $activity->image =$fileNameToStore;
             $activity->save();
         }
-        // sections handling
+        // sections and components handling
         $sections = json_decode($validatedRequest["sections"]);
-        $sections_objects=array();
+        /* $sections_objects=array();
         foreach($sections as $section){
             $section_obj = new ActivitySection();
             $section_obj->title = $section ->title;
@@ -76,7 +76,24 @@ class ActivityController extends Controller
             $section_obj->updated_at = now();
             $sections_objects[] = $section_obj;
         }
-        $activity->sections()->saveMany($sections_objects);
+        $activity->sections()->saveMany($sections_objects); */
+
+        // sections and components handling
+        foreach($sections as $section){
+            $section_saved = ActivitySection::create([
+                "activity_id" => $activity->id,
+                "title" => $section->title,
+                "created_at" => now(),
+                "updated_at" => now(),
+            ]);
+            $components_ids=array();
+            foreach($section->components as $component_obj){
+                $components_ids[] = $component_obj->name;
+            }
+
+            $section_saved->components()->attach($components_ids);
+
+        }
 
         // tags handling
         $tags = json_decode($validatedRequest["tags"]);

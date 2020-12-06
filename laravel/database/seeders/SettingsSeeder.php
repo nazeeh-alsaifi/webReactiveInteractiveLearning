@@ -104,6 +104,48 @@ class SettingsSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        $subject2 = Subject::find(2);
+
+        // Categories
+        $cat3 =Category::create([
+            "subject_id" => $subject2->id,
+            "Cat_name" => "Category 1 of subject " . $subject2->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $cat4 =Category::create([
+            "subject_id" => $subject2->id,
+            "Cat_name" => "Category 2 of subject " . $subject2->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+      
+        // Sub Categories
+        SubCategory::create([
+            "category_id" => $cat3->id,
+            "sub_cat_name" => "SubCategory 1 of catergory " . $cat3->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        SubCategory::create([
+            "category_id" => $cat3->id,
+            "sub_cat_name" => "SubCategory 2 of category " . $cat3->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        SubCategory::create([
+            "category_id" => $cat4->id,
+            "sub_cat_name" => "SubCategory 2 of category " . $cat4->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        SubCategory::create([
+            "category_id" => $cat4->id,
+            "sub_cat_name" => "SubCategory 2 of category " . $cat4->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
 
         /**=======  Duration Seeding ================= */
         DurationCourse::create([
@@ -233,20 +275,20 @@ class SettingsSeeder extends Seeder
         $comp1 =Component::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'Component_name'=> 'video',
+            'Component_name'=> 'Video',
             'Description' => 'this component is used by the students to interact with the activity and measure data'
         ]);
 
         $comp2 =Component::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'Component_name'=> 'datasheet',
+            'Component_name'=> 'Sheet and a chart',
             'Description' => 'this component is used store the data taken by the user using measurment tools'
         ]);
         $comp3 =Component::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'Component_name'=> 'datachart',
+            'Component_name'=> 'Sheet only',
             'Description' => 'this component is used by the students to interact with the activity and take data'
         ]);
 

@@ -1,23 +1,17 @@
 <template>
-  <CCardBody>
-    <Video1V v-if="name == 'video'" />
-    <Datatable1v v-if="name == 'datasheet'" />
-    <TableControl v-if="name == 'datasheet'" />
-    <Chart2V v-if="name == 'datasheet'" />
-  </CCardBody>
+  <div>
+    <Video1V v-if="name == 'Video'" />
+    <ChartAndTable v-if="name == 'Sheet and a chart'" />
+  </div>
 </template>
 
 <script>
-import Datatable1v from "./Datatable1v";
-import TableControl from "./TableControl";
-import Chart2V from "./Chart2V";
+import ChartAndTable from "./ChartAndTable";
 import Video1V from "./Video1V";
 export default {
   name: "ActivityComponent",
   components: {
-    Datatable1v,
-    TableControl,
-    Chart2V,
+    ChartAndTable,
     Video1V,
   },
   props: {
