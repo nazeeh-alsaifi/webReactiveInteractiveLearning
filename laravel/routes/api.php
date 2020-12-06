@@ -153,6 +153,12 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('Teachers/getNationalities','TeacherController@getNationalities');
         Route::post('Teachers/storeuserprofile','TeacherController@storeuserprofile');
       Route::post('Teachers/storeteacherprofile','TeacherController@storeteacherprofile');
+      Route::get('Teachers/{id}/getSubSubjects','TeacherController@getSubSubjects');
+      Route::get('Teachers/getLevelsOfScaffolding','TeacherController@getLevelsOfScaffolding'); 
+      Route::get('Teachers/getLocationInstructionalCycle','TeacherController@getLocationInstructionalCycle');
+      Route::get('Teachers/getInstructionalPurpose','TeacherController@getInstructionalPurpose');
+      Route::post('Teachers/class_Activities','TeacherController@class_Activities');   
+      Route::post('Teachers/remove_class_Activities','TeacherController@remove_class_Activities');
     });
     //
 // /*  Activity Routes */
