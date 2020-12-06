@@ -78,6 +78,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::post('freeStudents/storestudentprofile','FreeStudentController@storestudentprofile');
         Route::get('freestudent/getMyActivities','FreeStudentController@getMyActivities');
         Route::get('freestudent/{id}/getMyActivity','FreeStudentController@getMyActivity');
+        Route::get('freestudent/getSubSubjects','FreeStudentController@getSubSubjects');
+        Route::get('freestudent/getLevelsOfScaffolding','FreeStudentController@getLevelsOfScaffolding'); 
+        Route::get('freestudent/getLocationInstructionalCycle','FreeStudentController@getLocationInstructionalCycle');
+        Route::get('freestudent/getInstructionalPurpose','FreeStudentController@getInstructionalPurpose');
     });
 
     Route::group(['middleware' => 'coordinator'], function ($router) {

@@ -134,7 +134,7 @@ class StudentController extends Controller
         return Teacher::all();
     }
 
-         /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
