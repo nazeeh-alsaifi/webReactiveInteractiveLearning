@@ -1,5 +1,5 @@
 <template>
-   <CRow>
+  <CRow>
     <CCol col="12" xl="12">
       <transition name="slide">
         <CCard>
@@ -136,19 +136,18 @@
               </div>
             </div>
           </CCardBody>
-
         </CCard>
       </transition>
     </CCol>
-  </CRow>   
+  </CRow>
 </template>
 <script>
 import axios from "axios";
 export default {
-     data: function() {
-        return {
-            myActivities: [],
-                  SubSubjects: [],
+  data: function() {
+    return {
+      myActivities: {},
+      SubSubjects: [],
       LevelsOfScaffolding: [],
       Locations: [],
       InstructionalPurposes: [],
@@ -164,16 +163,16 @@ export default {
         InstructionalFilter: [],
         SubSubjectsFilter: [],
       },
-        };
-    },
-    mounted() {
-      this.loadMyActivities();
-      this.loadSubSubjects();
-      this.loadLevelsOfScaffolding();
-      this.LoadLocations();
-      this.LoadInstructionalPurposes();
-    },
-     watch: {
+    };
+  },
+  mounted() {
+    this.loadMyActivities();
+    this.loadSubSubjects();
+    this.loadLevelsOfScaffolding();
+    this.LoadLocations();
+    this.LoadInstructionalPurposes();
+  },
+  watch: {
     searchtext() {
       this.loadMyActivities();
     },
@@ -181,8 +180,8 @@ export default {
       this.loadMyActivities();
     },
   },
-    methods:{
-          ClearSearch() {
+  methods: {
+    ClearSearch() {
       this.searchtext = "";
       this.fixedsubsubject = [];
       this.fixedlocation = [];
@@ -313,15 +312,20 @@ export default {
         });
     },
 
-    gotoactivity(activityid){
-            this.$router.push({path: `/free-student-activities/${activityid.toString()}/myactivity`});
-        },  
-    getimage(image) {
-      return this.$apiAdress + '/storage/image/'+image;
+    gotoactivity(activityid) {
+      this.$router.push({
+        path: `/free-student-activities/${activityid.toString()}/myactivity`,
+      });
     },
-        loadMyActivities: function(page = 1) {
-            axios
-                .get(this.$apiAdress +'/api/freestudent/getMyActivities?page='+page +
+    getimage(image) {
+      return this.$apiAdress + "/storage/image/" + image;
+    },
+    loadMyActivities: function(page = 1) {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/freestudent/getMyActivities?page=" +
+            page +
             "&search=" +
             this.searchtext +
             "&is_free=" +
@@ -332,13 +336,13 @@ export default {
             params: this.selected,
           }
         )
-                .then(response => {
-                    this.myActivities = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-    }    
-}
+        .then((response) => {
+          this.myActivities = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>

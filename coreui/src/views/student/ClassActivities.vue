@@ -147,7 +147,7 @@ export default {
   data: function() {
     return {
       myId: {},
-      myActivities: [],
+      myActivities: {},
       SubSubjects: [],
       LevelsOfScaffolding: [],
       Locations: [],

@@ -267,7 +267,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      nationalities: [],
+      nationalities: {},
       permissions: [],
       successadd: false,
       successedit: false,

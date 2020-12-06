@@ -243,8 +243,8 @@ export default {
   data: function() {
     return {
       myId: {},
-      allActivities: [],
-      myActivities: [],
+      allActivities: {},
+      myActivities: {},
       edit: false,
       editfield: {},
       addActivities: false,

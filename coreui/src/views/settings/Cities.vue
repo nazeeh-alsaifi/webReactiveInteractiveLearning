@@ -365,7 +365,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      cities: [],
+      cities: {},
       countries: [],
       permissions: [],
       successadd: false,

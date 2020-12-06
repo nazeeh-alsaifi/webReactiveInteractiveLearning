@@ -774,7 +774,7 @@ export default {
      data: function() {
         return {
             users: [],
-            employees: [],
+            employees: {},
             countries: [],
             cities: [],
             permissions: [],

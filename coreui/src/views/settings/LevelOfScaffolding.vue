@@ -276,7 +276,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      LevelsOfScaffolding: [],
+      LevelsOfScaffolding: {},
       permissions: [],
       successadd: false,
       successedit: false,

@@ -440,7 +440,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      unitmeasures: [],
+      unitmeasures: {},
       units: [],
       permissions: [],
       loading: true,
