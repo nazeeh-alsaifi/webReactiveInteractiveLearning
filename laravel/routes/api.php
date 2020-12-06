@@ -142,6 +142,7 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('SubjectCoordinators/getInstructionalPurpose','SubjectCoordinatorController@getInstructionalPurpose');
         Route::post('SubjectCoordinators/class_Activities','SubjectCoordinatorController@class_Activities');   
         Route::post('SubjectCoordinators/remove_class_Activities','SubjectCoordinatorController@remove_class_Activities'); 
+        Route::get('SubjectCoordinators/{id}/getMyActivity','SubjectCoordinatorController@getMyActivity'); 
     });
     
     

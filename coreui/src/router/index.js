@@ -168,6 +168,8 @@ const SubjectCoordinatorClass = () =>
   import("@/views/subjectCoordinator/Class");
 const SubCoordinatorClassActivities = () =>
   import("@/views/subjectCoordinator/ClassActivities");
+  const SubCoordinatorClassActivity = () =>
+  import("@/views/subjectCoordinator/activity");
 //teacher
 const MyTeacherClasses = () => import("@/views/teacher/TeacherClasses");
 const MyTeacherClass = () => import("@/views/teacher/Class");
@@ -759,19 +761,31 @@ function configRoutes() {
                     },
                     {
                       path: "myactivities",
-                      name: "myclass-activities",
-                      component: SubCoordinatorClassActivities,
-                      meta: {
-                        requiresSubjectCoordinator: true,
-                      },
+                      meta: { label: "myclass-activitie" },
+                        component: {
+                          render(b) {
+                            return b("router-view");
+                          },
+                        },
+                        children: [
+                          {
+                            path: "",
+                            component: SubCoordinatorClassActivities,
+                            meta: {
+                              requiresSubjectCoordinator: true,
+                            },
+                          },
+                          {
+                            path: ":activityid/activity",
+                            name: "class_activity",
+                            component: SubCoordinatorClassActivity,
+                            meta: {
+                              requiresSubjectCoordinator: true,
+                            },
+                          }
+                        ]
                     }    
                   ]
-                  // path: ":classid/myclass",
-                  // name: "Teacher-Class",
-                  // component: SubjectCoordinatorClass,
-                  // meta: {
-                  //   requiresSubjectCoordinator: true,
-                  //},
                 },
               ],
             },

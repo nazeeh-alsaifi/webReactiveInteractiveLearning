@@ -336,7 +336,18 @@ class SubjectCoordinatorController extends Controller
             return $Activities;
     }
 
-    
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyActivity($id)
+    {
+       $Activity = Activity::find($id);
+       return $Activity;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
