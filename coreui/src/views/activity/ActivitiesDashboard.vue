@@ -150,11 +150,6 @@
               </div>
             </div>
           </CCardBody>
-          <CPagination
-            :activePage.sync="page"
-            @update:activePage="loadMyActivities"
-            align="center"
-          />
         </CCard>
       </transition>
     </CCol>
@@ -165,7 +160,7 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      myActivities: [],
+      myActivities: {},
       subjects: [],
       SubSubjects: [],
       LevelsOfScaffolding: [],

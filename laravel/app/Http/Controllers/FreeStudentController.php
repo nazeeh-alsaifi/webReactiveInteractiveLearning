@@ -9,6 +9,10 @@ use App\Models\settings\Nationality;
 use App\Models\users\Student;
 use App\Models\User;
 use App\Models\settings\Subject;
+use App\Models\settings\SubSubject;
+use App\Models\settings\LevelOfScaffolding;
+use App\Models\settings\LocationInstructionalCycle;
+use App\Models\settings\InstructionalPurpose;
 use App\Models\institutions\Institution;
 use App\Models\Institutions\InstitutionSubject;
 use App\Models\Institutions\InstitutionClass;
@@ -71,7 +75,52 @@ class FreeStudentController extends Controller
         return Student::all();
     }
 
-       /**
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */    public function getSubSubjects()
+    {
+        $user = auth()->user()->id;
+        $SubjectCoordinator = SubjectCoordinator::where('user_id',$user)->first();
+        $myInstitutionSubject = InstitutionSubject::find($SubjectCoordinator->institution_subject_id);
+        // get subsubject belongs to our subject and save there ids in array
+        $SubSubjects = SubSubject::where('subject_id',$myInstitutionSubject->subject_id)->get();
+ 
+        return $SubSubjects;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLocationInstructionalCycle()
+    {
+        return LocationInstructionalCycle::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getInstructionalPurpose()
+    {
+        return InstructionalPurpose::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLevelsOfScaffolding()
+    {
+        return LevelOfScaffolding::all();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -80,7 +129,28 @@ class FreeStudentController extends Controller
     {
        $SubjectCoordinator = SubjectCoordinator::where('user_id',auth()->user()->id)->first();
        $InstitutionSubject = InstitutionSubject::find($SubjectCoordinator->institution_subject_id);
-       $Activities = Activity::where('subject_id',$InstitutionSubject->subject_id)->paginate(10);
+       
+       // get subsubject belongs to our subject and save there ids in an array
+       $SubSubjects = SubSubject::where('subject_id',$InstitutionSubject->subject_id)->get();
+       $SubSubjects_id = [];
+       foreach($SubSubjects as $SubSubject)
+            {
+                $array = array($SubSubject->id);
+                $SubSubjects_id [] = $array;
+            }
+       $Activities = Activity::when(request('search','') != '', function($query){
+        $query->where('title','LIKE','%'.request('search').'%')->orWhere('objectives','LIKE','%'.request('search').'%');
+        })->when(count(request()->input('SubSubjectsFilter',[])), function($query){
+        $query->whereIn('subsubject_id',request()->input('SubSubjectsFilter'));
+                 })->when(count(request()->input('LocationFilter',[])), function($query){
+                 $query->whereIn('location_in_cycle_id',request()->input('LocationFilter'));
+                    })->when(count(request()->input('LevelFilter',[])), function($query){
+                    $query->whereIn('level_id',request()->input('LevelFilter'));
+                         })->when(count(request()->input('InstructionalFilter',[])), function($query){
+                         $query->whereIn('purpose_id',request()->input('InstructionalFilter'));
+                          })->when(request('is_free','') != 'false', function($query){
+                            $query->where('is_free','1');
+                            })->whereIn('subsubject_id',$SubSubjects_id)->paginate(6);
        return $Activities;
     }
 

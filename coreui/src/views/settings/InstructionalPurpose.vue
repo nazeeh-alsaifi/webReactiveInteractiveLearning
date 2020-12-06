@@ -286,7 +286,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      Instructional_Purposes: [],
+      Instructional_Purposes: {},
       permissions: [],
       successadd: false,
       successedit: false,

@@ -367,7 +367,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      categories: [],
+      categories: {},
       permissions: [],
       subjects: [],
       loading: true,

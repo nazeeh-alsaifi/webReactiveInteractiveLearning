@@ -81,7 +81,6 @@ class EmployeeController extends Controller
      */
     public function getMyActivities()
     {
-        // $sections_objects=array();
         $Activities = Activity::when(request('search','') != '', function($query){
         $query->where('title','LIKE','%'.request('search').'%')->orWhere('objectives','LIKE','%'.request('search').'%');
         })->when(count(request()->input('SubSubjectsFilter',[])), function($query){
@@ -94,7 +93,7 @@ class EmployeeController extends Controller
                          $query->whereIn('purpose_id',request()->input('InstructionalFilter'));
                           })->when(request('is_free','') != 'false', function($query){
                             $query->where('is_free','1');
-                            })->where('user_id',auth()->user()->id)->paginate(9);
+                            })->where('user_id',auth()->user()->id)->paginate(6);
         return $Activities;
     }
 

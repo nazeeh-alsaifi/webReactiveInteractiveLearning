@@ -63,6 +63,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('student/getTeachers','StudentController@getTeachers');
       Route::get('student/{id}/getMyActivities','StudentController@getMyActivities');
       Route::get('student/{id}/getMyActivity','StudentController@getMyActivity');
+      Route::get('student/{id}/getSubSubjects','StudentController@getSubSubjects');
+      Route::get('student/getLevelsOfScaffolding','StudentController@getLevelsOfScaffolding'); 
+      Route::get('student/getLocationInstructionalCycle','StudentController@getLocationInstructionalCycle');
+      Route::get('student/getInstructionalPurpose','StudentController@getInstructionalPurpose');
     });
 
     Route::group(['middleware' => 'freestudent'], function ($router) {
@@ -74,6 +78,10 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::post('freeStudents/storestudentprofile','FreeStudentController@storestudentprofile');
         Route::get('freestudent/getMyActivities','FreeStudentController@getMyActivities');
         Route::get('freestudent/{id}/getMyActivity','FreeStudentController@getMyActivity');
+        Route::get('freestudent/getSubSubjects','FreeStudentController@getSubSubjects');
+        Route::get('freestudent/getLevelsOfScaffolding','FreeStudentController@getLevelsOfScaffolding'); 
+        Route::get('freestudent/getLocationInstructionalCycle','FreeStudentController@getLocationInstructionalCycle');
+        Route::get('freestudent/getInstructionalPurpose','FreeStudentController@getInstructionalPurpose');
     });
 
     Route::group(['middleware' => 'coordinator'], function ($router) {
@@ -100,7 +108,14 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
       Route::get('Coordintors/{id}/getMyActivities','CoordinatorController@getMyActivities');
       Route::post('coordintors/storeuserprofile','CoordinatorController@storeuserprofile');
       Route::post('coordintors/storeteacherprofile','CoordinatorController@storeteacherprofile');
-      Route::post('coordintors/new_subject','CoordinatorController@new_subject');    
+      Route::post('coordintors/new_subject','CoordinatorController@new_subject');
+      Route::get('Coordintors/{id}/getSubSubjects','CoordinatorController@getSubSubjects');
+      Route::get('Coordintors/getLevelsOfScaffolding','CoordinatorController@getLevelsOfScaffolding'); 
+      Route::get('Coordintors/getLocationInstructionalCycle','CoordinatorController@getLocationInstructionalCycle');
+      Route::get('Coordintors/getInstructionalPurpose','CoordinatorController@getInstructionalPurpose');
+      Route::post('coordintors/class_Activities','CoordinatorController@class_Activities');   
+      Route::post('coordintors/remove_class_Activities','CoordinatorController@remove_class_Activities');
+      Route::get('Coordintors/{id}/getMyActivity','CoordinatorController@getMyActivity');          
     });
     //
     Route::group(['middleware' => 'subjectcoordinator'], function ($router) {
@@ -121,6 +136,13 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('SubjectCoordinators/getNationalities','SubjectCoordinatorController@getNationalities');
         Route::post('SubjectCoordinators/storeuserprofile','SubjectCoordinatorController@storeuserprofile');
         Route::post('SubjectCoordinators/storeteacherprofile','SubjectCoordinatorController@storeteacherprofile');
+        Route::get('SubjectCoordinators/{id}/getSubSubjects','SubjectCoordinatorController@getSubSubjects');
+        Route::get('SubjectCoordinators/getLevelsOfScaffolding','SubjectCoordinatorController@getLevelsOfScaffolding'); 
+        Route::get('SubjectCoordinators/getLocationInstructionalCycle','SubjectCoordinatorController@getLocationInstructionalCycle');
+        Route::get('SubjectCoordinators/getInstructionalPurpose','SubjectCoordinatorController@getInstructionalPurpose');
+        Route::post('SubjectCoordinators/class_Activities','SubjectCoordinatorController@class_Activities');   
+        Route::post('SubjectCoordinators/remove_class_Activities','SubjectCoordinatorController@remove_class_Activities'); 
+        Route::get('SubjectCoordinators/{id}/getMyActivity','SubjectCoordinatorController@getMyActivity'); 
     });
     
     
@@ -141,6 +163,13 @@ Route::get('purchase/getsubjects','PurchaseController@getSubjects');
         Route::get('Teachers/getNationalities','TeacherController@getNationalities');
         Route::post('Teachers/storeuserprofile','TeacherController@storeuserprofile');
       Route::post('Teachers/storeteacherprofile','TeacherController@storeteacherprofile');
+      Route::get('Teachers/{id}/getSubSubjects','TeacherController@getSubSubjects');
+      Route::get('Teachers/getLevelsOfScaffolding','TeacherController@getLevelsOfScaffolding'); 
+      Route::get('Teachers/getLocationInstructionalCycle','TeacherController@getLocationInstructionalCycle');
+      Route::get('Teachers/getInstructionalPurpose','TeacherController@getInstructionalPurpose');
+      Route::post('Teachers/class_Activities','TeacherController@class_Activities');   
+      Route::post('Teachers/remove_class_Activities','TeacherController@remove_class_Activities');
+      Route::get('Teachers/{id}/getMyActivity','TeacherController@getMyActivity'); 
     });
     //
 // /*  Activity Routes */

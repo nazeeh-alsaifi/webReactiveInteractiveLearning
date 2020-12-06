@@ -106,7 +106,7 @@ import axios from 'axios'
 export default {
      data: function() {
         return {
-          institutions_key_classes: [],
+          institutions_key_classes: {},
             subjects:[],
             teachers:[],
             mysubject:{},
