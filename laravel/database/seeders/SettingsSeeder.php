@@ -291,6 +291,18 @@ class SettingsSeeder extends Seeder
             'Component_name'=> 'Sheet only',
             'Description' => 'this component is used by the students to interact with the activity and take data'
         ]);
+        $comp4 =Component::create([
+            'created_at' => now(),
+            'updated_at' => now(),
+            'Component_name'=> 'End_question',
+            'Description' => 'this component is used by the students to interact with the activity and take data'
+        ]);
+        $comp5 =Component::create([
+            'created_at' => now(),
+            'updated_at' => now(),
+            'Component_name'=> 'Multi Question',
+            'Description' => 'this component is used by the students to interact with the activity and take data'
+        ]);
 
         $activitySection->components()->attach([$comp1->id,$comp2->id,$comp3->id]);
         $activitySection2->components()->attach([$comp1->id]);
