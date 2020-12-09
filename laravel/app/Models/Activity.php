@@ -21,7 +21,6 @@ class Activity extends Model
     }
     public function sections(){
         return $this->hasMany('App\Models\ActivitySection',"activity_id");
-
     }
     public function users(){
         return $this->belongsToMany("App\Models\Users","activity_id","user_id");

@@ -19,6 +19,6 @@ class ActivitySection extends Model
     }
 
     public function components(){
-        return $this->belongsToMany("App\Models\settings\Component","sections_components","section_id","component_id");
+        return $this->belongsToMany("App\Models\settings\Component","sections_components","section_id","component_id")->withPivot('id');
     }
 }
