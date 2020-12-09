@@ -990,7 +990,7 @@ function configRoutes() {
         /* activity */
         {
           path: "my-activities-ae",
-          name: "my Activities",
+          name: "Create Activities",
           component: CreateActivity,
           meta: {
             requiresAdmin_Editor: true,
