@@ -18,6 +18,7 @@ class CreateSectionsComponentsTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger("component_id");
             $table->unsignedBigInteger("section_id");
+            $table->json("options")->nullable();
             $table->foreign("component_id")->references("id")->on("components");
             $table->foreign("section_id")->references("id")->on("activities_sections");
 
