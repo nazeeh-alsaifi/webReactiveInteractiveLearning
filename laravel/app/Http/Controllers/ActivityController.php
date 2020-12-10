@@ -9,6 +9,8 @@ use App\Models\EndQuestions;
 use App\Models\AnswerQuestions;
 use App\Models\MultiQuestions;
 use App\Models\MultiQuestionsSettings;
+use App\Models\VideoOptions;
+
 use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
@@ -81,7 +83,6 @@ class ActivityController extends Controller
             $sections_objects[] = $section_obj;
         }
         $activity->sections()->saveMany($sections_objects); */
-
         // sections and components handling
         foreach($sections as $section){
             $section_saved = ActivitySection::create([
@@ -92,9 +93,26 @@ class ActivityController extends Controller
             ]);
             $components_ids=array();
             foreach($section->components as $component_obj){
-                $components_ids[] = $component_obj->name;
+                if($component_obj->name ==1){
+                    $toolsNames=array();
+                    foreach($component_obj->data->tools as $tool_obj){
+                        $toolsNames[]=$tool_obj->toolName;
+                    };
+                    $json_options = [
+                        "fps" => $component_obj->data->fps,
+                        "tools" => $toolsNames,
+                    ];
+
+                    $section_saved->components()->attach($component_obj->name,[
+                        "options" => json_encode($json_options),
+                    ]);
+
+                }
+                $section_saved->components()->attach($component_obj->name);
+
             }
-            $section_saved->components()->attach($components_ids);
+
+            // $section_saved->components()->attach($components_ids);
             //save section_component_ids in an array
             $end_sections_components_ids = array();
             $multi_sections_components_ids = array();
@@ -171,6 +189,6 @@ class ActivityController extends Controller
         
 
         
-        return response()->json(array('success' => true));
+        return response()->json(array('success' => true , 'video' => $sections));
     }
 }
