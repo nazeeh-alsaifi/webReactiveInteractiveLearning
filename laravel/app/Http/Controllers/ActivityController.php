@@ -124,11 +124,19 @@ class ActivityController extends Controller
                 }
                 if($component_obj->name == 5)
                 {
+                    if($request->hasFile('question_img_src')){
+                        $filenameWithExt = $request->file('question_img_src')->getClientOriginalName();
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        $extension = $request->file('question_img_src')->getClientOriginalExtension();
+                        $fileNameToStore= $filename.'_'.time().'.'.$extension;
+                        $path = $request->file('question_img_src')->storeAs('public/image',$fileNameToStore);
+                        //$image = $request->image->store('public/avatar');
+                    }
                     $MultiQuestions = new MultiQuestions();
                     $MultiQuestions->sections_components_id = $multi_sections_components_ids[$multi_question_index];
                     $MultiQuestions->text_description = $component_obj->data->question_text_description;
                     $MultiQuestions->Question = $component_obj->data->question_Question;
-                    $MultiQuestions->img_src = $component_obj->data->question_img_src;
+                    $MultiQuestions->img_src = $fileNameToStore;
                     $MultiQuestions->save();
                     
                     $MultiQuestionsSettings = new MultiQuestionsSettings();
@@ -136,28 +144,15 @@ class ActivityController extends Controller
                     $MultiQuestionsSettings->trays_count = $component_obj->data->Trays_Count;
                     $MultiQuestionsSettings->degree = $component_obj->data->Question_Degree;
                     $MultiQuestionsSettings->save();
-                    
-                    $FirstAnswerQuestions = new AnswerQuestions();
-                    $FirstAnswerQuestions->multi_questions_id = $MultiQuestions->id;
-                    $FirstAnswerQuestions->Answer = $component_obj->data->first_answer;
-                    $FirstAnswerQuestions->img_src = $component_obj->data->first_answer_img_src;
-                    $FirstAnswerQuestions->is_true = $component_obj->data->first_answer_istrue;
-                    $FirstAnswerQuestions->save();
-                    
-                    $SecondAnswerQuestions = new AnswerQuestions();
-                    $SecondAnswerQuestions->multi_questions_id = $MultiQuestions->id;
-                    $SecondAnswerQuestions->Answer = $component_obj->data->second_answer;
-                    $SecondAnswerQuestions->img_src = $component_obj->data->second_answer_img_src;
-                    $SecondAnswerQuestions->is_true = $component_obj->data->second_answer_istrue;
-                    $SecondAnswerQuestions->save();
-
-                    $ThirdAnswerQuestions = new AnswerQuestions();
-                    $ThirdAnswerQuestions->multi_questions_id = $MultiQuestions->id;
-                    $ThirdAnswerQuestions->Answer = $component_obj->data->third_answer;
-                    $ThirdAnswerQuestions->img_src = $component_obj->data->third_answer_img_src;
-                    $ThirdAnswerQuestions->is_true = $component_obj->data->third_answer_istrue;
-                    $ThirdAnswerQuestions->save();
-                    
+                    foreach($component_obj->data->answers as $myanswer)
+                    {
+                        $AnswerQuestions = new AnswerQuestions();
+                        $AnswerQuestions->multi_questions_id = $MultiQuestions->id;
+                        $AnswerQuestions->Answer = $myanswer->answer;
+                        $AnswerQuestions->img_src = $myanswer->answer_img_src;
+                        $AnswerQuestions->is_true = $myanswer->answer_is_true;
+                        $AnswerQuestions->save();
+                    }                    
                     $multi_question_index ++;
                 }
             }

@@ -213,7 +213,7 @@
                       placeholder="Enter the title of the section"
                       v-model="section.title"
                     />
-                    <CButton
+                     <CButton
                       shape="pill"
                       size="sm"
                       color="outline-dark"
@@ -248,6 +248,7 @@
                           <CCardBody style="background-color: #ebedef">
                             <CSelect
                               label="name:"
+                              @change="OnchangeComponent(index,innerIndex)"
                               :options="componentsNames"
                               placeholder="Please choose a component:"
                               :value.sync="component.name"
@@ -291,6 +292,14 @@
                                  />               
                                 </CCol>
                               </CRow>
+                               <CButton
+                                shape="pill"
+                                size="sm"
+                                color="outline-dark"
+                                @click="addComponent(index)"
+                                style="margin-bottom: 1rem"
+                                >Add Component <CIcon name="cil-plus"
+                              /></CButton> 
                               </CCardBody>
                                </CCard>
                           </div>
@@ -326,11 +335,10 @@
                               </CRow>
                               <CRow>
                                 <CCol sm="12" md="12" l="12" xl="12">
-                                 <CInput
-                                  label="img_src:"
-                                  placeholder="Enter the img_src"
-                                  v-model="sections[index].components[innerIndex].data.question_img_src"
-                                 />               
+                                    <label name="image"> Question Image:</label>
+                                    <div>
+                                      <input @change="onChangeMultiQuestionImage($event,index,innerIndex)" type="file" accept="image/*" />
+                                    </div>               
                                 </CCol>
                               </CRow>
                               <CRow>
@@ -353,7 +361,11 @@
                                 />               
                                 </CCol>
                               </CRow>                              
-                          <CCard>
+                    <CRow
+                      v-for="(answer, answerIndex) in sections[index].components[innerIndex].data.answers" :key="answerIndex"
+                    >
+                      <CCol>
+                        <CCard>
                           <CCardHeader
                             style="
                               display: flex;
@@ -361,34 +373,42 @@
                               background-color: #ced2d8;
                             "
                           >
-                          <div>Please Insert First Answer Data</div>
+                            <div>
+                              Answer Number {{ answerIndex + 1 }} Data
+                            </div>
+                            <div
+                              @click="deleteAnswer(index, innerIndex, answerIndex)"
+                              style="cursor: pointer"
+                            >
+                              <CIcon style="" name="cil-x" />
+                            </div>
                           </CCardHeader>
-                            <CCardBody>
+                          <CCardBody style="background-color: #ebedef">
                               <CRow>
                                <CCol sm="12" md="12" l="12" xl="12">
                                 <CInput
-                                  label="First Answer:"
+                                  label="Answer:"
                                   placeholder="Enter the Answer"
-                                  v-model="sections[index].components[innerIndex].data.first_answer"
+                                  v-model="sections[index].components[innerIndex].data.answers[answerIndex].answer"
                                 />
                                </CCol>
                               </CRow>
                               <CRow>
                                 <CCol sm="12" md="12" l="12" xl="12">
                                  <CInput
-                                  label="First Answer Image"
+                                  label="Image"
                                   placeholder="Enter the img_src"
-                                  v-model="sections[index].components[innerIndex].data.first_answer_img_src"
+                                  v-model="sections[index].components[innerIndex].data.answers[answerIndex].answer_img_src"
                                  />               
                                 </CCol>
                               </CRow>
                               <CRow>
                                 <CCol sm="12" md="12" l="12" xl="12">
-                                 <label>First Answer Is_true:</label>
+                                 <label>Answer Is_true:</label>
                                 <select
                                  class="form-control"
-                                 name="First Answer Is_true"
-                                 v-model="sections[index].components[innerIndex].data.first_answer_istrue"
+                                 name="Answer Is_true"
+                                 v-model="sections[index].components[innerIndex].data.answers[answerIndex].answer_is_true"
                                  required
                                  autofocus
                                 >
@@ -397,103 +417,27 @@
                                  <option value="0">False</option>
                                </select>
                                 </CCol>
-                              </CRow>
+                              </CRow>                              
                               </CCardBody>
                               </CCard>
-                          <CCard>
-                          <CCardHeader
-                            style="
-                              display: flex;
-                              justify-content: space-between;
-                              background-color: #ced2d8;
-                            "
-                          >
-                          <div>Please Insert Second Answer Data</div>
-                          </CCardHeader>
-                            <CCardBody>
-                              <CRow>
-                               <CCol sm="12" md="12" l="12" xl="12">
-                                <CInput
-                                  label="Second Answer:"
-                                  placeholder="Enter the Answer"
-                                  v-model="sections[index].components[innerIndex].data.second_answer"
-                                />
-                               </CCol>
-                              </CRow>
-                              <CRow>
-                                <CCol sm="12" md="12" l="12" xl="12">
-                                 <CInput
-                                  label="Second Answer Image"
-                                  placeholder="Enter the img_src"
-                                  v-model="sections[index].components[innerIndex].data.second_answer_img_src"
-                                 />               
                                 </CCol>
                               </CRow>
-                              <CRow>
-                                <CCol sm="12" md="12" l="12" xl="12">
-                                <label>Second Answer Is_true:</label>
-                                <select
-                                 class="form-control"
-                                 name="Second Answer Is_true"
-                                 v-model="sections[index].components[innerIndex].data.second_answer_istrue"
-                                 required
-                                 autofocus
-                                >
-                                 <option value=""></option>
-                                 <option value="1">True</option>
-                                 <option value="0">False</option>
-                               </select>
-                                </CCol>
-                              </CRow>
-                              </CCardBody>
-                              </CCard>
-                              <CCard>
-                          <CCardHeader
-                            style="
-                              display: flex;
-                              justify-content: space-between;
-                              background-color: #ced2d8;
-                            "
-                          >
-                          <div>Please Insert Third Answer Data</div>
-                          </CCardHeader>
-                            <CCardBody>
-                              <CRow>
-                               <CCol sm="12" md="12" l="12" xl="12">
-                                <CInput
-                                  label="Third Answer:"
-                                  placeholder="Enter the Answer"
-                                  v-model="sections[index].components[innerIndex].data.third_answer"
-                                />
-                               </CCol>
-                              </CRow>
-                              <CRow>
-                                <CCol sm="12" md="12" l="12" xl="12">
-                                 <CInput
-                                  label="Third Answer Image"
-                                  placeholder="Enter the img_src"
-                                  v-model="sections[index].components[innerIndex].data.third_answer_img_src"
-                                 />               
-                                </CCol>
-                              </CRow>
-                              <CRow>
-                                <CCol sm="12" md="12" l="12" xl="12">
-                                 <label>Third Answer Is_true:</label>
-                                <select
-                                 class="form-control"
-                                 name="Third Answer Is_true"
-                                 v-model="sections[index].components[innerIndex].data.third_answer_istrue"
-                                 required
-                                 autofocus
-                                >
-                                 <option value=""></option>
-                                 <option value="1">True</option>
-                                 <option value="0">False</option>
-                               </select>
-                                </CCol>
-                              </CRow>
-                              </CCardBody>
-                              </CCard>
+                              <CButton
+                                shape="pill"
+                                size="sm"
+                                color="outline-danger"
+                                @click="addAnswer(index,innerIndex)"
+                                style="margin-bottom: 1rem"
+                                >Add Answer <CIcon name="cil-plus"
+                              /></CButton>
+                              <CButton
+                                shape="pill"
+                                size="sm"
+                                color="outline-dark"
+                                @click="addComponent(index)"
+                                style="margin-bottom: 1rem"
+                                >Add Component <CIcon name="cil-plus"
+                              /></CButton>  
                             </CCardBody>
                           </CCard>
                           </div>
@@ -501,9 +445,16 @@
                         </CCard>
                       </CCol>
                     </CRow>
+                    <CRow style="margin-bottom: 1rem">
+                     <CCol sm="12" md="6" l="6" xl="6">
+                      <CButton size="sm" color="info" @click="addSection"
+                        >Add Section <CIcon name="cil-plus"
+                      /></CButton>
+                     </CCol>
+                    </CRow>
                   </CCardBody>
                 </CCard>
-              </CCol>
+              </CCol>             
               <!-- <CCol sm="12" md="6" l="6" xl="6">
                 <CInput
                   :label="'Section Number ' + (index + 1) + ':'"
@@ -634,16 +585,43 @@ export default {
     },
   },
   methods: {
-    // handleOnchange(index,innerIndex){
-    //   if(this.sections[index].components[innerIndex].name == 4){
-    //   this.sections[index].components[innerIndex].data=
-    //   {
-    //     text_description: "",
-    //     Question: "",
-    //     img_src: "",
-    //   };
-    //   }
-    // },
+    onChangeMultiQuestionImage(e,index,innerIndex){
+          console.log("debugging image:", e.target.files[0]);
+          this.sections[index].components[innerIndex].data.question_img_src = e.target.files[0];
+    },
+     OnchangeComponent(index,innerIndex){
+       if(this.sections[index].components[innerIndex].name == 5){
+       this.sections[index].components[innerIndex].data=
+       {
+        answers:
+          [
+            {
+             answer:"",
+             answer_img_src:"",
+             answer_is_true:""
+            },
+            {
+             answer:"",
+             answer_img_src:"",
+             answer_is_true:""
+            }
+          ]
+        }
+       };
+    },
+    deleteAnswer(index, innerIndex, answerIndex){
+      if(this.sections[index].components[innerIndex].data.answers.length>2)
+      {
+        this.sections[index].components[innerIndex].data.answers.splice(answerIndex, 1);
+      }
+    },
+    addAnswer(index,innerIndex){
+       this.sections[index].components[innerIndex].data.answers.push({
+          answer:"",
+          answer_img_src:"",
+          answer_is_true:""
+      });
+    },
     // onFileChange(e,index,innerIndex){
     //   console.log("debugging image:", e.target.files[0]);
     //   var files = e.target.files || e.dataTransfer.files;
