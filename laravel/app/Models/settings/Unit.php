@@ -14,4 +14,8 @@ class Unit extends Model
         return $this->hasMany('App\Models\settings\UnitMeasure','unit_id');
     }
 
+    public function measureTool(){
+        $this->belongsTo("App\Models\settings\MeasureTool","measureTool_id");
+    }
+
 }

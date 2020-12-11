@@ -15,6 +15,8 @@ use App\Models\settings\LevelOfScaffolding;
 use App\Models\settings\InstructionalPurpose;
 use App\Models\settings\LocationInstructionalCycle;
 use App\Models\settings\MeasureTool;
+use App\Models\settings\Unit;
+
 
 use App\Models\User;
 use App\Models\Tag;
@@ -309,15 +311,45 @@ class SettingsSeeder extends Seeder
         $activitySection2->components()->attach([$comp1->id]);
 
 
-        MeasureTool::create([
+        $measureTool1=MeasureTool::create([
             "measureTool_name" => "Ruler",            
         ]);
-        MeasureTool::create([
+        $measureTool2=MeasureTool::create([
             "measureTool_name" => "Protactor",            
         ]);
         MeasureTool::create([
             "measureTool_name" => "Timer",            
         ]);
+
+        //========== protactor
+        Unit::create([
+            "measureTool_id"=>$measureTool2->id,
+            "unit_name" => "180_degree",     
+            "src_link" => "/player_tools/protactor180.svg",     
+        ]);
+        Unit::create([
+            "measureTool_id"=>$measureTool2->id,
+            "unit_name" => "360_degree", 
+            "src_link" => "/player_tools/protactor180.svg",                
+        ]);
+
+        //========== ruler
+        Unit::create([
+            "measureTool_id"=>$measureTool1->id,
+            "unit_name" => "mm",     
+            "src_link" => "/player_tools/exportedRuler2.svg",     
+        ]);
+        Unit::create([
+            "measureTool_id"=>$measureTool1->id,
+            "unit_name" => "cm", 
+            "src_link" => "/player_tools/exportedRuler2.svg",                
+        ]);
+        Unit::create([
+            "measureTool_id"=>$measureTool1->id,
+            "unit_name" => "m", 
+            "src_link" => "/player_tools/exportedRuler2.svg",                
+        ]);
+       
        
     }
 

@@ -71,7 +71,8 @@ export default {
             if (tool == "Protactor") {
               const protactor_obj = {
                 ProtactorWrapper: {
-                  src: require("@/assets/player_assets/protactor.svg"),
+                  // src: require("@/assets/player_assets/protactor.svg"),
+                  src: this.$apiAdress + "/player_tools/protactor180.svg",
                 },
               };
               options_obj = Object.assign(options_obj, protactor_obj);
@@ -82,7 +83,8 @@ export default {
             if (tool == "Ruler") {
               const ruler_obj = {
                 RulerWrapper: {
-                  src: require("@/assets/player_assets/exportedRuler2.svg"),
+                  // src: require("@/assets/player_assets/exportedRuler2.svg"),
+                  src: this.$apiAdress + "/player_tools/exportedRuler2.svg",
                 },
               };
               options_obj = Object.assign(options_obj, ruler_obj);

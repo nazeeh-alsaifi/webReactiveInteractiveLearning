@@ -15,9 +15,12 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("measureTool_id");
             $table->string('unit_name');
-            $table->string('Sample_unit');
+            $table->string('src_link');
             $table->timestamps();
+            $table->foreign("measureTool_id")->references("id")->on("measure_tools");
+
         });
     }
 

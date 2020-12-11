@@ -11,4 +11,8 @@ class MeasureTool extends Model
     
     protected $guarded = ['id'];  
 
+    public function units(){
+        $this->hasMany("App\Models\settings\Unit","measureTool_id");
+    }
+
 }
