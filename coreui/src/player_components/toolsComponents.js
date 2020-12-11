@@ -27,10 +27,10 @@ class ToolsParentButton extends VjsButton {
     console.log("tools parent clicked!!");
   }
 }
-class FirstToolButton extends VjsButton {
+class ProtactorToolButton extends VjsButton {
   constructor(player, options) {
     super(player, options);
-    this.controlText("First Tool Button");
+    this.controlText("ProtactorToolButton Tool Button");
     this.player = player;
     this.options = options;
     this.hidden = true;
@@ -53,7 +53,7 @@ class FirstToolButton extends VjsButton {
   }
 }
 
-class SecondToolButton extends VjsButton {
+class RulerToolButton extends VjsButton {
   constructor(player, options) {
     super(player, options);
     this.controlText("Second Tool Button");
@@ -130,8 +130,8 @@ class ToolsToggler extends BaseComponent {
 }
 export {
   ToolsParentButton,
-  FirstToolButton,
-  SecondToolButton,
+  ProtactorToolButton,
+  RulerToolButton,
   TimerButton,
   ToolsWrapper,
   ToolsToggler,

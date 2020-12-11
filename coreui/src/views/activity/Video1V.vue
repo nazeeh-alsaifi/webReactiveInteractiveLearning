@@ -4,22 +4,22 @@
       <video
         ref="videoPlayer"
         class="video-js vjs-fluid vjs-default-skin vjs-big-play-centered mb-2"
-        :poster="getCurrentSource.poster"
+        :poster="currentSource.poster"
       >
-        <source :src="getCurrentSource.src" :type="getCurrentSource.type" />
+        <source :src="currentSource.src" :type="currentSource.type" />
       </video>
     </div>
-    <div id="video_buttons">
+    <!-- <div id="video_buttons">
       <button type="button" class="btn btn-success mr-2" @click="loadSource">
         change source
       </button>
-    </div>
-    <div class="container">
+    </div> -->
+    <!-- <div class="container">
       <h4>currentTime: {{ playerCurrentTime }}</h4>
       <h4>duration: {{ playerDuration }}</h4>
-      <!-- <h4>frame: {{ frameNum }}</h4> -->
+      <h4>frame: {{ frameNum }}</h4>
       <h4>frame: {{ playerFrame }}</h4>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -27,8 +27,8 @@
 import videojs from "video.js";
 import {
   ToolsParentButton,
-  FirstToolButton,
-  SecondToolButton,
+  ProtactorToolButton,
+  RulerToolButton,
   ToolsWrapper,
   ToolsToggler,
   TimerButton,
@@ -51,7 +51,6 @@ import {
   ProtactorWrapper,
 } from "@/player_components/rulerComponents.js";
 import { BottomSheet } from "@/player_components/changeSrcComponents.js";
-import { mapActions, mapGetters } from "vuex";
 import "@interactjs/auto-start";
 import "@interactjs/actions/drag";
 import "@interactjs/actions/resize";
@@ -85,8 +84,8 @@ export default {
               ToolsParentButton: true,
               ToolsToggler: {
                 children: {
-                  FirstToolButton: true,
-                  SecondToolButton: true,
+                  ProtactorToolButton: true,
+                  RulerToolButton: true,
                   TimerButton: true,
                 },
               },
@@ -121,6 +120,13 @@ export default {
   data() {
     return {
       player: null,
+      currentSource: {
+        id: "video-1",
+        src: require("@/assets/player_assets/bunny.mp4"),
+        poster: require("@/assets/player_assets/bunny.png"),
+        type: "video/mp4",
+        dataSetup: "{}",
+      },
       // sources: {
       //   id: "video-1",
       //   src: "http://vjs.zencdn.net/v/oceans.mp4",
@@ -132,7 +138,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getSources", "getCurrentSource"]),
     playerCurrentTime: function () {
       if (this.player !== null) {
         return +this.player.currentTime();
@@ -153,7 +158,6 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["changeSource"]),
     loadSource() {
       // this.changeSource();
       this.player.src({
@@ -351,8 +355,8 @@ export default {
     videojs.registerComponent("ToolsWrapper", ToolsWrapper);
     videojs.registerComponent("ToolsToggler", ToolsToggler);
     videojs.registerComponent("ToolsParentButton", ToolsParentButton);
-    videojs.registerComponent("FirstToolButton", FirstToolButton);
-    videojs.registerComponent("SecondToolButton", SecondToolButton);
+    videojs.registerComponent("ProtactorToolButton", ProtactorToolButton);
+    videojs.registerComponent("RulerToolButton", RulerToolButton);
     videojs.registerComponent("TimerButton", TimerButton);
 
     //------- Timer Components

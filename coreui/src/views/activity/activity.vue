@@ -29,28 +29,12 @@
                         {{ component.Component_name }}
                         <ActivityComponent
                           v-bind:name="component.Component_name"
+                          v-bind:options="JSON.parse(component.pivot.options)"
                         ></ActivityComponent>
                       </CCardBody>
                     </CCard>
                   </CCol>
                 </CRow>
-                <!-- <div class="container">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h1>{{ myActivity.title }}</h1>
-                    </div>
-                    <hr />
-                    <div class="panel-body"></div>
-                    <div style="background-color: #3d2c60; color: #ffffff">
-                      <b style="margin-left: 20px; font-size: 120%"
-                        >Objectives:</b
-                      ><br />
-                      <h6 style="margin-left: 20px">
-                        {{ myActivity.objectives }}
-                      </h6>
-                    </div>
-                  </div>
-                </div> -->
               </CCardBody>
             </CCollapse>
           </CCard>

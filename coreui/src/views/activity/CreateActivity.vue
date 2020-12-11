@@ -376,7 +376,7 @@
                                       </div>
                                     </CCol>
                                   </CRow>
-                                  <hr>
+                                  <hr />
                                   <CRow>
                                     <CCol sm="12" md="12" l="12" xl="12">
                                       <CInput
@@ -464,7 +464,9 @@
                                               l="12"
                                               xl="12"
                                             >
-                                           <label name="image">Answer Image:</label>
+                                              <label name="image"
+                                                >Answer Image:</label
+                                              >
                                               <div>
                                                 <input
                                                   @change="
@@ -481,7 +483,7 @@
                                               </div>
                                             </CCol>
                                           </CRow>
-                                          <hr>
+                                          <hr />
                                           <CRow>
                                             <CCol
                                               sm="12"
@@ -545,13 +547,6 @@
                   </CCardBody>
                 </CCard>
               </CCol>
-              <!-- <CCol sm="12" md="6" l="6" xl="6">
-                <CInput
-                  :label="'Section Number ' + (index + 1) + ':'"
-                  placeholder="Enter the title of the section"
-                  v-model="section.title"
-                />
-              </CCol> -->
             </CRow>
           </CCardBody>
         </transition>
@@ -584,14 +579,6 @@
           /></CButton>
         </CCardFooter>
       </CCard>
-      <!---------------------------------------------------------------PART 2  -->
-      <!-- <CCard v-if="part == 2">
-        <CCardFooter>
-          <CButton type="submit" size="sm" color="success" v-on:click="part = 2"
-            ><CIcon name="cil-check-circle" /> Next</CButton
-          >
-        </CCardFooter>
-      </CCard> -->
     </CCol>
   </CRow>
 </template>
@@ -634,6 +621,8 @@ export default {
         },
       ],
       componentsNames: [],
+      measureTools: [],
+
       //form wizard
       part: 1,
       // alert
@@ -653,6 +642,7 @@ export default {
     this.loadInstructionalPurpose();
     this.loadLocationCycles();
     this.loadComponentsNames();
+    this.loadMeasureTools();
   },
   computed: {
     // convertSubjects() {
@@ -675,9 +665,10 @@ export default {
     },
   },
   methods: {
-    onChangeMultiQuestionAnswerImage(e, index, innerIndex, answerIndex){
-      this.sections[index].components[innerIndex].data.answers[answerIndex].answer_img_src =
-        e.target.files[0];
+    onChangeMultiQuestionAnswerImage(e, index, innerIndex, answerIndex) {
+      this.sections[index].components[innerIndex].data.answers[
+        answerIndex
+      ].answer_img_src = e.target.files[0];
     },
     onChangeMultiQuestionImage(e, index, innerIndex) {
       console.log("debugging image:", e.target.files[0]);
@@ -723,6 +714,24 @@ export default {
     //   if (!files.length) return;
     //   this.sections[index].components[innerIndex].data.img_src = e.target.files[0];
     // },
+    onVideoChange(e, index, innerIndex) {
+      this.sections[index].components[innerIndex].data.video =
+        e.target.files[0];
+    },
+    addTool(index, innerIndex) {
+      const options_obj = this.sections[index].components[innerIndex].data;
+      if ("tools" in options_obj) {
+        console.log("tools in options_obj:", "tools" in options_obj);
+        options_obj.tools.push({
+          toolName: "",
+        });
+      } else {
+        this.$set(options_obj, "tools", []);
+        options_obj.tools.push({
+          toolName: "",
+        });
+      }
+    },
     addComponent(index) {
       console.log("sections:", this.sections);
       console.log("index:", index);
@@ -793,16 +802,27 @@ export default {
                   multi
                 );
               }
-              for (var answerindex = 0; answerindex <  this.sections[index].components[innerindex].data.answers.length; answerindex++)
-              {
-                   if (this.sections[index].components[innerindex].data.answers[answerindex].answer_img_src)
-                   {
-                      let answerimage = this.sections[index].components[innerindex].data.answers[answerindex].answer_img_src;
-                      formData.set(
-                        "answerimage" + index.toString() + innerindex.toString() + answerindex.toString(),
-                        answerimage
-                      );
-                   }
+              for (
+                var answerindex = 0;
+                answerindex <
+                this.sections[index].components[innerindex].data.answers.length;
+                answerindex++
+              ) {
+                if (
+                  this.sections[index].components[innerindex].data.answers[
+                    answerindex
+                  ].answer_img_src
+                ) {
+                  let answerimage = this.sections[index].components[innerindex]
+                    .data.answers[answerindex].answer_img_src;
+                  formData.set(
+                    "answerimage" +
+                      index.toString() +
+                      innerindex.toString() +
+                      answerindex.toString(),
+                    answerimage
+                  );
+                }
               }
             }
           }
@@ -1083,23 +1103,27 @@ export default {
           console.log(error);
         });
     },
-    /*  getUserId() {
+    loadMeasureTools() {
       axios
         .get(
           this.$apiAdress +
-            "/api/activity/getUserId?token=" +
+            "/api/Measuretool?token=" +
             localStorage.getItem("api_token")
         )
         .then((response) => {
           // console.log(response);
           if (response.data.length != 0)
             // this.categories = response.data.map((obj) => obj.Cat_name);
-            this.userId = resonse.data.id;
+            // console.log("tags:", response.data);
+            this.measureTools = response.data.map((obj) => ({
+              value: obj.measureTool_name,
+              label: obj.measureTool_name,
+            }));
         })
         .catch(function (error) {
           console.log(error);
         });
-    }, */
+    },
   },
 };
 </script>

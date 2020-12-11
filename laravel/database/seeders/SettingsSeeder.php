@@ -14,6 +14,7 @@ use App\Models\settings\Component;
 use App\Models\settings\LevelOfScaffolding;
 use App\Models\settings\InstructionalPurpose;
 use App\Models\settings\LocationInstructionalCycle;
+use App\Models\settings\MeasureTool;
 
 use App\Models\User;
 use App\Models\Tag;
@@ -308,7 +309,15 @@ class SettingsSeeder extends Seeder
         $activitySection2->components()->attach([$comp1->id]);
 
 
-
+        MeasureTool::create([
+            "measureTool_name" => "Ruler",            
+        ]);
+        MeasureTool::create([
+            "measureTool_name" => "Protactor",            
+        ]);
+        MeasureTool::create([
+            "measureTool_name" => "Timer",            
+        ]);
        
     }
 
