@@ -533,6 +533,55 @@
                                 </CCardBody>
                               </CCard>
                             </div>
+                            <!--------------- video component creation -->
+                            <CCard v-if="component.name == 1">
+                              <CCardHeader style="background-color: #ced2d8">
+                                Please Fill Video Data:
+                              </CCardHeader>
+                              <CCardBody>
+                                <div style="display: flex">
+                                  <label
+                                    name="video"
+                                    style="margin-right: 1rem"
+                                  >
+                                    upload video:
+                                  </label>
+                                  <input
+                                    @change="
+                                      onVideoChange($event, index, innerIndex)
+                                    "
+                                    type="file"
+                                  />
+                                </div>
+
+                                <CInput
+                                  label="frames per second:"
+                                  placeholder="Enter the fps of this video "
+                                  v-model="component.data.fps"
+                                />
+                                <CButton
+                                  shape="pill"
+                                  size="sm"
+                                  color="outline-danger"
+                                  @click="addTool(index, innerIndex)"
+                                  style="margin-bottom: 1rem"
+                                  >Tool <CIcon name="cil-plus"
+                                /></CButton>
+                                <CCard
+                                  body-wrapper
+                                  v-for="(tool, toolIndex) in component.data
+                                    .tools"
+                                  :key="toolIndex"
+                                >
+                                  <CSelect
+                                    label="name:"
+                                    :options="measureTools"
+                                    placeholder="Please choose a component:"
+                                    :value.sync="tool.toolName"
+                                  />
+                                </CCard>
+                              </CCardBody>
+                            </CCard>
                           </CCardBody>
                         </CCard>
                       </CCol>
