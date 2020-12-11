@@ -20,8 +20,29 @@ class ActivityController extends Controller
     }
     //
     public function store(Request $request){
+        $sections = json_decode($request->sections);
 
-        // return $request;
+        $index = 0;
+        foreach($sections as $section){
+            $innerindex=0;
+            foreach($section->components as $component_obj){
+                if($request->hasFile('qimage' . $index . $innerindex)){
+                    $filenameWithExt = $request->file('qimage' . $index . $innerindex)->getClientOriginalName();
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    $extension = $request->file('qimage' . $index . $innerindex)->getClientOriginalExtension();
+                    $myfileNameToStore= $filename.'_'.time().'.'.$extension;
+                    $path = $request->file('qimage' . $index . $innerindex)->storeAs('public/image',$myfileNameToStore);
+                    //$image = $request->image->store('public/avatar');
+                }
+                $innerindex++;
+
+             }
+             $index++;
+
+        }
+
+        return response()->json(array('success' => true,'request' => $request->all(),'qimage00'=> $request->file('qimage00')->getClientOriginalName()));
+
         $validatedRequest = $request->validate([
             "title" => 'required|string',
             "objective" => 'required|string',
@@ -126,12 +147,12 @@ class ActivityController extends Controller
                 }
                 if($component_obj->name == 5)
                 {  //'sections['.$index.'].components['.$innerindex.'].data.question_img_src'
-                    if($request->hasFile('sections[0].components[0].data.question_img_src')){
-                        $filenameWithExt = $request->file('sections[0].components[0].data.question_img_src')->getClientOriginalName();
+                    if($request->hasFile('qimage' . $index . $innerindex)){
+                        $filenameWithExt = $request->file('qimage' . $index . $innerindex)->getClientOriginalName();
                         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                        $extension = $request->file('sections[0].components[0].data.question_img_src')->getClientOriginalExtension();
+                        $extension = $request->file('qimage' . $index . $innerindex)->getClientOriginalExtension();
                         $myfileNameToStore= $filename.'_'.time().'.'.$extension;
-                        $path = $request->file('sections[0].components[0].data.question_img_src')->storeAs('public/image',$myfileNameToStore);
+                        $path = $request->file('qimage' . $index . $innerindex)->storeAs('public/image',$myfileNameToStore);
                         //$image = $request->image->store('public/avatar');
                     }
                     $MultiQuestions = new MultiQuestions();
