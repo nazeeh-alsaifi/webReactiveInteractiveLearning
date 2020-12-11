@@ -376,6 +376,7 @@
                                       </div>
                                     </CCol>
                                   </CRow>
+                                  <hr>
                                   <CRow>
                                     <CCol sm="12" md="12" l="12" xl="12">
                                       <CInput
@@ -463,18 +464,24 @@
                                               l="12"
                                               xl="12"
                                             >
-                                              <CInput
-                                                label="Image"
-                                                placeholder="Enter the img_src"
-                                                v-model="
-                                                  sections[index].components[
-                                                    innerIndex
-                                                  ].data.answers[answerIndex]
-                                                    .answer_img_src
-                                                "
-                                              />
+                                           <label name="image">Answer Image:</label>
+                                              <div>
+                                                <input
+                                                  @change="
+                                                    onChangeMultiQuestionAnswerImage(
+                                                      $event,
+                                                      index,
+                                                      innerIndex,
+                                                      answerIndex
+                                                    )
+                                                  "
+                                                  type="file"
+                                                  accept="image/*"
+                                                />
+                                              </div>
                                             </CCol>
                                           </CRow>
+                                          <hr>
                                           <CRow>
                                             <CCol
                                               sm="12"
@@ -668,6 +675,10 @@ export default {
     },
   },
   methods: {
+    onChangeMultiQuestionAnswerImage(e, index, innerIndex, answerIndex){
+      this.sections[index].components[innerIndex].data.answers[answerIndex].answer_img_src =
+        e.target.files[0];
+    },
     onChangeMultiQuestionImage(e, index, innerIndex) {
       console.log("debugging image:", e.target.files[0]);
       this.sections[index].components[innerIndex].data.question_img_src =
@@ -781,6 +792,17 @@ export default {
                   "qimage" + index.toString() + innerindex.toString(),
                   multi
                 );
+              }
+              for (var answerindex = 0; answerindex <  this.sections[index].components[innerindex].data.answers.length; answerindex++)
+              {
+                   if (this.sections[index].components[innerindex].data.answers[answerindex].answer_img_src)
+                   {
+                      let answerimage = this.sections[index].components[innerindex].data.answers[answerindex].answer_img_src;
+                      formData.set(
+                        "answerimage" + index.toString() + innerindex.toString() + answerindex.toString(),
+                        answerimage
+                      );
+                   }
               }
             }
           }
