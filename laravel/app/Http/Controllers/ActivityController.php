@@ -83,6 +83,7 @@ class ActivityController extends Controller
         $activity->sections()->saveMany($sections_objects); */
 
         // sections and components handling
+        $index = 0;
         foreach($sections as $section){
             $section_saved = ActivitySection::create([
                 "activity_id" => $activity->id,
@@ -111,6 +112,7 @@ class ActivityController extends Controller
             //
             $end_question_index = 0;
             $multi_question_index = 0;
+            $innerindex=0;
             foreach($section->components as $component_obj){
                 if($component_obj->name == 4)
                 {
@@ -123,20 +125,20 @@ class ActivityController extends Controller
                     $end_question_index ++;
                 }
                 if($component_obj->name == 5)
-                {
-                    if($request->hasFile('question_img_src')){
-                        $filenameWithExt = $request->file('question_img_src')->getClientOriginalName();
+                {  //'sections['.$index.'].components['.$innerindex.'].data.question_img_src'
+                    if($request->hasFile('sections[0].components[0].data.question_img_src')){
+                        $filenameWithExt = $request->file('sections[0].components[0].data.question_img_src')->getClientOriginalName();
                         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                        $extension = $request->file('question_img_src')->getClientOriginalExtension();
-                        $fileNameToStore= $filename.'_'.time().'.'.$extension;
-                        $path = $request->file('question_img_src')->storeAs('public/image',$fileNameToStore);
+                        $extension = $request->file('sections[0].components[0].data.question_img_src')->getClientOriginalExtension();
+                        $myfileNameToStore= $filename.'_'.time().'.'.$extension;
+                        $path = $request->file('sections[0].components[0].data.question_img_src')->storeAs('public/image',$myfileNameToStore);
                         //$image = $request->image->store('public/avatar');
                     }
                     $MultiQuestions = new MultiQuestions();
                     $MultiQuestions->sections_components_id = $multi_sections_components_ids[$multi_question_index];
                     $MultiQuestions->text_description = $component_obj->data->question_text_description;
                     $MultiQuestions->Question = $component_obj->data->question_Question;
-                    $MultiQuestions->img_src = $fileNameToStore;
+                    $MultiQuestions->img_src = $myfileNameToStore;
                     $MultiQuestions->save();
                     
                     $MultiQuestionsSettings = new MultiQuestionsSettings();
@@ -155,7 +157,9 @@ class ActivityController extends Controller
                     }                    
                     $multi_question_index ++;
                 }
+                $innerindex++;
             }
+            $index++;
         }
 
         // tags handling

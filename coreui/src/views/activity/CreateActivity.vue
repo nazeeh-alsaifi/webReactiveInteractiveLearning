@@ -678,7 +678,25 @@ export default {
           JSON.stringify(this.sections.filter((obj) => obj.title.length != 0))
         );
         formData.set("tags", JSON.stringify(this.tagsValues));
-
+        //////
+        for( var index = 0; index < this.sections.length; index++ ){
+          if(this.sections[index].components)
+          {
+            for( var innerindex = 0; innerindex < this.sections[index].components.length; innerindex++ )
+            {
+                if(this.sections[index].components[innerindex].name == 5)
+                {
+                  if( this.sections[index].components[innerindex].data.question_img_src)
+                  {
+                    let multi = this.sections[index].components[innerindex].data.question_img_src;
+                    formData.set('sections['+index.toString()+'].components['+innerindex.toString()+'].data.question_img_src', multi);
+                  }
+                }
+            }    
+          }
+        }
+        console.log("FormData:", formData);
+        /////
         console.log("activity:", this.activity);
         console.log("sections:", this.sections);
         // console.log("formObj", formObj);
