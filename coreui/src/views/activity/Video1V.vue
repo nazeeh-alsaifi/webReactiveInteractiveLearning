@@ -4,9 +4,8 @@
       <video
         ref="videoPlayer"
         class="video-js vjs-fluid vjs-default-skin vjs-big-play-centered mb-2"
-        :poster="currentSource.poster"
       >
-        <source :src="currentSource.src" :type="currentSource.type" />
+        <source :src="source.src" :type="source.type" />
       </video>
     </div>
     <!-- <div id="video_buttons">
@@ -61,6 +60,18 @@ import interact from "@interactjs/interact";
 export default {
   name: "Video1V",
   props: {
+    source: {
+      type: Object,
+      default() {
+        return {
+          id: "video-1",
+          src: require("@/assets/player_assets/bunny.mp4"),
+          // poster: require("@/assets/player_assets/bunny.png"),
+          type: "video/mp4",
+          dataSetup: "{}",
+        };
+      },
+    },
     options: {
       type: Object,
       default() {
@@ -120,13 +131,13 @@ export default {
   data() {
     return {
       player: null,
-      currentSource: {
-        id: "video-1",
-        src: require("@/assets/player_assets/bunny.mp4"),
-        poster: require("@/assets/player_assets/bunny.png"),
-        type: "video/mp4",
-        dataSetup: "{}",
-      },
+      // currentSource: {
+      //   id: "video-1",
+      //   src: require("@/assets/player_assets/bunny.mp4"),
+      //   poster: require("@/assets/player_assets/bunny.png"),
+      //   type: "video/mp4",
+      //   dataSetup: "{}",
+      // },
       // sources: {
       //   id: "video-1",
       //   src: "http://vjs.zencdn.net/v/oceans.mp4",

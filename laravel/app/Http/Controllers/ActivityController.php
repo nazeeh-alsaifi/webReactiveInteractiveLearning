@@ -72,16 +72,6 @@ class ActivityController extends Controller
         }
         // sections and components handling
         $sections = json_decode($validatedRequest["sections"]);
-        /* $sections_objects=array();
-        foreach($sections as $section){
-            $section_obj = new ActivitySection();
-            $section_obj->title = $section ->title;
-            $section_obj->created_at = now();
-            $section_obj->updated_at = now();
-            $sections_objects[] = $section_obj;
-        }
-        $activity->sections()->saveMany($sections_objects); */
-        // sections and components handling
         $index = 0;
         foreach($sections as $section){
             $section_saved = ActivitySection::create([
@@ -90,14 +80,26 @@ class ActivityController extends Controller
                 "created_at" => now(),
                 "updated_at" => now(),
             ]);
-            $components_ids=array();
+
+            $innerindex=0;
             foreach($section->components as $component_obj){
                 if($component_obj->name ==1){
+                    // video upload
+                    if($request->hasFile('video'. $index . $innerindex)){
+                        $filenameWithExt = $request->file('video'. $index . $innerindex)->getClientOriginalName();
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        $extension = $request->file('video'. $index . $innerindex)->getClientOriginalExtension();
+                        $fileNameToStore= $filename.'_'.time().'.'.$extension;
+                        $path = $request->file('video'. $index . $innerindex)->storeAs('public/video',$fileNameToStore);
+                    }
+                    // video tools handling
                     $toolsNames=array();
                     foreach($component_obj->data->tools as $tool_obj){
                         $toolsNames[]=$tool_obj->toolName;
                     };
+
                     $json_options = [
+                        "video_src" => "/storage/video/" . $fileNameToStore,
                         "fps" => $component_obj->data->fps,
                         "tools" => $toolsNames,
                     ];
@@ -107,8 +109,10 @@ class ActivityController extends Controller
                     ]);
 
                 }
-                $section_saved->components()->attach($component_obj->name);
-
+                else{
+                    $section_saved->components()->attach($component_obj->name);
+                }
+                $innerindex++;
             }
 
             // $section_saved->components()->attach($components_ids);

@@ -874,6 +874,13 @@ export default {
                 }
               }
             }
+            if (this.sections[index].components[innerindex].name == 1) {
+              var videoFile = this.sections[index].components[innerindex].data
+                .video;
+              if (videoFile) {
+                formData.set("video" + index + innerindex, videoFile);
+              }
+            }
           }
         }
       }
