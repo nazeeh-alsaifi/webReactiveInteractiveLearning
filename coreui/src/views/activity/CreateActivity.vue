@@ -52,8 +52,8 @@
                   style="
                     margin-left: auto;
                     margin-right: auto;
-                    width: 60%;
-                    max-height: 480px;
+                    max-width: 200px;
+                    max-height: 200px;
                   "
                   block
                 >
@@ -66,7 +66,7 @@
                   label="Learning Objective:"
                   placeholder="Enter the learning objective of this activity"
                   v-model="activity.objective"
-                  rows="9"
+                  rows="5"
                   columns="9"
                 />
               </CCol>
@@ -99,6 +99,7 @@
                 />
               </CCol>
             </CRow>
+            <!--
             <CRow>
               <CCol sm="12" md="6" l="6" xl="6">
                 <CSelect
@@ -107,21 +108,21 @@
                   placeholder="Please choose a category"
                   :value.sync="activity.category_id"
                 />
-              </CCol>
-              <CCol sm="12" md="6" l="6" xl="6">
-                <!-- <CInput
+              </CCol>-->
+<!--               <CCol sm="12" md="6" l="6" xl="6">
+                 <CInput
                   label="Sub Subject:"
                   placeholder="Enter the SubSubject of the activity"
                   v-model="activity.subSubject"
                 /> -->
-                <CSelect
+<!--                <CSelect
                   label="Sub Category:"
                   :options="filterAndConvertSubCategories"
                   placeholder="Please choose a sub-category"
                   :value.sync="activity.subCategory_id"
                 />
               </CCol>
-            </CRow>
+            </CRow>-->
             <CRow>
               <CCol sm="12" md="6" l="6" xl="6">
                 <CSelect
@@ -295,16 +296,51 @@
                                   </CRow>
                                   <CRow>
                                     <CCol sm="12" md="12" l="12" xl="12">
-                                      <CInput
-                                        label="img_src:"
-                                        placeholder="Enter the img_src"
-                                        v-model="
-                                          sections[index].components[innerIndex]
-                                            .data.img_src
+                                      <label name="image">
+                                        Question Image:</label
+                                      >
+                                      <div>
+                                        <input
+                                          @change="
+                                            onChangeEndQuestionImage(
+                                              $event,
+                                              index,
+                                              innerIndex
+                                            )
+                                          "
+                                          type="file"
+                                          accept="image/*"
+                                        />
+                                      </div>
+                                      <div v-if="sections[index].components[innerIndex].data.img_src ==''">
+                                      <CImg
+                                       :src="getempty()"
+                                        style="
+                                          margin-left: auto;
+                                          margin-right: 10%;
+                                          width: 25%;
+                                          max-height: 25%;
                                         "
-                                      />
+                                        block
+                                      >
+                                      </CImg>
+                                      </div>
+                                       <div v-if="sections[index].components[innerIndex].data.img_src !=''">
+                                      <CImg
+                                       :src="viewEndQuestionImage[index].viewImage[innerIndex]"
+                                        style="
+                                          margin-left: auto;
+                                          margin-right: 10%;
+                                          width: 25%;
+                                          max-height: 25%;
+                                        "
+                                        block
+                                      >
+                                      </CImg>
+                                      </div>
                                     </CCol>
                                   </CRow>
+                                  <hr>
                                   <CButton
                                     shape="pill"
                                     size="sm"
@@ -373,6 +409,34 @@
                                           type="file"
                                           accept="image/*"
                                         />
+                                      </div>
+                                      <div v-if=" sections[index].components[innerIndex]
+                                            .data.question_img_src ==''">
+                                      <CImg
+                                       :src="getempty()"
+                                        style="
+                                          margin-left: auto;
+                                          margin-right: 10%;
+                                          width: 25%;
+                                          max-height: 25%;
+                                        "
+                                        block
+                                      >
+                                      </CImg>
+                                      </div>
+                                       <div v-if=" sections[index].components[innerIndex]
+                                            .data.question_img_src !=''">
+                                      <CImg
+                                       :src="viewMultiQuestionImage[index].viewImage[innerIndex]"
+                                        style="
+                                          margin-left: auto;
+                                          margin-right: 10%;
+                                          width: 25%;
+                                          max-height: 25%;
+                                        "
+                                        block
+                                      >
+                                      </CImg>
                                       </div>
                                     </CCol>
                                   </CRow>
@@ -480,6 +544,36 @@
                                                   type="file"
                                                   accept="image/*"
                                                 />
+                                              </div>
+                                              <div v-if=" sections[index].components[innerIndex]
+                                                   .data.answers[answerIndex]
+                                                    .answer_img_src ==''">
+                                              <CImg
+                                              :src="getempty()"
+                                                style="
+                                                  margin-left: auto;
+                                                  margin-right: 10%;
+                                                  width: 25%;
+                                                  max-height: 25%;
+                                                "
+                                                block
+                                              >
+                                              </CImg>
+                                              </div>
+                                              <div v-if=" sections[index].components[innerIndex]
+                                                   .data.answers[answerIndex]
+                                                    .answer_img_src !=''">
+                                              <CImg
+                                              :src="viewMultiAnswersImage[index].viewImage[innerIndex].answers[answerIndex]"
+                                                style="
+                                                  margin-left: auto;
+                                                  margin-right: 10%;
+                                                  width: 25%;
+                                                  max-height: 25%;
+                                                "
+                                                block
+                                              >
+                                              </CImg>
                                               </div>
                                             </CCol>
                                           </CRow>
@@ -671,7 +765,10 @@ export default {
       ],
       componentsNames: [],
       measureTools: [],
-
+      //
+      viewEndQuestionImage: [],
+      viewMultiQuestionImage: [],
+      viewMultiAnswersImage: [],
       //form wizard
       part: 1,
       // alert
@@ -714,19 +811,80 @@ export default {
     },
   },
   methods: {
+    onChangeEndQuestionImage(e, index, innerIndex){
+     this.sections[index].components[innerIndex].data.img_src = e.target.files[0];
+          var files = e.target.files || e.dataTransfer.files;
+         this.createEndQuestionImage(files[0], index, innerIndex);
+    },
+    createEndQuestionImage(file, index, innerIndex) {
+      //var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+       if(!vm.viewEndQuestionImage[index])
+       {
+         vm.viewEndQuestionImage[index]={viewImage:[]}
+       }
+      reader.onload = (e) => {
+        vm.viewEndQuestionImage[index].viewImage[innerIndex] = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
     onChangeMultiQuestionAnswerImage(e, index, innerIndex, answerIndex) {
-      this.sections[index].components[innerIndex].data.answers[
-        answerIndex
-      ].answer_img_src = e.target.files[0];
+      this.sections[index].components[innerIndex].data.answers[answerIndex].answer_img_src = e.target.files[0];
+       var files = e.target.files || e.dataTransfer.files;
+         this.createMultiQuestionAnswerImage(files[0], index, innerIndex, answerIndex);
+    },
+    createMultiQuestionAnswerImage(file, index, innerIndex, answerIndex) {
+      //var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+       if(!vm.viewMultiAnswersImage[index])
+       {
+         vm.viewMultiAnswersImage[index]={viewImage:[]}
+          if(!vm.viewMultiAnswersImage[index].viewImage[innerIndex])
+          {
+             vm.viewMultiAnswersImage[index].viewImage[innerIndex]={answers:[]}
+          }
+       }
+       if(vm.viewMultiAnswersImage[index])
+       {
+          if(!vm.viewMultiAnswersImage[index].viewImage[innerIndex])
+          {
+             vm.viewMultiAnswersImage[index].viewImage[innerIndex]={answers:[]}
+          }
+       }
+      reader.onload = (e) => {
+        vm.viewMultiAnswersImage[index].viewImage[innerIndex].answers[answerIndex] = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
     onChangeMultiQuestionImage(e, index, innerIndex) {
       console.log("debugging image:", e.target.files[0]);
       this.sections[index].components[innerIndex].data.question_img_src =
         e.target.files[0];
+      var files = e.target.files || e.dataTransfer.files;
+         this.createMultiQuestionImage(files[0], index, innerIndex);
+    },
+    createMultiQuestionImage(file, index, innerIndex) {
+      //var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+       if(!vm.viewMultiQuestionImage[index])
+       {
+         vm.viewMultiQuestionImage[index]={viewImage:[]}
+       }
+      reader.onload = (e) => {
+        vm.viewMultiQuestionImage[index].viewImage[innerIndex] = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
     OnchangeComponent(index, innerIndex) {
+      if (this.sections[index].components[innerIndex].name == 4) {
+      this.sections[index].components[innerIndex].data.img_src = ""; 
+      }
       if (this.sections[index].components[innerIndex].name == 5) {
         this.sections[index].components[innerIndex].data = {
+          question_img_src: "",
           answers: [
             {
               answer: "",
@@ -748,7 +906,11 @@ export default {
           answerIndex,
           1
         );
-      }
+        if(this.viewMultiAnswersImage[index].viewImage[innerIndex].answers[answerIndex])
+        {
+         this.viewMultiAnswersImage[index].viewImage[innerIndex].answers.splice(answerIndex,1);
+        }
+      }      
     },
     addAnswer(index, innerIndex) {
       this.sections[index].components[innerIndex].data.answers.push({
@@ -757,12 +919,6 @@ export default {
         answer_is_true: "",
       });
     },
-    // onFileChange(e,index,innerIndex){
-    //   console.log("debugging image:", e.target.files[0]);
-    //   var files = e.target.files || e.dataTransfer.files;
-    //   if (!files.length) return;
-    //   this.sections[index].components[innerIndex].data.img_src = e.target.files[0];
-    // },
     onVideoChange(e, index, innerIndex) {
       this.sections[index].components[innerIndex].data.video =
         e.target.files[0];
@@ -792,6 +948,20 @@ export default {
     },
     deleteComponent(index, innerIndex) {
       this.sections[index].components.splice(innerIndex, 1);
+      if(this.viewEndQuestionImage[index])
+      {
+        if(this.viewEndQuestionImage[index].viewImage[innerIndex])
+        {
+          this.viewEndQuestionImage[index].viewImage.splice(innerIndex, 1);
+        }
+      }
+      if(this.viewMultiQuestionImage[index])
+      {
+          if(this.viewMultiQuestionImage[index].viewImage[innerIndex])
+          {
+            this.viewMultiQuestionImage[index].viewImage.splice(innerIndex, 1);
+          }
+      }    
     },
     addSection() {
       this.sections.push({
@@ -801,6 +971,14 @@ export default {
     },
     deleteSection(index) {
       this.sections.splice(index, 1);
+       if(this.viewEndQuestionImage[index])
+      {
+         this.viewEndQuestionImage.splice(index, 1);
+      }
+      if(this.viewMultiQuestionImage[index])
+      {
+         this.viewMultiQuestionImage.splice(index, 1);
+      }
     },
     submit() {
       console.log("activity:", this.activity);
@@ -839,6 +1017,16 @@ export default {
             innerindex < this.sections[index].components.length;
             innerindex++
           ) {
+            if (this.sections[index].components[innerindex].name == 4) {
+               if (this.sections[index].components[innerindex].data.img_src) {
+                let endquestionimage = this.sections[index].components[innerindex].data
+                  .img_src;
+                formData.set(
+                  "endqimage" + index.toString() + innerindex.toString(),
+                  endquestionimage
+                );
+              }
+            }
             if (this.sections[index].components[innerindex].name == 5) {
               if (
                 this.sections[index].components[innerindex].data

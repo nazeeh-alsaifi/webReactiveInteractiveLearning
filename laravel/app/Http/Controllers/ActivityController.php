@@ -28,8 +28,8 @@ class ActivityController extends Controller
             "image" => 'required|image',
             "subject_id" => 'required',
             "subSubject_id" => 'required',
-            "category_id" => 'required',
-            "subCategory_id" => 'required',
+            // "category_id" => 'required',
+            // "subCategory_id" => 'required',
             "level_id" => 'required|string',
             "instructionalPurpose_id" => 'required|string',
             "locationCycle_id" => 'required|string',
@@ -132,11 +132,21 @@ class ActivityController extends Controller
             foreach($section->components as $component_obj){
                 if($component_obj->name == 4)
                 {
+                    if($request->hasFile('endqimage' . $index . $innerindex)){
+                        $filenameWithExt = $request->file('endqimage' . $index . $innerindex)->getClientOriginalName();
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        $extension = $request->file('endqimage' . $index . $innerindex)->getClientOriginalExtension();
+                        $EndQuestionfileNameToStore= $filename.'_'.time().'.'.$extension;
+                        $path = $request->file('endqimage' . $index . $innerindex)->storeAs('public/image',$EndQuestionfileNameToStore);
+                    }
                     $EndQuestions = new EndQuestions();
                     $EndQuestions->sections_components_id = $end_sections_components_ids[$end_question_index];
                     $EndQuestions->text_description = $component_obj->data->text_description;
                     $EndQuestions->Question = $component_obj->data->Question;
-                    $EndQuestions->img_src = $component_obj->data->img_src;
+                    if($request->hasFile('endqimage' . $index . $innerindex))
+                    {
+                        $EndQuestions->img_src = $EndQuestionfileNameToStore;
+                    }
                     $EndQuestions->save();
                     $end_question_index ++;
                 }
