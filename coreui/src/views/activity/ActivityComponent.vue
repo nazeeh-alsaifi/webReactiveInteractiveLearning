@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Video1V v-if="name == 'Video'" :options="formateOptions" />
+    <Video1V
+      v-if="name == 'Video'"
+      :options="formateOptions"
+      :source="formateSource"
+    />
     <ChartAndTable v-if="name == 'Sheet and a chart'" />
     <TableOnly v-if="name == 'Sheet only'" />
   </div>
@@ -22,8 +26,34 @@ export default {
     options: Object,
   },
 
-  mounted() {},
+  mounted() {
+    if (this.name == "Video") {
+      console.log("options:", this.options);
+      console.log(this.$apiAdress + "/" + this.options.video_src);
+    }
+  },
   computed: {
+    formateSource() {
+      if (this.name == "Video") {
+        if (this.options != null) {
+          return {
+            id: "video-1",
+            src: this.$apiAdress + this.options.video_src,
+            // poster: require("@/assets/player_assets/bunny.png"),
+            type: "video/mp4",
+            dataSetup: "{}",
+          };
+        }
+      } else {
+        return {
+          id: "video-1",
+          src: require("@/assets/player_assets/bunny.mp4"),
+          // poster: require("@/assets/player_assets/bunny.png"),
+          type: "video/mp4",
+          dataSetup: "{}",
+        };
+      }
+    },
     formateOptions() {
       if (this.name == "Video") {
         if (this.options != null) {
@@ -46,32 +76,35 @@ export default {
               children: {
                 ToolsParentButton: true,
                 ToolsToggler: {
-                  children: { TimerButton: true },
-                },
-              },
-            },
-            TimerMoveable: {
-              children: {
-                TimerDetailsWrapper: {
                   children: {
-                    TimerVideoDetails: {
-                      children: {
-                        MyTimeDisplay: true,
-                        MyFrameDisplay: { fps: this.options.fps },
-                        MyFpsDisplay: { fps: this.options.fps },
-                      },
-                    },
-                    ResetTimer: true,
+                    //  TimerButton: true
                   },
                 },
               },
             },
+            // TimerMoveable: {
+            //   children: {
+            //     TimerDetailsWrapper: {
+            //       children: {
+            //         TimerVideoDetails: {
+            //           children: {
+            //             MyTimeDisplay: true,
+            //             MyFrameDisplay: { fps: this.options.fps },
+            //             MyFpsDisplay: { fps: this.options.fps },
+            //           },
+            //         },
+            //         ResetTimer: true,
+            //       },
+            //     },
+            //   },
+            // },
           };
           this.options.tools.forEach((tool) => {
             if (tool == "Protactor") {
               const protactor_obj = {
                 ProtactorWrapper: {
-                  src: require("@/assets/player_assets/protactor.svg"),
+                  // src: require("@/assets/player_assets/protactor.svg"),
+                  src: this.$apiAdress + "/player_tools/protactor180.svg",
                 },
               };
               options_obj = Object.assign(options_obj, protactor_obj);
@@ -82,7 +115,8 @@ export default {
             if (tool == "Ruler") {
               const ruler_obj = {
                 RulerWrapper: {
-                  src: require("@/assets/player_assets/exportedRuler2.svg"),
+                  // src: require("@/assets/player_assets/exportedRuler2.svg"),
+                  src: this.$apiAdress + "/player_tools/exportedRuler2.svg",
                 },
               };
               options_obj = Object.assign(options_obj, ruler_obj);
