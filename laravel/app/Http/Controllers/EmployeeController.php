@@ -13,6 +13,10 @@ use App\Models\settings\SubSubject;
 use App\Models\settings\LevelOfScaffolding;
 use App\Models\settings\LocationInstructionalCycle;
 use App\Models\settings\InstructionalPurpose;
+use App\Models\EndQuestions;
+use App\Models\AnswerQuestions;
+use App\Models\MultiQuestions;
+use App\Models\MultiQuestionsSettings;
 use DB;
 
 class EmployeeController extends Controller
@@ -107,6 +111,21 @@ class EmployeeController extends Controller
     {
        $activity = Activity::with('sections.components')->find($id);
        return response()->json(["activity"=> $activity,"success"=> true]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getQuetions($id)
+    {
+       $MultiQuestions = MultiQuestions::where("sections_components_id",$id)->first();
+       $MultiQuestionsSettings = MultiQuestionsSettings::where("multi_questions_id",$MultiQuestions->id)->first();
+       $AnswerQuestions = AnswerQuestions::where("multi_questions_id",$MultiQuestions->id)->get();
+       return response()->json(["MultiQuestions"=> $MultiQuestions,"MultiQuestionsSettings"=> $MultiQuestionsSettings,
+       "AnswerQuestions"=> $AnswerQuestions,"success"=> true]);
     }
 
     /**
