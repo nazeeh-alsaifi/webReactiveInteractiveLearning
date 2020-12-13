@@ -3,7 +3,7 @@
       
     </CRow> -->
   <CContainer>
-    <CJumbotron style="background-color: #3d2c60; color: #ffffff">
+    <CJumbotron style="background-color: #321fdb; color: #ffffff; max-height:200px;">
       <h1>{{ myActivity.title }}</h1>
       <p class="lead">Learning Objective:</p>
       <p>{{ myActivity.objectives }}</p>

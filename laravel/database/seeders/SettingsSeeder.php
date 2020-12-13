@@ -175,22 +175,27 @@ class SettingsSeeder extends Seeder
 
         /* ========== LevelOfScaffolding ==========*/
        $level = LevelOfScaffolding::create([
-            "Level_Name" => "Advanced",
+            "Level_Name" => "Very High (intro to using Pivot)",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         LevelOfScaffolding::create([
-            "Level_Name" => "Hard",
+            "Level_Name" => "High (step by step)",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         LevelOfScaffolding::create([
-            "Level_Name" => "Medium",
+            "Level_Name" => "Medium (guided)",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         LevelOfScaffolding::create([
-            "Level_Name" => "Easy",
+            "Level_Name" => "Low (open-ended)",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        LevelOfScaffolding::create([
+            "Level_Name" => "Goal Less",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -198,18 +203,46 @@ class SettingsSeeder extends Seeder
         /* ================ LocationInstructionalCycle ==========*/
 
         $location = LocationInstructionalCycle::create([
-            "Location_Instructional_Cycle" => "first instructional cycle",
+            "Location_Instructional_Cycle" => "Early (Introduction to concept)",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
+        $location = LocationInstructionalCycle::create([
+            "Location_Instructional_Cycle" => "Middle (Application)",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $location = LocationInstructionalCycle::create([
+            "Location_Instructional_Cycle" => "End (Assessment)",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         /* ============== InstructionalPurpose ===========*/
         $purpose = InstructionalPurpose::create([
-            'Instructional_Purpose' => "first Instructional_Purpose",
+            'Instructional_Purpose' => "Instructor Video Upload",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
+        $purpose = InstructionalPurpose::create([
+            'Instructional_Purpose' => "Create An Argument From Evidence",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $purpose = InstructionalPurpose::create([
+            'Instructional_Purpose' => "Modeling Instructor",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $purpose = InstructionalPurpose::create([
+            'Instructional_Purpose' => "ISEL",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $purpose = InstructionalPurpose::create([
+            'Instructional_Purpose' => "Lab Skills",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         //============Tag
         Tag::create([
             "keyword" => "velocity",
