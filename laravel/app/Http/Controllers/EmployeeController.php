@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\users\Employee;
 use App\Models\User;
 use App\Models\Activity;
+use App\Models\EndQuestions;
+
 use App\Models\settings\Subject;
 use App\Models\settings\SubSubject;
 use App\Models\settings\LevelOfScaffolding;
@@ -113,6 +115,9 @@ class EmployeeController extends Controller
        return response()->json(["activity"=> $activity,"success"=> true]);
     }
 
+    public function getEndQuestionData($id){
+        return response()->json(["questionData"=> EndQuestions::where("sections_components_id","=",$id)->first(),"success"=> true]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

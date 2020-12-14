@@ -260,6 +260,7 @@ Route::get("activity/getUserId",'ActivityController@getUserId');
     Route::post('employees/store_employee_profile','EmployeeController@storeemployeeprofile'); 
     Route::get('Employees/getMyActivities','EmployeeController@getMyActivities');
     Route::get('Employees/{id}/getMyActivity','EmployeeController@getMyActivity');
+    Route::get('Employees/{id}/getEndQuestionData','EmployeeController@getEndQuestionData');
     Route::get('Employees/getSubjects','EmployeeController@getSubjects');   
     Route::get('Employees/getSubSubjects','EmployeeController@getSubSubjects');
     Route::get('Employees/getLevelsOfScaffolding','EmployeeController@getLevelsOfScaffolding'); 
