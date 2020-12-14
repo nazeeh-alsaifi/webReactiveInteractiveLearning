@@ -143,9 +143,9 @@ const EditFreeStudent = () => import("@/views/editProfile/FreeStudent");
 
 // activity
 const ActivityIndex = () => import("@/views/activity/ActivityIndex");
-const ActivityComponent = () => import("@/views/activity/ActivityComponent");
+// const ActivityComponent = () => import("@/views/activity/ActivityComponent");
 const ChartAndTable = () => import("@/views/activity/ChartAndTable");
-
+const EndQuestion = () => import("@/views/activity/EndQuestion");
 // coordinator
 const CoordinatorSubjects = () => import("@/views/coordinator/MySubjects");
 const CoordinatorSubjectsClasses = () => import("@/views/coordinator/Classes");
@@ -1030,14 +1030,14 @@ function configRoutes() {
             requiresStudent_FreeStudent: true,
           },
         },
-        {
-          path: "activity-student2",
-          name: "Activity2",
-          component: ActivityComponent,
-          meta: {
-            requiresStudent_FreeStudent: true,
-          },
-        },
+        // {
+        //   path: "end_questions",
+        //   name: "end_questions",
+        //   component: EndQuestion,
+        //   meta: {
+        //     requiresAdmin: true,
+        //   },
+        // },
         {
           path: "activity-student3",
           name: "Activity3",
