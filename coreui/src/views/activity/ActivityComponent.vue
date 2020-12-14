@@ -7,6 +7,10 @@
     />
     <ChartAndTable v-if="name == 'Sheet and a chart'" />
     <TableOnly v-if="name == 'Sheet only'" />
+    <EndQuestion
+      v-if="name == 'End_question'"
+      :data="endQuestionData"
+    ></EndQuestion>
   </div>
 </template>
 
@@ -14,22 +18,31 @@
 import ChartAndTable from "./ChartAndTable";
 import Video1V from "./Video1V";
 import TableOnly from "./TableOnly";
+import EndQuestion from "./EndQuestion.vue";
+import axios from "axios";
+
 export default {
   name: "ActivityComponent",
   components: {
     ChartAndTable,
     Video1V,
     TableOnly,
+    EndQuestion,
   },
   props: {
     name: String,
     options: Object,
+    sectionComponentId: Number,
   },
 
   mounted() {
+    console.log("section_component_id:", this.sectionComponentId);
     if (this.name == "Video") {
       console.log("options:", this.options);
       console.log(this.$apiAdress + "/" + this.options.video_src);
+    }
+    if (this.name == "End_question") {
+      this.loadEndQuestion();
     }
   },
   computed: {
@@ -171,9 +184,29 @@ export default {
       }
     },
   },
-  methods: {},
+  methods: {
+    loadEndQuestion() {
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/Employees/" +
+            this.sectionComponentId +
+            "/getEndQuestionData?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then((response) => {
+          console.log(response);
+          this.endQuestionData = response.data.questionData;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
   data() {
-    return {};
+    return {
+      endQuestionData: null,
+    };
   },
 };
 </script>
