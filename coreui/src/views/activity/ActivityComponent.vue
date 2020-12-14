@@ -7,6 +7,9 @@
     />
     <ChartAndTable v-if="name == 'Sheet and a chart'" />
     <TableOnly v-if="name == 'Sheet only'" />
+    <MultiQuestion v-if="name == 'Multi Question'"
+     :sectioncomponentid="sectioncomponentid"
+    />
   </div>
 </template>
 
@@ -14,16 +17,19 @@
 import ChartAndTable from "./ChartAndTable";
 import Video1V from "./Video1V";
 import TableOnly from "./TableOnly";
+import MultiQuestion from "./MultiQuestion";
 export default {
   name: "ActivityComponent",
   components: {
     ChartAndTable,
     Video1V,
     TableOnly,
+    MultiQuestion,
   },
   props: {
     name: String,
     options: Object,
+    sectioncomponentid: Number,
   },
 
   mounted() {

@@ -504,10 +504,10 @@
                                         >
                                           <CRow>
                                             <CCol
-                                              sm="12"
-                                              md="12"
-                                              l="12"
-                                              xl="12"
+                                              sm="6"
+                                              md="6"
+                                              l="6"
+                                              xl="6"
                                             >
                                               <CInput
                                                 label="Answer:"
@@ -519,6 +519,46 @@
                                                     .answer
                                                 "
                                               />
+                                            </CCol>
+                                             <CCol
+                                              sm="6"
+                                              md="6"
+                                              l="6"
+                                              xl="6"
+                                            >
+                                              <label>Answer Is_true:</label>
+                                              <div class="form-check">
+                                              <CInputCheckbox
+                                                name="false"
+                                                v-model="
+                                                  sections[index].components[
+                                                    innerIndex
+                                                  ].data.answers[answerIndex]
+                                                    .answer_is_true
+                                                "
+                                                label="False"
+                                                v-on:change="CheckFalseAnswer(index, innerIndex, answerIndex)"
+                                                :checked=" sections[index].components[
+                                                    innerIndex
+                                                  ].data.answers[answerIndex]
+                                                    .answer_is_true == '0'"
+                                              />
+                                              <CInputCheckbox
+                                                name="true"
+                                                label="True"
+                                                v-model="
+                                                  sections[index].components[
+                                                    innerIndex
+                                                  ].data.answers[answerIndex]
+                                                    .answer_is_true
+                                                "
+                                                v-on:change="CheckTrueAnswer(index, innerIndex, answerIndex)"
+                                                :checked=" sections[index].components[
+                                                    innerIndex
+                                                  ].data.answers[answerIndex]
+                                                    .answer_is_true == '1'"
+                                              />
+                                            </div>
                                             </CCol>
                                           </CRow>
                                           <CRow>
@@ -578,32 +618,6 @@
                                             </CCol>
                                           </CRow>
                                           <hr />
-                                          <CRow>
-                                            <CCol
-                                              sm="12"
-                                              md="12"
-                                              l="12"
-                                              xl="12"
-                                            >
-                                              <label>Answer Is_true:</label>
-                                              <select
-                                                class="form-control"
-                                                name="Answer Is_true"
-                                                v-model="
-                                                  sections[index].components[
-                                                    innerIndex
-                                                  ].data.answers[answerIndex]
-                                                    .answer_is_true
-                                                "
-                                                required
-                                                autofocus
-                                              >
-                                                <option value=""></option>
-                                                <option value="1">True</option>
-                                                <option value="0">False</option>
-                                              </select>
-                                            </CCol>
-                                          </CRow>
                                         </CCardBody>
                                       </CCard>
                                     </CCol>
@@ -811,6 +825,12 @@ export default {
     },
   },
   methods: {
+    CheckFalseAnswer(index, innerIndex, answerIndex){
+      this.sections[index].components[innerIndex].data.answers[answerIndex].answer_is_true = '0';
+    },
+    CheckTrueAnswer(index, innerIndex, answerIndex){
+      this.sections[index].components[innerIndex].data.answers[answerIndex].answer_is_true = '1';
+    },
     onChangeEndQuestionImage(e, index, innerIndex){
      this.sections[index].components[innerIndex].data.img_src = e.target.files[0];
           var files = e.target.files || e.dataTransfer.files;
@@ -837,24 +857,24 @@ export default {
     createMultiQuestionAnswerImage(file, index, innerIndex, answerIndex) {
       //var image = new Image();
       var reader = new FileReader();
-      var vm = this;
-       if(!vm.viewMultiAnswersImage[index])
+      //var vm = this;
+       if(!this.viewMultiAnswersImage[index])
        {
-         vm.viewMultiAnswersImage[index]={viewImage:[]}
-          if(!vm.viewMultiAnswersImage[index].viewImage[innerIndex])
+         this.viewMultiAnswersImage[index]={viewImage:[]}
+          if(!this.viewMultiAnswersImage[index].viewImage[innerIndex])
           {
-             vm.viewMultiAnswersImage[index].viewImage[innerIndex]={answers:[]}
+             this.viewMultiAnswersImage[index].viewImage[innerIndex]={answers:[]}
           }
        }
-       if(vm.viewMultiAnswersImage[index])
+       if(this.viewMultiAnswersImage[index])
        {
-          if(!vm.viewMultiAnswersImage[index].viewImage[innerIndex])
+          if(!this.viewMultiAnswersImage[index].viewImage[innerIndex])
           {
-             vm.viewMultiAnswersImage[index].viewImage[innerIndex]={answers:[]}
+             this.viewMultiAnswersImage[index].viewImage[innerIndex]={answers:[]}
           }
        }
       reader.onload = (e) => {
-        vm.viewMultiAnswersImage[index].viewImage[innerIndex].answers[answerIndex] = e.target.result;
+        this.viewMultiAnswersImage[index].viewImage[innerIndex].answers[answerIndex] = e.target.result;
       };
       reader.readAsDataURL(file);
     },
@@ -961,7 +981,14 @@ export default {
           {
             this.viewMultiQuestionImage[index].viewImage.splice(innerIndex, 1);
           }
-      }    
+      }
+      if(this.viewMultiAnswersImage[index])
+      {
+          if(this.viewMultiAnswersImage[index].viewImage[innerIndex])
+          {
+            this.viewMultiAnswersImage[index].viewImage.splice(innerIndex, 1);
+          }
+      }      
     },
     addSection() {
       this.sections.push({
@@ -978,6 +1005,10 @@ export default {
       if(this.viewMultiQuestionImage[index])
       {
          this.viewMultiQuestionImage.splice(index, 1);
+      }
+      if(this.viewMultiAnswersImage[index])
+      {
+         this.viewMultiAnswersImage.splice(index, 1);
       }
     },
     submit() {

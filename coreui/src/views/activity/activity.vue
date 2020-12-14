@@ -30,6 +30,7 @@
                         <ActivityComponent
                           v-bind:name="component.Component_name"
                           v-bind:options="JSON.parse(component.pivot.options)"
+                          v-bind:sectioncomponentid="component.pivot.id"
                         ></ActivityComponent>
                       </CCardBody>
                     </CCard>
