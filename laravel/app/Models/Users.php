@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Users extends Model
 {
     use SoftDeletes;
+    
+    protected $dates = [
+        'deleted_at'
+    ];
 
     /**
      * Get the notes for the users.
@@ -17,7 +21,34 @@ class Users extends Model
         return $this->hasMany('App\Notes');
     }
 
-    protected $dates = [
-        'deleted_at'
-    ];
+    public function activationCodes()
+    {
+        return $this->hasOne('App\Models\users\ActivationCodes','user_id');
+    }
+
+    public function employee()
+    {
+        return $this->hasOne('App\Models\users\Employee','user_id');
+    }
+
+    public function student()
+    {
+        return $this->hasOne('App\Models\users\Student','user_id');
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne('App\Models\users\Teacher','user_id');
+    }
+
+    public function subjectCoordinator()
+    {
+        return $this->hasOne('App\Models\users\SubjectCoordinator','user_id');
+    }
+
+    public function activities(){
+        return $this->belongsToMany("App\Models\Activity","users_activities","user_id","activity_id");
+    }
+
+   
 }

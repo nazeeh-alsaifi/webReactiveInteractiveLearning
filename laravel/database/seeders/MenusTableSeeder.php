@@ -16,7 +16,8 @@ class MenusTableSeeder extends Seeder
     private $joinData = array();
     private $adminRole = null;
     private $userRole = null;
-
+    private $studentRole = null;
+    private $editorRole =null;
     public function join($roles, $menusId){
         $roles = explode(',', $roles);
         foreach($roles as $role){
@@ -126,6 +127,17 @@ class MenusTableSeeder extends Seeder
     public function run()
     {
         /* Get roles */
+        /**
+         * admin
+         * user
+         * guest
+         * editor
+         * coordinator
+         * teacher
+         * student
+         * free_student
+         * subject_coordinator
+         */
         $this->adminRole = Role::where('name' , '=' , 'admin' )->first();
         $this->userRole = Role::where('name', '=', 'user' )->first();
         $dropdownId = array();
@@ -135,15 +147,78 @@ class MenusTableSeeder extends Seeder
         ]);
         $this->menuId = DB::getPdo()->lastInsertId();  //set menuId
         /* guest menu */
-        $this->insertLink('guest,user,admin', 'Dashboard', '/', 'cil-speedometer');
+        
+        $this->insertLink('guest,user,admin,editor,coordinator,teacher,student,free_student,subject_coordinator', 'Dashboard', '/', 'cil-speedometer');
+        /* Edit Profile */
+
+        $this->insertLink('student', 'Edit Profile', '/edit-student-profile', 'cil-speedometer');
+        $this->insertLink('student', 'Classes', '/student-classes', 'cil-speedometer');
+        $this->insertLink('free_student', 'Edit Profile', '/edit-free-student-profile', 'cil-speedometer');
+        $this->insertLink('free_student', 'Activities', '/free-student-activities', 'cil-speedometer');
+
+        $this->insertLink('teacher', 'Edit Profile', '/edit-teacher-profile', 'cil-speedometer');        
+        $this->insertLink('coordinator', 'Edit Profile', '/edit-coordinator-profile', 'cil-speedometer');
+        $this->insertLink('subject_coordinator', 'Edit Profile', '/edit-subject-coordinator-profile', 'cil-speedometer');
+
+
+        $this->insertLink('coordinator', 'My Subjects', '/coordinator-subjects', 'cil-speedometer');
+        $this->insertLink('coordinator', 'My Teachers', '/coordinator-teachers', 'cil-speedometer');
+
+        $this->insertLink('subject_coordinator', 'My Teachers', '/subject-coordinator-teachers', 'cil-speedometer');
+
+        $this->insertLink('teacher', 'My classes', '/teacher-classes', 'cil-speedometer');
+
+
         $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
-        $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
-        $this->beginDropdown('admin', 'Settings', '/settings', 'cil-puzzle');
-            $this->insertLink('admin', 'Media',    '/media');
-            $this->insertLink('admin', 'Users',    '/users');
-            $this->insertLink('admin', 'Menu',    '/menu');
-            $this->insertLink('admin', 'BREAD',    '/bread');
-            $this->insertLink('admin', 'Email',    '/email');
+        // $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
+        $this->insertLink('guest', 'Purchase', '/purchase', 'cil-cart');
+        $this->insertLink('guest', 'Free Student', '/free-student', 'cil-star');
+        $this->insertLink('guest', 'Free Trial', '/free-trial', 'cil-universal-access');
+        $this->insertLink('guest', 'Join Class', '/join-to-class', 'cil-pencil');
+
+        $this->beginDropdown('guest', 'About', '/about', 'cil-info-circle');
+        $this->insertLink('guest', 'Our Team',    '/our-team');
+        $this->insertLink('guest', 'Jobs',    '/careers');
+        $this->insertLink('guest', 'Press',    '/press');
+         $this->endDropdown();
+
+         $this->beginDropdown('guest', 'Learn More', '/learn-more', 'cil-more');
+         $this->insertLink('guest', 'What Is Interactive Labs','/what-is-interactive-labs');
+         $this->insertLink('guest', "What's New",    '/whats-new');
+         $this->insertLink('guest', 'Support',    '/support');
+        $this->endDropdown();
+
+        $this->insertLink('admin,editor', 'Edit Profile', '/edit-admin-profile', 'cil-speedometer');
+        $this->insertLink('admin,editor', 'Institutions', '/institutions', 'cil-speedometer');
+
+        $this->insertLink('admin,editor', 'Create Activities', '/my-activities-ae', 'cil-speedometer');
+        $this->insertLink('admin,editor', 'My Activities', '/admin-activities-dashboard', 'cil-speedometer');
+
+        $this->beginDropdown('admin,editor', 'Settings', '/settings', 'cil-puzzle');
+            $this->insertLink('admin,editor', 'Media',    '/media');
+            $this->insertLink('admin,editor', 'Users',    '/users');
+            $this->insertLink('admin,editor', 'Menu',    '/menu');
+            $this->insertLink('admin,editor', 'BREAD',    '/bread');
+            $this->insertLink('admin,editor', 'Email',    '/email');
+            $this->insertLink('admin,editor', 'Permissions',    '/permissions');
+            $this->insertLink('admin,editor', 'Academic Levels','/academic-levels'); 
+            $this->insertLink('admin,editor', 'Categories','/categories'); 
+            $this->insertLink('admin,editor', 'Level Of Scaffolding','/level-of-scaffolding'); 
+            $this->insertLink('admin,editor', 'Location Instructional Cycle','/location-instructional-cycle'); 
+            $this->insertLink('admin,editor', 'Instructional Purpose','/instructional-purpose'); 
+
+            $this->insertLink('admin,editor', 'Cities','/cities'); 
+            $this->insertLink('admin,editor', 'Components','/components'); 
+            $this->insertLink('admin,editor', 'Countries','/countries'); 
+            $this->insertLink('admin,editor', 'Employees','/employees'); 
+            $this->insertLink('admin,editor', 'Measure Tools','/measure-tools'); 
+            $this->insertLink('admin,editor', 'MyUsers','/my-users'); 
+            $this->insertLink('admin,editor', 'Nationalities','/nationalities'); 
+            $this->insertLink('admin,editor', 'SubCategories','/sub-categories'); 
+            $this->insertLink('admin,editor', 'Subjects','/subjects'); 
+            $this->insertLink('admin,editor', 'SubSubjects','/sub-subjects'); 
+            $this->insertLink('admin,editor', 'Units','/units'); 
+            $this->insertLink('admin,editor', 'Units Measure','/units-measure'); 
         $this->endDropdown();
         $this->insertTitle('user,admin', 'Theme');
         $this->insertLink('user,admin', 'Colors', '/colors', 'cil-drop');
@@ -192,8 +267,8 @@ class MenusTableSeeder extends Seeder
             $this->insertLink('user,admin', 'Error 404',     '/404');
             $this->insertLink('user,admin', 'Error 500',     '/500');
         $this->endDropdown();
-        $this->insertLink('guest,user,admin', 'Download CoreUI', 'https://coreui.io', 'cil-cloud-download');
-        $this->insertLink('guest,user,admin', 'Try CoreUI PRO', 'https://coreui.io/pro/', 'cil-layers');
+        // $this->insertLink('guest,user,admin', 'Download CoreUI', 'https://coreui.io', 'cil-cloud-download');
+        // $this->insertLink('guest,user,admin', 'Try CoreUI PRO', 'https://coreui.io/pro/', 'cil-layers');
 
         /* Create top menu */
         DB::table('menulist')->insert([

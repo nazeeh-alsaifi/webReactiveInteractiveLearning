@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
+            // 'throttle:500,1',
             'bindings',
         ],
     ];
@@ -63,6 +63,11 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\Admin::class,
+        'coordinator' => \App\Http\Middleware\Coordinator::class,
+        'student' => \App\Http\Middleware\Student::class,
+        'subjectcoordinator' => \App\Http\Middleware\SubjectCoordinator::class,
+        'teacher' => \App\Http\Middleware\Teacher::class,
+        'freestudent' => \App\Http\Middleware\FreeStudent::class,
     ];
 
     /**

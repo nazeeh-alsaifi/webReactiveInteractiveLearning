@@ -28,16 +28,32 @@ class GetSidebarMenu implements MenuInterface{
             ->orderBy('menus.sequence', 'asc')->get();       
     }
 
-    private function getGuestMenu($menuName){
-        $this->getMenuFromDB($menuName, 'guest');
+    private function getAdminMenu($menuName){
+        $this->getMenuFromDB($menuName, 'admin');
     }
-
     private function getUserMenu($menuName){
         $this->getMenuFromDB($menuName, 'user');
     }
-
-    private function getAdminMenu($menuName){
-        $this->getMenuFromDB($menuName, 'admin');
+    private function getGuestMenu($menuName){
+        $this->getMenuFromDB($menuName, 'guest');
+    }
+    private function getEditorMenu($menuName){
+        $this->getMenuFromDB($menuName, 'editor');
+    }
+    private function getCoordinatorMenu($menuName){
+        $this->getMenuFromDB($menuName, 'coordinator');
+    }
+     private function getTeacherMenu($menuName){
+        $this->getMenuFromDB($menuName, 'teacher');
+    }
+    private function getStudentMenu($menuName){
+        $this->getMenuFromDB($menuName, 'student');
+    }
+    private function getFreeStudentMenu($menuName){
+        $this->getMenuFromDB($menuName, 'free_student');
+    }
+    private function getSubjectCoordinatorMenu($menuName){
+        $this->getMenuFromDB($menuName, 'subject_coordinator');
     }
 
     public function get($roles, $menuName = 'sidebar menu'){
@@ -48,7 +64,20 @@ class GetSidebarMenu implements MenuInterface{
             $this->getAdminMenu($menuName);
         }elseif(in_array('user', $roles)){
             $this->getUserMenu($menuName);
-        }else{
+        }elseif(in_array('editor', $roles)){
+            $this->getEditorMenu($menuName);
+        }elseif(in_array('coordinator', $roles)){
+            $this->getCoordinatorMenu($menuName);
+        }elseif(in_array('teacher', $roles)){
+            $this->getTeacherMenu($menuName);
+        }elseif(in_array('student', $roles)){
+            $this->getStudentMenu($menuName);
+        }elseif(in_array('free_student', $roles)){
+            $this->getFreeStudentMenu($menuName);
+        }elseif(in_array('subject_coordinator', $roles)){
+            $this->getSubjectCoordinatorMenu($menuName);
+        }
+        else{
             $this->getGuestMenu($menuName);
         }
         $rfd = new RenderFromDatabaseData;

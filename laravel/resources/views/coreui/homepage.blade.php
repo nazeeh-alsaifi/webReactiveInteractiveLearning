@@ -7,6 +7,14 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>CoreUI - Vue Open Source Bootstrap Admin Template</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+    <script src="https://kit.fontawesome.com/4d8d9d6354.js" crossorigin="anonymous"></script>
+        <!-- Fonts -->
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css" >
+        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
